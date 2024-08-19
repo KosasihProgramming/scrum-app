@@ -14,7 +14,6 @@ function FormAddAnggota(props) {
     props.addData(user);
   };
 
-  console.log(props.data);
   return (
     <div>
       <div
@@ -25,19 +24,22 @@ function FormAddAnggota(props) {
         >
           <div className="w-[100%] gap-2 flex flex-col justify-start items-start p-2 px-4 gap-4 ">
             <h4 className="font-semibold text-sm">User</h4>
-
-            <div className="w-full flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
-              <div className="flex items-center justify-center z-[999] w-[100%]">
-                <DropdownSearch
-                  options={props.optionUser}
-                  change={(item) => {
-                    setUser(item);
-                  }}
-                  name={"User"}
-                  isSearch={false}
-                />
-              </div>
-            </div>
+            {props.open == true && (
+              <>
+                <div className="w-full flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
+                  <div className="flex items-center justify-center z-[999] w-[100%]">
+                    <DropdownSearch
+                      options={props.optionUser}
+                      change={(item) => {
+                        setUser(item);
+                      }}
+                      name={"User"}
+                      isSearch={false}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
             <button class="button-insert mt-5" onClick={handleAdd}>
               Simpan Data
               <MdOutlineSave className="text-white text-xl" />

@@ -22,11 +22,11 @@ function FormAddDodSprint(props) {
   const handleAdd = (e) => {
     e.preventDefault();
 
-    if (dod.target < target) {
+    if (parseInt(dod.target) < parseInt(target)) {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: `Target Dod Sprint Tidak Boleh Melebihi Target Dod Product`,
+        text: `Target Dod Sprint Sebesar ${target} Tidak Boleh Melebihi Target Dod Product Sebesar ${dod.target}`,
       });
     } else {
       props.addData(target, dod);

@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { TabBar } from "../../component/features/tabBar";
 import axios from "axios";
 import TableSprint from "../../component/sprintBacklog/Sprint/tabelSprint";
+import { Link } from "react-router-dom";
+import { IoIosArrowForward } from "react-icons/io";
 
 function SprintBacklog() {
   const [activeTabIndex, setActiveTabIndex] = useState("tab1");
@@ -52,6 +54,7 @@ function SprintBacklog() {
 
   const fetchData = async () => {
     try {
+      
       const response = await axios({
         method: "GET",
         url: "http://202.157.189.177:8080/api/database/rows/table/575/?user_field_names=true",
@@ -106,11 +109,7 @@ function SprintBacklog() {
       const data = response.data.results;
 
       const dataOption = data.map((item) => {
-        return {
-          value: item.id,
-          text: item.Judul[0].value,
-          tim: item.Tim[0].id,
-        };
+        return { value: item.id, text: item.Judul[0].value,tim:item.Tim[0].id };
       });
       console.log(dataOption, "productahdfjsw");
 
@@ -123,6 +122,16 @@ function SprintBacklog() {
     <div>
       {" "}
       <div className="w-full h-full flex flex-col justify-start items-center pb-25">
+      <div className="w-full  h-[3rem] rounded-md flex justify-start items-center bg-white px-6">
+        <Link
+          to={"/sprint-backlog"}
+          className="p-2 flex justify-center items-center text-sm text-blue-700  font-medium"
+        >
+          Sprint Backlog
+        </Link>
+        <IoIosArrowForward className="text-2xl text-blue-700" />
+      
+      </div>
         <div className="w-full flex justify-start items-center mt-5  bg-gradient-to-r from-[#1D4ED8] to-[#a2bbff] p-4 rounded-xl">
           <h3 className="text-white text-base font-medium"> SPRINT BACKLOG</h3>
         </div>

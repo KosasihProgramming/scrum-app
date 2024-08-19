@@ -17,6 +17,8 @@ import Swal from "sweetalert2";
 import { GoArrowRight } from "react-icons/go";
 import { LuArrowRight } from "react-icons/lu";
 import ModalEditProduct from "./modalEditProduct";
+import Loader from "../features/loader";
+import { useLoading } from "../features/context/loadContext";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 function TableProduct(props) {
@@ -39,50 +41,32 @@ function TableProduct(props) {
   const [idData, setIdData] = useState(0);
   const [isAddData, setIsAddData] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTeam, setSelectedTeam] = useState(""); // State untuk filter tim
+  const { setIsLoad } = useLoading();
+  // Filter data berdasarkan NamaTim[0].id dan juga pencarian
+  const filteredData = props.data.filter((data) => {
+    const matchTeam = selectedTeam === "" || data.Tim[0].id === selectedTeam;
+    const matchSearch =
+      data.Judul[0].value.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      data.Tim[0].value.toLowerCase().includes(searchTerm.toLowerCase());
 
-  const optionStatus = [
-    { text: "Berjalan", value: "Berjalan" },
-    { text: "Berlalu", value: "Berlalu" },
-    { text: "Rencana", value: "Rencana" },
-  ];
-
-  const allTabs = [
-    {
-      id: "home",
-      name: "Sprint Backlogs",
-    },
-    {
-      id: "blog",
-      name: "Goals",
-    },
-  ];
-  const [filteredData, setFilteredData] = useState(props.data);
-
-  useEffect(() => {
-    setFilteredData(props.data);
-  }, [props.data]);
-
+    return matchTeam && matchSearch;
+  });
   const indexOfLastData = currentPage * dataPerPage;
   const indexOfFirstData = indexOfLastData - dataPerPage;
-  const currentData = props.data.slice(indexOfFirstData, indexOfLastData);
+  const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleTab = (key) => {
-    setTab(key);
+  const handleTeamChange = (item) => {
+    setSelectedTeam(item.value); // Simpan id tim yang dipilih
+    setCurrentPage(1); // Reset halaman ke halaman pertama setelah filter diterapkan
   };
-
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearch(value);
-
-    const results = props.data.filter((item) =>
-      item.Judul.toLowerCase().includes(value.toLowerCase())
-    );
-    setFilteredData(results);
-    setCurrentPage(1); // Reset halaman ke 1 setelah pencarian
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value); // Update kolom pencarian
+    setCurrentPage(1); // Reset halaman ke halaman pertama setelah pencarian diterapkan
   };
-
   const handleDelete = async (id) => {
     try {
       const result = await Swal.fire({
@@ -96,6 +80,7 @@ function TableProduct(props) {
       });
 
       if (result.isConfirmed) {
+        setIsLoad(true);
         const response = await axios({
           method: "DELETE",
           url:
@@ -108,6 +93,7 @@ function TableProduct(props) {
         });
 
         props.getData();
+        setIsLoad(false);
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -115,6 +101,8 @@ function TableProduct(props) {
         });
       }
     } catch (error) {
+      setIsLoad(false);
+
       if (error.response) {
         // The request was made, and the server responded with a status code
         // that falls out of the range of 2xx
@@ -153,68 +141,81 @@ function TableProduct(props) {
     tanggalMulai,
     tanggalBerakhir
   ) => {
+    setIsLoad(true);
     try {
       // Validate the data
       if (!goal || !tim.value || !status.value || !bulan.value) {
-        console.error("Invalid data: All fields are required.");
-        return;
-      }
+        setIsLoad(false);
 
-      // Validate and format date
-      const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        if (isNaN(date)) {
-          throw new Error("Invalid date");
-        }
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
-      };
-
-      try {
-        tanggalMulai = formatDate(tanggalMulai);
-        tanggalBerakhir = formatDate(tanggalBerakhir);
-      } catch (e) {
         Swal.fire({
           icon: "error",
-          title: "Invalid date format",
-          text: "Dates must be valid.",
+          title: "Oops...",
+          text: "Semua field wajib diisi!",
         });
         return;
+      } else {
+        // Validate and format date
+        const formatDate = (dateString) => {
+          const date = new Date(dateString);
+          if (isNaN(date)) {
+            throw new Error("Invalid date");
+          }
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, "0");
+          const day = String(date.getDate()).padStart(2, "0");
+          return `${year}-${month}-${day}`;
+        };
+
+        try {
+          tanggalMulai = formatDate(tanggalMulai);
+          tanggalBerakhir = formatDate(tanggalBerakhir);
+        } catch (e) {
+          setIsLoad(false);
+
+          Swal.fire({
+            icon: "error",
+            title: "Invalid date format",
+            text: "Dates must be valid.",
+          });
+          return;
+        }
+
+        const data = {
+          Bulan: [bulan.value], // Ensure bulan.value is a string
+          ProductGoal: goal, // Ensure goal is a string
+          Status: [status.value], // Ensure status.value is a string
+          TanggalMulai: tanggalMulai, // Ensure tanggalMulai is a string in YYYY-MM-DD format
+          TanggalBerakhir: tanggalBerakhir, // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
+          TargetBobot: target, // Ensure target is a number
+          Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
+        };
+
+        console.log(data, "Data being sent");
+
+        const response = await axios({
+          method: "POST",
+          url: "http://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
+          headers: {
+            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            "Content-Type": "application/json",
+          },
+          data: data,
+        });
+
+        props.getData();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Data successfully saved.",
+        });
+        setIsLoad(false);
+
+        console.log("Data successfully saved", response);
+        setIsAddData(false);
       }
-
-      const data = {
-        Bulan: [bulan.value], // Ensure bulan.value is a string
-        ProductGoal: goal, // Ensure goal is a string
-        Status: [status.value], // Ensure status.value is a string
-        TanggalMulai: tanggalMulai, // Ensure tanggalMulai is a string in YYYY-MM-DD format
-        TanggalBerakhir: tanggalBerakhir, // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
-        TargetBobot: target, // Ensure target is a number
-        Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
-      };
-
-      console.log(data, "Data being sent");
-
-      const response = await axios({
-        method: "POST",
-        url: "http://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
-        headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-          "Content-Type": "application/json",
-        },
-        data: data,
-      });
-
-      props.getData();
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Data successfully saved.",
-      });
-      console.log("Data successfully saved", response);
-      setIsAddData(false);
     } catch (error) {
+      setIsLoad(false);
+
       if (error.response) {
         Swal.fire({
           icon: "error",
@@ -258,67 +259,77 @@ function TableProduct(props) {
     tanggalBerakhir
   ) => {
     try {
-      // Validate the data
       if (!goal || !tim.value || !status.value || !bulan.value) {
-        console.error("Invalid data: All fields are required.");
-        return;
-      }
-
-      // Validate and format date
-      const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        if (isNaN(date)) {
-          throw new Error("Invalid date");
-        }
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
-      };
-
-      try {
-        tanggalMulai = formatDate(tanggalMulai);
-        tanggalBerakhir = formatDate(tanggalBerakhir);
-      } catch (e) {
         Swal.fire({
           icon: "error",
-          title: "Invalid date format",
-          text: "Dates must be valid.",
+          title: "Oops...",
+          text: "Semua field wajib diisi!",
         });
         return;
+      } else {
+        setIsLoad(true);
+
+        // Validate and format date
+        const formatDate = (dateString) => {
+          const date = new Date(dateString);
+          if (isNaN(date)) {
+            throw new Error("Invalid date");
+          }
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, "0");
+          const day = String(date.getDate()).padStart(2, "0");
+          return `${year}-${month}-${day}`;
+        };
+
+        try {
+          tanggalMulai = formatDate(tanggalMulai);
+          tanggalBerakhir = formatDate(tanggalBerakhir);
+        } catch (e) {
+          setIsLoad(false);
+
+          Swal.fire({
+            icon: "error",
+            title: "Invalid date format",
+            text: "Dates must be valid.",
+          });
+          return;
+        }
+
+        const data = {
+          Bulan: [bulan.value], // Ensure bulan.value is a string
+          ProductGoal: goal, // Ensure goal is a string
+          Status: [status.value], // Ensure status.value is a string
+          TanggalMulai: tanggalMulai, // Ensure tanggalMulai is a string in YYYY-MM-DD format
+          TanggalBerakhir: tanggalBerakhir, // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
+          TargetBobot: target, // Ensure target is a number
+          Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
+        };
+
+        console.log(data, "Data being Update");
+
+        const response = await axios({
+          method: "PATCH",
+          url: `http://202.157.189.177:8080/api/database/rows/table/597/${idData}/?user_field_names=true`,
+          headers: {
+            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            "Content-Type": "application/json",
+          },
+          data: data,
+        });
+        setIsLoad(false);
+
+        props.getData();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Data Berhasil Diupdate.",
+        });
+        console.log("Data successfully saved", response);
+        setIsEditData(false);
       }
-
-      const data = {
-        Bulan: [bulan.value], // Ensure bulan.value is a string
-        ProductGoal: goal, // Ensure goal is a string
-        Status: [status.value], // Ensure status.value is a string
-        TanggalMulai: tanggalMulai, // Ensure tanggalMulai is a string in YYYY-MM-DD format
-        TanggalBerakhir: tanggalBerakhir, // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
-        TargetBobot: target, // Ensure target is a number
-        Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
-      };
-
-      console.log(data, "Data being Update");
-
-      const response = await axios({
-        method: "PATCH",
-        url: `http://202.157.189.177:8080/api/database/rows/table/597/${idData}/?user_field_names=true`,
-        headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-          "Content-Type": "application/json",
-        },
-        data: data,
-      });
-
-      props.getData();
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Data Berhasil Diupdate.",
-      });
-      console.log("Data successfully saved", response);
-      setIsEditData(false);
     } catch (error) {
+      setIsLoad(false);
+
       if (error.response) {
         Swal.fire({
           icon: "error",
@@ -348,23 +359,25 @@ function TableProduct(props) {
     <div
       //   data-aos="fade-down"
       //   data-aos-delay="450"
-      className="  w-full rounded-xl  mb-16 mt-10"
+      className="  w-full rounded-xl  mb-16 mt-10 relative"
     >
       <div className="w-full flex justify-between items-center rounded-xl bg-white py-2 px-5 shadow-md gap-6">
-        <div className="flex justify-start items-center gap-10">
-          <div class="input-wrapper">
+        <div className="flex justify-start items-center gap-10 w-[25rem]">
+          <div className="input-wrapper">
             <input
               type="text"
               placeholder="Cari..."
               name="text"
-              class="input"
+              className="input border p-2 rounded-lg"
+              value={searchTerm}
+              onChange={handleSearchChange}
             />
           </div>
           <div className="w-auto flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
             <div className="flex items-center justify-center z-[999] w-[12rem]">
               <DropdownSearch
                 options={props.optionTim}
-                change={(item) => {}}
+                change={handleTeamChange}
                 name={"Tim"}
                 isSearch={false}
               />

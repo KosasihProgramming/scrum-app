@@ -126,7 +126,7 @@ function FormPeriksaGambar(props) {
               </div>
             </>
           )}
-          {props.data.Link !== "" && (
+          {/* {props.data.Link !== "" && (
             <>
               <div className="w-[100%] gap-2 flex  justify-between items-center  px-4 mt-5 mb-5 ">
                 <a
@@ -139,45 +139,59 @@ function FormPeriksaGambar(props) {
                 </a>
               </div>
             </>
-          )}
+          )} */}
           <div className="w-[100%] gap-2 flex  justify-between items-center  px-2 ">
             <div className="w-[100%] gap-2 flex flex-col justify-start items-start p-2  ">
               <h4 className="font-semibold text-sm">Keterangan</h4>
-              <div className="w-full flex p-2 bg-white font-normal border-blue-500 border rounded-xl justify-start items-center h-[2rem] text-sm">
+              <div className="w-full flex p-2 h-[10rem] bg-white font-normal border-blue-500 border rounded-xl justify-start items-start text-sm">
                 {props.data.Keterangan}
               </div>
             </div>
           </div>
-          <div className="w-[100%] gap-2 flex  justify-between items-center  px-2">
-            <div className="w-[100%] gap-2 flex flex-col justify-start items-start p-2  ">
-              <h4 className="font-semibold text-sm"> Berikan Komentar</h4>
-              <input
-                type="text"
-                className="w-full flex p-2 bg-white font-normal border-blue-500 border rounded-xl justify-start items-center h-[2rem] text-sm"
-                value={komentar}
-                onChange={(e) => {
-                  setKomentar(e.target.value);
-                }}
-              />
-            </div>
-          </div>
+          {props.data.isCheck == true ? (
+            <>
+              <div className="w-[100%] gap-2 flex  justify-between items-center  px-2">
+                <div className="w-[100%] gap-2 flex flex-col justify-start items-start p-2  ">
+                  <h4 className="font-semibold text-sm">Komentar</h4>
+                  <div className="w-full flex p-2 bg-white font-normal border-blue-500 border rounded-xl justify-start items-start h-[6rem] text-sm">
+                    {props.data.Komentar}
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="w-[100%] gap-2 flex  justify-between items-center  px-2">
+                <div className="w-[100%] gap-2 flex flex-col justify-start items-start p-2  ">
+                  <h4 className="font-semibold text-sm"> Berikan Komentar</h4>
+                  <input
+                    type="text"
+                    className="w-full flex p-2 bg-white font-normal border-blue-500 border rounded-xl justify-start items-start h-[6rem] text-sm"
+                    value={komentar}
+                    onChange={(e) => {
+                      setKomentar(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
           <div className="w-[100%] gap-2 flex  justify-between items-center p-2  ">
-      
-                <button
-                  class="button-insert ml-5"
-                  onClick={() => handlePeriksa(false)}
-                >
-                  Sesuai
-                  <MdOutlineSave className="text-white text-xl" />
-                </button>
-                <button
-                  class="button-insert ml-5 text-xs"
-                  onClick={() => handlePeriksa(true)}
-                >
-                  Perlu Revisi
-                  <MdOutlineSave className="text-white text-xl" />
-                </button>
-           
+            <button
+              class="button-insert ml-5"
+              onClick={() => handlePeriksa(false)}
+            >
+              Sesuai
+              <MdOutlineSave className="text-white text-xl" />
+            </button>
+            <button
+              class="button-insert ml-5 text-xs"
+              onClick={() => handlePeriksa(true)}
+            >
+              Perlu Revisi
+              <MdOutlineSave className="text-white text-xl" />
+            </button>
           </div>
         </div>
       </div>

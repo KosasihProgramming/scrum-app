@@ -16,51 +16,59 @@ import FormAddAnggota from "./formAddAnggota";
 import Filter from "../../features/filter";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useLoading } from "../../features/context/loadContext";
 export default function ModalAddAnggota(props) {
   const setOpen = () => {
     props.setOpen(false);
   };
   const [data, setData] = useState([]);
-  const [dataUser, setDataUser] = useState([]);
+  const { setIsLoad } = useLoading();
 
   useEffect(() => {
     AOS.init({ duration: 700 });
-    getDataUser();
   }, []);
 
   const handleAdd = async (user) => {
     try {
-      // Validate the data
       if (!user.value) {
-        console.error("Invalid data: All fields are required.");
+        Swal.fire({
+          icon: "error",
+          title: "Data Tidak Valid",
+          text: "Field user wajib diisi!",
+        });
         return;
+      } else {
+        setIsLoad(true);
+        const updateData = props.data.map((a) => parseInt(a.id));
+        updateData.push(parseInt(user.value));
+
+        const data = {
+          AnggotaSprint: updateData,
+        };
+        console.log(data, "Data being Update");
+
+        const response = await axios({
+          method: "PATCH",
+          url: `http://202.157.189.177:8080/api/database/rows/table/575/${props.idSprint}/?user_field_names=true`,
+          headers: {
+            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            "Content-Type": "application/json",
+          },
+          data: data,
+        });
+        setIsLoad(false);
+
+        props.getData();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Data Berhasil Diupdate.",
+        });
+        console.log("Data successfully saved", response);
       }
-      const updateData = props.data.map((a) => parseInt(a.id));
-      updateData.push(parseInt(user.value));
-
-      const data = {
-        AnggotaSprint: updateData,
-      };
-      console.log(data, "Data being Update");
-
-      const response = await axios({
-        method: "PATCH",
-        url: `http://202.157.189.177:8080/api/database/rows/table/577/${props.idPbi}/?user_field_names=true`,
-        headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-          "Content-Type": "application/json",
-        },
-        data: data,
-      });
-
-      props.getData();
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Data Berhasil Diupdate.",
-      });
-      console.log("Data successfully saved", response);
     } catch (error) {
+      setIsLoad(false);
+
       if (error.response) {
         // The request was made, and the server responded with a status code
         // that falls out of the range of 2xx
@@ -110,15 +118,18 @@ export default function ModalAddAnggota(props) {
       });
 
       if (result.isConfirmed) {
+        setIsLoad(true);
+
         const response = await axios({
           method: "PATCH",
-          url: `http://202.157.189.177:8080/api/database/rows/table/577/${props.idPbi}/?user_field_names=true`,
+          url: `http://202.157.189.177:8080/api/database/rows/table/575/${props.idSprint}/?user_field_names=true`,
           headers: {
             Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
             "Content-Type": "application/json",
           },
           data: data,
         });
+        setIsLoad(false);
 
         props.getData();
         Swal.fire({
@@ -128,6 +139,8 @@ export default function ModalAddAnggota(props) {
         });
       }
     } catch (error) {
+      setIsLoad(false);
+
       if (error.response) {
         // The request was made, and the server responded with a status code
         // that falls out of the range of 2xx
@@ -156,68 +169,8 @@ export default function ModalAddAnggota(props) {
       }
     }
   };
+  console.log(props.dataUser, "option User Anggota");
 
-  const getDataUser = async () => {
-    try {
-      const tim = await getSingleDataTim();
-      const filters = [
-        {
-          type: "link_row_has",
-          field: "Tim",
-          value: `${tim.id}`,
-        },
-      ];
-      const param = await Filter(filters);
-      const response = await axios({
-        method: "GET",
-        url:
-          "http://202.157.189.177:8080/api/database/rows/table/717/?" + param,
-        headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-        },
-      });
-      console.log(response.data.results, "user");
-      const data = response.data.results;
-
-      const dataOption = data.map((item) => {
-        return {
-          value: item.id,
-          text: item.Nama,
-        };
-      });
-      console.log(props.dataPbi, "user Tim");
-      setDataUser(dataOption);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const getSingleDataTim = async (id) => {
-    try {
-      const filters = [
-        {
-          type: "equal",
-          field: "Name",
-          value: `${props.dataPbi.Tim[0].value}`,
-        },
-      ];
-      const param = await Filter(filters);
-      const response = await axios({
-        method: "GET",
-        url:
-          "http://202.157.189.177:8080/api/database/rows/table/273/?" + param,
-        headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-        },
-      });
-      console.log(response.data.results, "user");
-      const data = response.data.results;
-
-      return data[0];
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
   return (
     <Dialog open={props.open} onClose={setOpen} className="relative z-10">
       <DialogBackdrop
@@ -239,14 +192,15 @@ export default function ModalAddAnggota(props) {
                       as="h3"
                       className="text-xl font-semibold leading-6 text-white w-[95%]  py-3 mt-8 rounded-xl bg-blue-600 "
                     >
-                      Tambah Data Dod Sprint
+                      Tambah Anggota Sprint
                     </DialogTitle>
                   </div>
                   <div className=" px-4">
                     <FormAddAnggota
                       addData={handleAdd}
-                      optionUser={dataUser}
+                      optionUser={props.dataUser}
                       data={props.data}
+                      open={props.open}
                       delete={handleDelete}
                     />
                   </div>

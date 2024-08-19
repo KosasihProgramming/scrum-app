@@ -16,6 +16,8 @@ import Swal from "sweetalert2";
 import ModalEditProduct from "./modalEditProduct";
 import ModalAddDodProduct from "./modalProduct";
 import ModalEditDodProduct from "./modalEditProduct";
+import Aos from "aos";
+import { useLoading } from "../features/context/loadContext";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 function TableDodProduct(props) {
@@ -23,39 +25,33 @@ function TableDodProduct(props) {
   const [dataPerPage] = useState(5);
   const [tab, setTab] = useState("tab1");
   const [search, setSearch] = useState("");
+  const { setIsLoad } = useLoading();
 
   const [dataUpdate, setDataUpdate] = useState({});
 
   const [idData, setIdData] = useState(0);
   const [isAddData, setIsAddData] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
-
-  const [filteredData, setFilteredData] = useState(props.data);
-  console.log(props.idProduct, "id");
+  const [searchTerm, setSearchTerm] = useState(""); // State u
   useEffect(() => {
-    setFilteredData(props.data);
+    Aos.init({ duration: 700 });
   }, [props.data]);
+
+  // Filter data berdasarkan kata kunci pencarian
+  const filteredData = props.data.filter((data) => {
+    return data.Judul.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+  console.log(props.idProduct, "id");
 
   const indexOfLastData = currentPage * dataPerPage;
   const indexOfFirstData = indexOfLastData - dataPerPage;
-  const currentData = props.data.slice(indexOfFirstData, indexOfLastData);
+  const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value); // Update kolom pencarian
+    setCurrentPage(1); // Reset halaman ke halaman pertama setelah pencarian diterapkan
+  };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const handleTab = (key) => {
-    setTab(key);
-  };
-
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearch(value);
-
-    const results = props.data.filter((item) =>
-      item.Judul.toLowerCase().includes(value.toLowerCase())
-    );
-    setFilteredData(results);
-    setCurrentPage(1); // Reset halaman ke 1 setelah pencarian
-  };
 
   const handleDelete = async (id) => {
     try {
@@ -70,6 +66,7 @@ function TableDodProduct(props) {
       });
 
       if (result.isConfirmed) {
+        setIsLoad(true)
         const response = await axios({
           method: "DELETE",
           url:
@@ -80,6 +77,7 @@ function TableDodProduct(props) {
             Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           },
         });
+        setIsLoad(false)
 
         props.getData();
         Swal.fire({
@@ -89,6 +87,8 @@ function TableDodProduct(props) {
         });
       }
     } catch (error) {
+      setIsLoad(false)
+
       if (error.response) {
         // The request was made, and the server responded with a status code
         // that falls out of the range of 2xx
@@ -120,40 +120,49 @@ function TableDodProduct(props) {
   const handleAdd = async (judul, target, satuan) => {
     try {
       // Validate the data
-      if (!judul || !judul || !satuan.value || !target) {
-        console.error("Invalid data: All fields are required.");
+      if (!judul || !satuan.value || !target) {
+        Swal.fire({
+          icon: "error",
+          title: "Data Tidak Valid",
+          text: "Semua field wajib diisi!",
+        });
         return;
+      } else {
+        setIsLoad(true)
+
+        const data = {
+          Judul: judul,
+          Satuan: [satuan.value], // Ensure this is an array
+          Target: target,
+          ProductBacklog: [parseInt(props.idProduct)], // Ensure this is an array
+          PBIProduct: [parseInt(props.idPbi)], // Ensure this is an array
+        };
+
+        console.log(data, "Data being sent");
+
+        const response = await axios({
+          method: "POST",
+          url: "http://202.157.189.177:8080/api/database/rows/table/651/?user_field_names=true",
+          headers: {
+            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            "Content-Type": "application/json",
+          },
+          data: data,
+        });
+        setIsLoad(false)
+
+        props.getData();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Data successfully saved.",
+        });
+        console.log("Data successfully saved", response);
+        setIsAddData(false);
       }
-
-      const data = {
-        Judul: judul,
-        Satuan: [satuan.value], // Ensure this is an array
-        Target: target,
-        ProductBacklog: [parseInt(props.idProduct)], // Ensure this is an array
-        PBIProduct: [parseInt(props.idPbi)], // Ensure this is an array
-      };
-
-      console.log(data, "Data being sent");
-
-      const response = await axios({
-        method: "POST",
-        url: "http://202.157.189.177:8080/api/database/rows/table/651/?user_field_names=true",
-        headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-          "Content-Type": "application/json",
-        },
-        data: data,
-      });
-
-      props.getData();
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Data successfully saved.",
-      });
-      console.log("Data successfully saved", response);
-      setIsAddData(false);
     } catch (error) {
+      setIsLoad(false)
+
       if (error.response) {
         // The request was made, and the server responded with a status code
         // that falls out of the range of 2xx
@@ -192,38 +201,47 @@ function TableDodProduct(props) {
 
   const handleEdit = async (judul, target, satuan) => {
     try {
-      if (!judul || !judul || !satuan.value || !target) {
-        console.error("Invalid data: All fields are required.");
+      if (!judul || !satuan.value || !target) {
+        Swal.fire({
+          icon: "error",
+          title: "Data Tidak Valid",
+          text: "Semua field wajib diisi!",
+        });
         return;
+      } else {
+        setIsLoad(true)
+
+        const data = {
+          Judul: judul,
+          Satuan: [satuan.value], // Ensure this is an array
+          Target: target,
+        };
+
+        console.log(data, "Data being Update");
+
+        const response = await axios({
+          method: "PATCH",
+          url: `http://202.157.189.177:8080/api/database/rows/table/651/${idData}/?user_field_names=true`,
+          headers: {
+            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            "Content-Type": "application/json",
+          },
+          data: data,
+        });
+        setIsLoad(false)
+
+        props.getData();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Data Berhasil Diupdate.",
+        });
+        console.log("Data successfully saved", response);
+        setIsEditData(false);
       }
-
-      const data = {
-        Judul: judul,
-        Satuan: [satuan.value], // Ensure this is an array
-        Target: target,
-      };
-
-      console.log(data, "Data being Update");
-
-      const response = await axios({
-        method: "PATCH",
-        url: `http://202.157.189.177:8080/api/database/rows/table/651/${idData}/?user_field_names=true`,
-        headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-          "Content-Type": "application/json",
-        },
-        data: data,
-      });
-
-      props.getData();
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Data Berhasil Diupdate.",
-      });
-      console.log("Data successfully saved", response);
-      setIsEditData(false);
     } catch (error) {
+      setIsLoad(false)
+
       if (error.response) {
         // The request was made, and the server responded with a status code
         // that falls out of the range of 2xx
@@ -260,24 +278,16 @@ function TableDodProduct(props) {
       className="  w-full rounded-xl  mb-16 mt-10"
     >
       <div className="w-full flex justify-between items-center rounded-xl bg-white py-2 px-5 shadow-md gap-6">
-        <div className="flex justify-start items-center gap-10">
-          <div class="input-wrapper">
+        <div className="flex justify-start items-center gap-10 w-[25rem]">
+          <div className="input-wrapper ">
             <input
               type="text"
               placeholder="Cari..."
               name="text"
-              class="input"
+              className="input border p-2 rounded-lg w-full"
+              value={searchTerm}
+              onChange={handleSearchChange}
             />
-          </div>
-          <div className="w-auto flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
-            <div className="flex items-center justify-center z-[999] w-[12rem]">
-              <DropdownSearch
-                options={props.optionSatuan}
-                change={(item) => {}}
-                name={"Tim"}
-                isSearch={false}
-              />
-            </div>
           </div>
         </div>
         <button

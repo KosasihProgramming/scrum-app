@@ -2,13 +2,15 @@ import React, { useState, useRef, useEffect } from "react";
 import { TabBar } from "../../component/features/tabBar";
 import TableProduct from "../../component/productBacklog/tabelProduct";
 import axios from "axios";
-
+import { IoIosArrowForward } from "react-icons/io";
+import { Link } from "react-router-dom";
+import Loader from "../../component/features/loader";
 function ProductBacklog() {
   const [tableLeft, setTableLeft] = useState(0);
   const [dataTim, setDataTim] = useState([]);
   const tableRef = useRef(null);
   const [activeTabIndex, setActiveTabIndex] = useState("tab1");
-
+  const [isLoader, setIsLoader] = useState(false);
   const allTabs = [
     {
       id: "tab1",
@@ -92,7 +94,16 @@ function ProductBacklog() {
     }
   };
   return (
-    <div className="w-full h-full flex flex-col justify-start items-center pb-25">
+    <div className="w-full h-full flex flex-col justify-start items-center pb-25 relative">
+      <div className="w-full  h-[3rem] rounded-md flex justify-start items-center bg-white px-6">
+        <Link
+          to={"/product-backlog"}
+          className="p-2 flex justify-center items-center text-sm text-blue-700  font-medium"
+        >
+          Product Backlog
+        </Link>
+        <IoIosArrowForward className="text-2xl text-blue-700" />
+      </div>
       <div className="w-full flex justify-start items-center mt-5 bg-gradient-to-r from-[#1D4ED8] to-[#a2bbff] p-4 rounded-md">
         <h3 className="text-white text-base font-medium">PRODUCT BACKLOG</h3>
       </div>
@@ -109,6 +120,12 @@ function ProductBacklog() {
           >
             <TableProduct
               width={33}
+              setLoad1={() => {
+                setIsLoader(true);
+              }}
+              setLoad2={() => {
+                setIsLoader(false);
+              }}
               data={dataBerjalan}
               getData={fetchData}
               optionTim={dataTim}
@@ -125,6 +142,12 @@ function ProductBacklog() {
               width={33}
               data={dataRencana}
               getData={fetchData}
+              setLoad1={() => {
+                setIsLoader(true);
+              }}
+              setLoad2={() => {
+                setIsLoader(false);
+              }}
               optionTim={dataTim}
             />
           </div>
@@ -139,6 +162,12 @@ function ProductBacklog() {
               width={33}
               data={dataBerlalu}
               getData={fetchData}
+              setLoad1={() => {
+                setIsLoader(true);
+              }}
+              setLoad2={() => {
+                setIsLoader(false);
+              }}
               optionTim={dataTim}
             />
           </div>

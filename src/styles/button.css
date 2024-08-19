@@ -449,3 +449,29 @@
 .bukti-link:active:after {
   background: #385aa2;
 }
+
+
+/* bar */
+.wrapper {
+  border-radius: 12px;
+  border: 1px solid #2563EB;
+}
+
+.container-bar {
+  /* background-color: pink; */
+}
+
+.barCompleted {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+padding: 2px;
+  background-color: #2563EB;
+  /* width: 80%; */
+}
+
+.label {
+  font-size: 16px;
+  color: white;
+}

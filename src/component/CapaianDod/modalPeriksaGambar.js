@@ -14,20 +14,23 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import FormPeriksaGambar from "./formPeriksaGambar";
 import Filter from "../features/filter";
+import { useLoading } from "../features/context/loadContext";
 
 export default function ModalPeriksaGambar(props) {
+  const { setIsLoad } = useLoading();
+
   const setOpen = () => {
     props.setOpen(false);
   };
 
   const getDataCapaian = async (item) => {
-    console.log(item);
+    console.log("id Item", item);
     try {
       const filters = [
         {
           type: "link_row_has",
           field: "DodSprint",
-          value: `${item.id}`,
+          value: `${item.DodSprint[0].id}`,
         },
       ];
       const param = await Filter(filters);
@@ -42,9 +45,12 @@ export default function ModalPeriksaGambar(props) {
       console.log(response.data.results, "dod");
       const data = response.data.results;
       // Hitung total capaian
-      const totalCapaian = data.reduce((total, item) => {
+      const filterdata = data.filter((a) => a.isCheck == true);
+      const totalCapaian = filterdata.reduce((total, item) => {
         return total + parseInt(item.Capaian || 0); // Asumsikan ada properti `capaian`
       }, 0);
+      console.log("data total", data);
+      console.log("Total", totalCapaian);
       props.setDataCapaian(data);
       props.setTotalCapaian(totalCapaian);
     } catch (error) {
@@ -54,7 +60,7 @@ export default function ModalPeriksaGambar(props) {
   const handleAdd = async (komentar, revisi) => {
     try {
       // Validate the data
-
+      setIsLoad(true);
       const data = {
         Komentar: komentar,
         Revisi: revisi, // Ensure this is an array
@@ -81,6 +87,10 @@ export default function ModalPeriksaGambar(props) {
         return s; // Mengembalikan objek siswa yang lain tanpa perubahan
       });
 
+      props.getDataPBI();
+
+      getDataCapaian(props.data);
+      // props.getDataDod();
       Swal.fire({
         icon: "success",
         title: "Success",
@@ -88,13 +98,15 @@ export default function ModalPeriksaGambar(props) {
       }).then((result) => {
         if (result.isConfirmed) {
           props.setCek();
-          getDataCapaian(props.data);
           props.dataUpdate(updatedData);
         }
       });
+      setIsLoad(false);
 
       console.log("Data successfully saved", response);
     } catch (error) {
+      setIsLoad(false);
+
       if (error.response) {
         // The request was made, and the server responded with a status code
         // that falls out of the range of 2xx

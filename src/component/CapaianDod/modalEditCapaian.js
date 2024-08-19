@@ -13,8 +13,11 @@ import FormAddCapaian from "./formAddCapaian";
 import axios from "axios";
 import Swal from "sweetalert2";
 import FormEditCapaian from "./formEditCapaian";
+import { useLoading } from "../features/context/loadContext";
 
 export default function ModalEditCapaian(props) {
+  const { setIsLoad } = useLoading();
+
   const setOpen = () => {
     props.setOpen(false);
   };
@@ -29,7 +32,11 @@ export default function ModalEditCapaian(props) {
             text: `Capaian ${user.text} Sebesar ${capaian} Tidak Boleh melebihi Target ${user.target} `,
           });
         } else {
+          setIsLoad(true);
+
           if (capaian <= 0) {
+            setIsLoad(false);
+
             Swal.fire({
               icon: "warning",
               title: "Gagal",
@@ -102,11 +109,15 @@ export default function ModalEditCapaian(props) {
               title: "Success",
               text: "Data successfully saved.",
             });
+            setIsLoad(false);
+
             console.log("Data successfully saved", response);
             resolve(response); // Resolve the Promise
           }
         }
       } catch (error) {
+        setIsLoad(false);
+
         if (error.response) {
           Swal.fire({
             icon: "error",

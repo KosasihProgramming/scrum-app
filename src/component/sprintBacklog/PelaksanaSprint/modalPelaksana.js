@@ -12,12 +12,14 @@ import Filter from "../../features/filter";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import FormAddPelaksana from "./formAddPelaksana";
+import { useLoading } from "../../features/context/loadContext";
 export default function ModalAddPelaksana(props) {
   const setOpen = () => {
     props.setOpen(false);
   };
   const [data, setData] = useState([]);
   const [dataUser, setDataUser] = useState([]);
+  const { setIsLoad } = useLoading();
 
   useEffect(() => {
     getDataAnggota();
@@ -28,7 +30,7 @@ export default function ModalAddPelaksana(props) {
     try {
       const response = await axios({
         method: "GET",
-        url: `http://202.157.189.177:8080/api/database/rows/table/577/${props.idPbi}/?user_field_names=true`,
+        url: `http://202.157.189.177:8080/api/database/rows/table/575/${props.idSprint}/?user_field_names=true`,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -87,37 +89,45 @@ export default function ModalAddPelaksana(props) {
     try {
       // Validate the data
       if (!user || target == 0) {
-        console.error("Invalid data: All fields are required.");
+        Swal.fire({
+          icon: "error",
+          title: "Data Tidak Valid",
+          text: "Semua field wajib diisi dan target tidak boleh 0!",
+        });
         return;
+      } else {
+        setIsLoad(true);
+        const data = {
+          Target: parseInt(target),
+          Durasi: waktu,
+          DodSprint: [parseInt(props.id)], // Ensure this is an array
+          UserId: [parseInt(user.value)], // Ensure this is an array
+        };
+
+        console.log(data, "Data being sent");
+
+        const response = await axios({
+          method: "POST",
+          url: "http://202.157.189.177:8080/api/database/rows/table/718/?user_field_names=true",
+          headers: {
+            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            "Content-Type": "application/json",
+          },
+          data: data,
+        });
+        setIsLoad(false);
+
+        props.getData(props.id);
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Data successfully saved.",
+        });
+        console.log("Data successfully saved", response);
       }
-
-      const data = {
-        Target: parseInt(target),
-        Durasi: waktu,
-        DodSprint: [parseInt(props.id)], // Ensure this is an array
-        UserId: [parseInt(user.value)], // Ensure this is an array
-      };
-
-      console.log(data, "Data being sent");
-
-      const response = await axios({
-        method: "POST",
-        url: "http://202.157.189.177:8080/api/database/rows/table/718/?user_field_names=true",
-        headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-          "Content-Type": "application/json",
-        },
-        data: data,
-      });
-
-      props.getData(props.id);
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Data successfully saved.",
-      });
-      console.log("Data successfully saved", response);
     } catch (error) {
+      setIsLoad(false);
+
       if (error.response) {
         // The request was made, and the server responded with a status code
         // that falls out of the range of 2xx
@@ -159,6 +169,8 @@ export default function ModalAddPelaksana(props) {
       });
 
       if (result.isConfirmed) {
+        setIsLoad(true);
+
         const response = await axios({
           method: "DELETE",
           url:
@@ -169,6 +181,8 @@ export default function ModalAddPelaksana(props) {
             Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           },
         });
+        setIsLoad(false);
+
         props.getData();
         Swal.fire({
           icon: "success",
@@ -177,6 +191,8 @@ export default function ModalAddPelaksana(props) {
         });
       }
     } catch (error) {
+      setIsLoad(false);
+
       if (error.response) {
         // The request was made, and the server responded with a status code
         // that falls out of the range of 2xx
@@ -226,7 +242,7 @@ export default function ModalAddPelaksana(props) {
                       as="h3"
                       className="text-xl font-semibold leading-6 text-white w-[95%]  py-3 mt-8 rounded-xl bg-blue-600 "
                     >
-                      Tambah Data Dod Sprint
+                      Tambah Pelaksana Dodt
                     </DialogTitle>
                   </div>
                   <div className=" px-4">

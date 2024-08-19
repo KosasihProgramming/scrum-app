@@ -13,7 +13,10 @@ function DodProduct({ params }) {
   const { id, pbi } = params;
   const [idProduct, setIdProduct] = useState(params.idProduct);
   const [idPbi, setIdPbi] = useState(params.idPbi);
-  const [dataSatuan, setDataSatuan] = useState([]);
+  const [dataSatuan, setDataSatuan] = useState([
+
+  ]);
+
 
   const handleTabChange = (index) => {
     setActiveTabIndex(`tab${index + 1}`);
@@ -22,6 +25,7 @@ function DodProduct({ params }) {
   useEffect(() => {
     fetchData();
   }, [activeTabIndex]);
+
 
   const [error, setError] = useState(null);
 

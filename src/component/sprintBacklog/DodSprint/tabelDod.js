@@ -8,7 +8,10 @@ import "dayjs/locale/id";
 import { DatePicker, Space } from "antd";
 import { RiDeleteBack2Fill } from "react-icons/ri";
 import { MdOutlinePlaylistAdd } from "react-icons/md";
+
 import { Link } from "react-router-dom";
+import { MdDeleteOutline } from "react-icons/md";
+
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -23,8 +26,10 @@ import ModalPeriksaGambar from "../../CapaianDod/modalPeriksaGambar";
 import TableCapaian from "../../CapaianDod/tableCapaian";
 import ModalEditCapaian from "../../CapaianDod/modalEditCapaian";
 import { FaUserGroup } from "react-icons/fa6";
-import { MdDeleteOutline } from "react-icons/md";
+import { AnimatePresence, motion } from "framer-motion";
+
 import ModalAddAnggota from "../anggotaSprint/modalAnggota";
+import { useLoading } from "../../features/context/loadContext";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 function TableDodSprint(props) {
@@ -34,6 +39,8 @@ function TableDodSprint(props) {
   const [search, setSearch] = useState("");
 
   const [dataUpdate, setDataUpdate] = useState({});
+
+  const { setIsLoad } = useLoading();
 
   const [idData, setIdData] = useState(0);
   const [isAddData, setIsAddData] = useState(false);
@@ -49,21 +56,44 @@ function TableDodSprint(props) {
   const [dataCapaianUpdate, setDataCapaianUpdate] = useState([]);
   const [dataSelected, setDataSelected] = useState({});
   const [capaianSelected, setCapaianSelected] = useState({});
+  const [searchTerm, setSearchTerm] = useState(""); // State u
   const [totalCapaian, setTotalCapaian] = useState(0);
-  const [filteredData, setFilteredData] = useState(props.data);
+  // Filter data berdasarkan kata kunci pencarian
+  const filteredData = props.data.filter((data) => {
+    return data.Judul[0].value.toLowerCase().includes(searchTerm.toLowerCase());
+  });
   console.log(props.idProduct, "id");
   useEffect(() => {
-    setFilteredData(props.data);
-
     AOS.init({ duration: 700 });
   }, [props.data]);
 
   const indexOfLastData = currentPage * dataPerPage;
   const indexOfFirstData = indexOfLastData - dataPerPage;
-  const currentData = props.data.slice(indexOfFirstData, indexOfLastData);
-
+  const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value); // Update kolom pencarian
+    setCurrentPage(1); // Reset halaman ke halaman pertama setelah pencarian diterapkan
+  };
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const getSingleDataDod = async () => {
+    alert("data Dod");
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `http://202.157.189.177:8080/api/database/rows/table/578/${dataSelected.id}/?user_field_names=true`,
+        headers: {
+          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+        },
+      });
+
+      console.log(response.data, "data dod Sprint");
+
+      setDataSelected(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getDataCapaian = async (item) => {
     console.log(item);
     try {
@@ -86,7 +116,8 @@ function TableDodSprint(props) {
       console.log(response.data.results, "dod");
       const data = response.data.results;
       // Hitung total capaian
-      const totalCapaian = data.reduce((total, item) => {
+      const filterdata = data.filter((a) => a.isCheck == true);
+      const totalCapaian = filterdata.reduce((total, item) => {
         return total + parseInt(item.Capaian || 0); // Asumsikan ada properti `capaian`
       }, 0);
       setTotalCapaian(totalCapaian);
@@ -116,6 +147,7 @@ function TableDodSprint(props) {
       });
 
       if (result.isConfirmed) {
+        setIsLoad(true);
         const response = await axios({
           method: "DELETE",
           url:
@@ -126,6 +158,7 @@ function TableDodSprint(props) {
             Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           },
         });
+        setIsLoad(false);
 
         props.getData();
         Swal.fire({
@@ -135,6 +168,8 @@ function TableDodSprint(props) {
         });
       }
     } catch (error) {
+      setIsLoad(false);
+
       if (error.response) {
         // The request was made, and the server responded with a status code
         // that falls out of the range of 2xx
@@ -167,38 +202,47 @@ function TableDodSprint(props) {
     try {
       // Validate the data
       if (!dod.value || !target) {
-        console.error("Invalid data: All fields are required.");
+        Swal.fire({
+          icon: "error",
+          title: "Data Tidak Valid",
+          text: "Semua field wajib diisi!",
+        });
         return;
+      } else {
+        setIsLoad(true);
+
+        const data = {
+          Target: target,
+          DodProduct: [parseInt(dod.value)], // Ensure this is an array
+          PBISprint: [parseInt(props.idPbi)], // Ensure this is an array
+          Sprint: [parseInt(props.idSprint)], // Ensure this is an array
+        };
+
+        console.log(data, "Data being sent");
+
+        const response = await axios({
+          method: "POST",
+          url: "http://202.157.189.177:8080/api/database/rows/table/578/?user_field_names=true",
+          headers: {
+            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            "Content-Type": "application/json",
+          },
+          data: data,
+        });
+        setIsLoad(false);
+
+        props.getData();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Data successfully saved.",
+        });
+        console.log("Data successfully saved", response);
+        setIsAddData(false);
       }
-
-      const data = {
-        Target: target,
-        DodProduct: [parseInt(dod.value)], // Ensure this is an array
-        PBISprint: [parseInt(props.idPbi)], // Ensure this is an array
-        Sprint: [parseInt(props.idSprint)], // Ensure this is an array
-      };
-
-      console.log(data, "Data being sent");
-
-      const response = await axios({
-        method: "POST",
-        url: "http://202.157.189.177:8080/api/database/rows/table/578/?user_field_names=true",
-        headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-          "Content-Type": "application/json",
-        },
-        data: data,
-      });
-
-      props.getData();
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Data successfully saved.",
-      });
-      console.log("Data successfully saved", response);
-      setIsAddData(false);
     } catch (error) {
+      setIsLoad(false);
+
       if (error.response) {
         // The request was made, and the server responded with a status code
         // that falls out of the range of 2xx
@@ -239,38 +283,47 @@ function TableDodSprint(props) {
     try {
       // Validate the data
       if (!dod.value || !target) {
-        console.error("Invalid data: All fields are required.");
+        Swal.fire({
+          icon: "error",
+          title: "Data Tidak Valid",
+          text: "Semua field wajib diisi!",
+        });
         return;
+      } else {
+        setIsLoad(true);
+
+        const data = {
+          Target: target,
+          DodProduct: [parseInt(dod.value)], // Ensure this is an array
+          PBISprint: [parseInt(props.idPbi)], // Ensure this is an array
+          Sprint: [parseInt(props.idSprint)], // Ensure this is an array
+        };
+
+        console.log(data, "Data being Update");
+
+        const response = await axios({
+          method: "PATCH",
+          url: `http://202.157.189.177:8080/api/database/rows/table/578/${idData}/?user_field_names=true`,
+          headers: {
+            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            "Content-Type": "application/json",
+          },
+          data: data,
+        });
+        setIsLoad(false);
+
+        props.getData();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Data Berhasil Diupdate.",
+        });
+        console.log("Data successfully saved", response);
+        setIsEditData(false);
       }
-
-      const data = {
-        Target: target,
-        DodProduct: [parseInt(dod.value)], // Ensure this is an array
-        PBISprint: [parseInt(props.idPbi)], // Ensure this is an array
-        Sprint: [parseInt(props.idSprint)], // Ensure this is an array
-      };
-
-      console.log(data, "Data being Update");
-
-      const response = await axios({
-        method: "PATCH",
-        url: `http://202.157.189.177:8080/api/database/rows/table/578/${idData}/?user_field_names=true`,
-        headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-          "Content-Type": "application/json",
-        },
-        data: data,
-      });
-
-      props.getData();
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Data Berhasil Diupdate.",
-      });
-      console.log("Data successfully saved", response);
-      setIsEditData(false);
     } catch (error) {
+      setIsLoad(false);
+
       if (error.response) {
         // The request was made, and the server responded with a status code
         // that falls out of the range of 2xx
@@ -327,33 +380,28 @@ function TableDodSprint(props) {
       {isCapaian == false && (
         <>
           <div className="w-full flex justify-between items-center rounded-xl bg-white py-2 px-5 shadow-md gap-6">
-            <div className="flex justify-start items-center gap-10 w-[20rem]">
-              <div class="input-wrapper">
+            <div className="flex justify-start items-center gap-10 w-[25rem]">
+              <div className="input-wrapper">
                 <input
                   type="text"
                   placeholder="Cari..."
                   name="text"
-                  class="input"
+                  className="input border p-2 rounded-lg w-full"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
                 />
               </div>
             </div>
             <div className="flex justify-end gap-6 items-center">
-              <button
+              {/* <button
                 className="button-insert w-[15rem]"
                 onClick={() => {
                   setIsAddData(!isAddData);
                 }}
               >
                 Dod Pribadi
-              </button>
-              <button
-                className="button-insert w-[15rem]"
-                onClick={() => {
-                  props.openAnggota();
-                }}
-              >
-                Tambah Anggota
-              </button>
+              </button> */}
+
               <button
                 className="button-insert w-[15rem]"
                 onClick={() => {
@@ -404,6 +452,10 @@ function TableDodSprint(props) {
         open={isCekGambar}
         dataDodSprint={dataSelected}
         getData={getDataCapaian}
+        getDataPBI={() => {
+          props.getDataPBI();
+        }}
+        getDataDod={getSingleDataDod}
         setOpen={() => setIsCekGambar(false)}
         setCek={() => setIsCek(true)}
         setIsDisplay={() => {
@@ -424,7 +476,7 @@ function TableDodSprint(props) {
         }}
       />
       <div
-        data-aos="fade-up"
+        // data-aos="fade-up"
         className="w-full text-left text-sm font-normal mt-5"
       >
         <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 grid grid-cols-5 gap-4">
@@ -433,10 +485,8 @@ function TableDodSprint(props) {
           <div className="font-medium">Capaian</div>
           <div className="font-medium">Aksi</div>
         </div>
-        <div
-          data-aos="fade-up"
-          className=" bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl  p-2  mt-5"
-        >
+
+        <div className=" bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl  p-2 mt-5">
           {isCapaian ? (
             <>
               <div
@@ -484,91 +534,100 @@ function TableDodSprint(props) {
             </>
           ) : (
             <>
-              {currentData.map((data) => (
-                <div
-                  key={data.id}
-                  className="hover:cursor-pointer py-1 px-4 grid grid-cols-5 gap-4 w-full items-center  border-b border-blue-blue-300 bg-white"
-                >
-                  <div>{data.Judul[0].value}</div>
-                  <div>
-                    {data.Target} {data.Satuan[0].value}
-                  </div>
-                  <div>
-                    {data.Capaian} {data.Satuan[0].value}
-                  </div>
-                  <div className="flex gap-6 w-[25rem]">
-                    <div class="group relative">
-                      <button
-                        onClick={() => props.setDod(data)}
-                        className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
-                      >
-                        <FaUserGroup class="text-lg  duration-200 text-blue-700" />
-                      </button>
-                      <span
-                        class="absolute -top-10 left-[50%] -translate-x-[50%] 
+              <motion.div
+                initial={{ y: 1000, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ type: "spring", duration: 2, delay: 0.3 }}
+              >
+                <AnimatePresence>
+                  {currentData.map((data) => (
+                    <div
+                      // data-aos="fade-up"
+                      key={data.id}
+                      className="hover:cursor-pointer py-1 px-4 grid grid-cols-5 gap-4 w-full items-center  border-b border-blue-blue-300 bg-white"
+                    >
+                      <div>{data.Judul[0].value}</div>
+                      <div>
+                        {data.Target} {data.Satuan[0].value}
+                      </div>
+                      <div>
+                        {data.Capaian} {data.Satuan[0].value}
+                      </div>
+                      <div className="flex gap-6 w-[25rem]">
+                        <div class="group relative">
+                          <button
+                            onClick={() => props.setDod(data)}
+                            className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
+                          >
+                            <FaUserGroup class="text-lg  duration-200 text-blue-700" />
+                          </button>
+                          <span
+                            class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-blue-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                      >
-                        Pelaksana<span></span>
-                      </span>
-                    </div>
-                    <div class="group relative">
-                      <button
-                        onClick={() => editData(data)}
-                        className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
-                      >
-                        <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
-                      </button>
-                      <span
-                        class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                          >
+                            Pelaksana<span></span>
+                          </span>
+                        </div>
+                        <div class="group relative">
+                          <button
+                            onClick={() => editData(data)}
+                            className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
+                          >
+                            <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
+                          </button>
+                          <span
+                            class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-teal-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                      >
-                        Update<span></span>
-                      </span>
-                    </div>
+                          >
+                            Update<span></span>
+                          </span>
+                        </div>
 
-                    <div class="group relative">
-                      <button
-                        onClick={() => handleDelete(data.id)}
-                        className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
-                      >
-                        <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
-                      </button>
-                      <span
-                        class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                        <div class="group relative">
+                          <button
+                            onClick={() => handleDelete(data.id)}
+                            className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
+                          >
+                            <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
+                          </button>
+                          <span
+                            class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-red-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                      >
-                        Hapus<span></span>
-                      </span>
-                    </div>
-                    <div class="group relative">
-                      <button
-                        onClick={() => handleCapaian(data)}
-                        className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
-                      >
-                        <FaArrowUpRightDots class="text-lg  duration-200 text-blue-700" />
-                      </button>
-                      <span
-                        class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                          >
+                            Hapus<span></span>
+                          </span>
+                        </div>
+                        <div class="group relative">
+                          <button
+                            onClick={() => handleCapaian(data)}
+                            className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
+                          >
+                            <FaArrowUpRightDots class="text-lg  duration-200 text-blue-700" />
+                          </button>
+                          <span
+                            class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-blue-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                      >
-                        Capaian<span></span>
-                      </span>
+                          >
+                            Capaian<span></span>
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  ))}
+                </AnimatePresence>
+              </motion.div>
             </>
           )}
         </div>

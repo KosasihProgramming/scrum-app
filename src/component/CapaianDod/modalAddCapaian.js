@@ -13,11 +13,13 @@ import FormAddCapaian from "./formAddCapaian";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Filter from "../features/filter";
+import { useLoading } from "../features/context/loadContext";
 
 export default function ModalAddCapaian(props) {
   const setOpen = () => {
     props.setOpen(false);
   };
+  const { setIsLoad } = useLoading();
 
   const handleAdd = async (
     capaian,
@@ -44,6 +46,7 @@ export default function ModalAddCapaian(props) {
               text: "Capaian Belum Diisi",
             });
           } else {
+            setIsLoad(true);
             let fileNames = [];
             let data = {};
 
@@ -87,12 +90,14 @@ export default function ModalAddCapaian(props) {
                 Pelaksana: [parseInt(user.value)],
                 File: fileNames, // Menggabungkan nama file jika lebih dari satu
                 DodSprint: [parseInt(props.data.id)], // Pastikan ini array
+                DodProduct: [parseInt(props.data.DodProduct[0].id)],
               };
             } else {
               data = {
                 Capaian: capaian,
                 Pelaksana: [parseInt(user.value)],
                 Keterangan: keterangan,
+                DodProduct: [parseInt(props.data.DodProduct[0].id)],
                 Link: link,
                 DodSprint: [parseInt(props.data.id)], // Pastikan ini array
               };
@@ -101,10 +106,12 @@ export default function ModalAddCapaian(props) {
 
             console.log(data, "Data being sent");
             if (totalCapaian > parseInt(props.data.Target)) {
+              setIsLoad(false);
+
               Swal.fire({
                 icon: "warning",
                 title: "Gagal",
-                text: "Total capaian Melebihi Target Dod Sprint",
+                text: `Total capaian ${totalCapaian} Melebihi Target Dod Sprint ${parseInt(props.data.Target)}`,
               });
             } else {
               const response = await axios({
@@ -124,12 +131,16 @@ export default function ModalAddCapaian(props) {
                 title: "Success",
                 text: "Data successfully saved.",
               });
+              setIsLoad(false);
+
               console.log("Data successfully saved", response);
               resolve(response); // Resolve the Promise
             }
           }
         }
       } catch (error) {
+        setIsLoad(false);
+
         if (error.response) {
           Swal.fire({
             icon: "error",
