@@ -87,7 +87,6 @@ function FormEditProduct(props) {
       <div className="p-6 duration-500 flex w-full flex-col justify-between items-start px-2 mt-5 bg-white rounded-xl shadow-md">
         <div className="flex w-full flex-col justify-start items-start rounded-xl mb-2">
           <div className="w-full gap-2 flex justify-between items-center p-2 gap-4">
- 
             <div className="w-full gap-2 flex flex-col justify-start items-start p-2 gap-4">
               <h4 className="font-semibold text-sm">Goal</h4>
               <input
@@ -99,7 +98,7 @@ function FormEditProduct(props) {
             </div>
           </div>
           <div className="w-full gap-2 flex justify-between items-center p-2 gap-4">
-            <div className="w-full gap-2 flex flex-col justify-start items-start p-2 gap-4">
+            {/* <div className="w-full gap-2 flex flex-col justify-start items-start p-2 gap-4">
               <h4 className="font-semibold text-sm">Target</h4>
               <input
                 type="text"
@@ -107,7 +106,7 @@ function FormEditProduct(props) {
                 value={target}
                 onChange={(e) => setTarget(e.target.value)}
               />
-            </div>
+            </div> */}
             <div className="w-full gap-2 flex flex-col justify-start items-start p-2 gap-4">
               <h4 className="font-semibold text-sm">Tim</h4>
               <div className="w-full flex z-[99999] bg-white justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">

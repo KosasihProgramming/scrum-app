@@ -177,6 +177,9 @@ function PbiProductBacklog({ params }) {
                 <h3 className="text-xl font-medium text-blue-700">
                   {dataProduct == null ? "" : dataProduct.Judul[0].value}
                 </h3>
+                <h3 className="text-sm font-normal ">
+                  {dataProduct == null ? "" : dataProduct.ProductGoal}
+                </h3>
                 <h6 className="text-sm font-normal">
                   {dataProduct == null
                     ? "2020-12-10"

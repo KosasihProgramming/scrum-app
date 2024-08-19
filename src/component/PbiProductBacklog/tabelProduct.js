@@ -142,7 +142,7 @@ function TablePBIProduct(props) {
   const handleAdd = async (judul, target, alasan, perspektif, jenis) => {
     try {
       // Validate the data
-      if (!judul || !alasan || !jenis.value || !perspektif.value || !target) {
+      if (!judul || !alasan || !jenis.value || !perspektif.value) {
         Swal.fire({
           icon: "error",
           title: "Data Tidak Valid",
@@ -225,7 +225,7 @@ function TablePBIProduct(props) {
   const handleEdit = async (judul, target, alasan, perspektif, jenis) => {
     try {
       // Validate the data
-      if (!judul || !alasan || !jenis.value || !perspektif.value || !target) {
+      if (!judul || !alasan || !jenis.value || !perspektif.value) {
         Swal.fire({
           icon: "error",
           title: "Data Tidak Valid",
@@ -299,9 +299,9 @@ function TablePBIProduct(props) {
     }
   };
 
-  const truncateText = (text) => {
+  const truncateText = (text, num) => {
     if (!text) return ""; // Menghindari error jika text kosong atau null
-    return text.length > 20 ? text.substring(0, 20) + "..." : text;
+    return text.length > 20 ? text.substring(0, num) + "..." : text;
   };
 
   return (
@@ -415,16 +415,16 @@ function TablePBIProduct(props) {
             <AnimatePresence>
               <div className="w-full text-left text-sm font-normal mt-5">
                 <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 gap-4 flex justify-between items-center">
-                  <div className="font-medium flex justify-center items-center w-[15%]">
+                  <div className="font-medium flex justify-center items-center w-[20%]">
                     Judul
                   </div>
-                  <div className="font-medium flex justify-center items-center w-[15%]">
+                  <div className="font-medium flex justify-center items-center w-[20%]">
                     Alasan
                   </div>
-                  <div className="font-medium flex justify-center items-center w-[15%]">
+                  <div className="font-medium flex justify-center items-center w-[8%]">
                     Bobot
                   </div>
-                  <div className="font-medium flex justify-center items-center w-[15%]">
+                  <div className="font-medium flex justify-center items-center w-[8%]">
                     Capaian
                   </div>
                   <div className="font-medium flex justify-center items-center w-[15%]">
@@ -447,16 +447,16 @@ function TablePBIProduct(props) {
                         selectedId && selectedId !== data.id ? "hidden" : ""
                       }`}
                     >
-                      <div className="font-normal flex justify-start items-center w-[15%] flex-wrap">
-                        {truncateText(data.Judul)}
+                      <div className="font-normal flex justify-start items-center w-[20%] overflow-wrap break-words word-break break-all">
+                        {data.Judul}
                       </div>
-                      <div className="font-normal flex justify-start items-center w-[15%] flex-wrap text-wrap">
-                        {truncateText(data.Alasan)}
+                      <div className="font-normal flex justify-start items-center w-[20%] flex-wrap text-wrap">
+                        {truncateText(data.Alasan, 70)}
                       </div>
-                      <div className="font-normal flex justify-start items-center w-[15%] flex-wrap">
+                      <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
                         {data.Bobot}
                       </div>{" "}
-                      <div className="font-normal flex justify-start items-center w-[15%] flex-wrap">
+                      <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
                         {data.Capaian} %
                       </div>
                       <div className="font-normal flex justify-start items-center w-[15%] flex-wrap">

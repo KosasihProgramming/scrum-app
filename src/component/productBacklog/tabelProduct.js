@@ -154,39 +154,12 @@ function TableProduct(props) {
         });
         return;
       } else {
-        // Validate and format date
-        const formatDate = (dateString) => {
-          const date = new Date(dateString);
-          if (isNaN(date)) {
-            throw new Error("Invalid date");
-          }
-          const year = date.getFullYear();
-          const month = String(date.getMonth() + 1).padStart(2, "0");
-          const day = String(date.getDate()).padStart(2, "0");
-          return `${year}-${month}-${day}`;
-        };
-
-        try {
-          tanggalMulai = formatDate(tanggalMulai);
-          tanggalBerakhir = formatDate(tanggalBerakhir);
-        } catch (e) {
-          setIsLoad(false);
-
-          Swal.fire({
-            icon: "error",
-            title: "Invalid date format",
-            text: "Dates must be valid.",
-          });
-          return;
-        }
-
         const data = {
           Bulan: [bulan.value], // Ensure bulan.value is a string
           ProductGoal: goal, // Ensure goal is a string
           Status: [status.value], // Ensure status.value is a string
-          TanggalMulai: tanggalMulai, // Ensure tanggalMulai is a string in YYYY-MM-DD format
-          TanggalBerakhir: tanggalBerakhir, // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
-          TargetBobot: target, // Ensure target is a number
+          TanggalMulai: formatDate(tanggalMulai), // Ensure tanggalMulai is a string in YYYY-MM-DD format
+          TanggalBerakhir: formatDate(tanggalBerakhir), // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
           Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
         };
 
@@ -269,39 +242,12 @@ function TableProduct(props) {
       } else {
         setIsLoad(true);
 
-        // Validate and format date
-        const formatDate = (dateString) => {
-          const date = new Date(dateString);
-          if (isNaN(date)) {
-            throw new Error("Invalid date");
-          }
-          const year = date.getFullYear();
-          const month = String(date.getMonth() + 1).padStart(2, "0");
-          const day = String(date.getDate()).padStart(2, "0");
-          return `${year}-${month}-${day}`;
-        };
-
-        try {
-          tanggalMulai = formatDate(tanggalMulai);
-          tanggalBerakhir = formatDate(tanggalBerakhir);
-        } catch (e) {
-          setIsLoad(false);
-
-          Swal.fire({
-            icon: "error",
-            title: "Invalid date format",
-            text: "Dates must be valid.",
-          });
-          return;
-        }
-
         const data = {
           Bulan: [bulan.value], // Ensure bulan.value is a string
           ProductGoal: goal, // Ensure goal is a string
           Status: [status.value], // Ensure status.value is a string
-          TanggalMulai: tanggalMulai, // Ensure tanggalMulai is a string in YYYY-MM-DD format
-          TanggalBerakhir: tanggalBerakhir, // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
-          TargetBobot: target, // Ensure target is a number
+          TanggalMulai: formatDate(tanggalMulai), // Ensure tanggalMulai is a string in YYYY-MM-DD format
+          TanggalBerakhir: formatDate(tanggalBerakhir), // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
           Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
         };
 
@@ -354,6 +300,24 @@ function TableProduct(props) {
       }
     }
   };
+  function formatDate(dateString) {
+    // Regex untuk memeriksa format DD/MM/YYYY
+    const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+    const match = dateString.match(regex);
+
+    if (match) {
+      // Mengambil bagian dari tanggal
+      const day = match[1];
+      const month = match[2];
+      const year = match[3];
+
+      // Mengembalikan format YYYY-MM-DD
+      return `${year}-${month}-${day}`;
+    }
+
+    // Jika tidak cocok dengan format DD/MM/YYYY, kembalikan string aslinya
+    return dateString;
+  }
 
   return (
     <div

@@ -149,36 +149,10 @@ function TableSprint(props) {
       } else {
         setIsLoad(true);
 
-        // Validate and format date
-        const formatDate = (dateString) => {
-          const date = new Date(dateString);
-          if (isNaN(date)) {
-            throw new Error("Invalid date");
-          }
-          const year = date.getFullYear();
-          const month = String(date.getMonth() + 1).padStart(2, "0");
-          const day = String(date.getDate()).padStart(2, "0");
-          return `${year}-${month}-${day}`;
-        };
-
-        try {
-          tanggalMulai = formatDate(tanggalMulai);
-          tanggalBerakhir = formatDate(tanggalBerakhir);
-        } catch (e) {
-          setIsLoad(false);
-
-          Swal.fire({
-            icon: "error",
-            title: "Invalid date format",
-            text: "Dates must be valid.",
-          });
-          return;
-        }
-
         const data = {
           Teams: [product.tim], // Ensure tim.value is a string
-          TanggalMulai: tanggalMulai, // Ensure tanggalMulai is a string in YYYY-MM-DD format
-          TanggalBerakhir: tanggalBerakhir, // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
+          TanggalMulai: formatDate(tanggalMulai), // Ensure tanggalMulai is a string in YYYY-MM-DD format
+          TanggalBerakhir: formatDate(tanggalBerakhir), // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
           ProductBacklog: [product.value], // Ensure product.value is a string
           Status: [status.value], // Ensure status.value is a string
           UrutanSprint: urutan.value, // Ensure urutan.value is a number
@@ -261,36 +235,10 @@ function TableSprint(props) {
       } else {
         setIsLoad(true);
 
-        // Validate and format date
-        const formatDate = (dateString) => {
-          const date = new Date(dateString);
-          if (isNaN(date)) {
-            throw new Error("Invalid date");
-          }
-          const year = date.getFullYear();
-          const month = String(date.getMonth() + 1).padStart(2, "0");
-          const day = String(date.getDate()).padStart(2, "0");
-          return `${year}-${month}-${day}`;
-        };
-
-        try {
-          tanggalMulai = formatDate(tanggalMulai);
-          tanggalBerakhir = formatDate(tanggalBerakhir);
-        } catch (e) {
-          setIsLoad(false);
-
-          Swal.fire({
-            icon: "error",
-            title: "Invalid date format",
-            text: "Dates must be valid.",
-          });
-          return;
-        }
-
         const data = {
           Teams: [product.tim], // Ensure bulan.value is a string
-          TanggalMulai: tanggalMulai, // Ensure tanggalMulai is a string in YYYY-MM-DD format
-          TanggalBerakhir: tanggalBerakhir, // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
+          TanggalMulai: formatDate(tanggalMulai), // Ensure tanggalMulai is a string in YYYY-MM-DD format
+          TanggalBerakhir: formatDate(tanggalBerakhir), // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
           ProductBacklog: [product.value], // Ensure target is a number
           Status: [status.value], // Ensure status.value is a string
           UrutanSprint: urutan.value, // Ensure tim.value is an ID or array of IDs
@@ -345,7 +293,24 @@ function TableSprint(props) {
       }
     }
   };
+  function formatDate(dateString) {
+    // Regex untuk memeriksa format DD/MM/YYYY
+    const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+    const match = dateString.match(regex);
 
+    if (match) {
+      // Mengambil bagian dari tanggal
+      const day = match[1];
+      const month = match[2];
+      const year = match[3];
+
+      // Mengembalikan format YYYY-MM-DD
+      return `${year}-${month}-${day}`;
+    }
+
+    // Jika tidak cocok dengan format DD/MM/YYYY, kembalikan string aslinya
+    return dateString;
+  }
   return (
     <div
       //   data-aos="fade-down"
@@ -415,7 +380,7 @@ function TableSprint(props) {
         <motion.div
           initial={{ y: 1000, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ type: "spring", duration: 2, delay: 0.3 }}
+          transition={{ type: "spring", duration: 1.5, delay: 0.3 }}
         >
           <AnimatePresence>
             <div className="bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl p-2 mt-5">

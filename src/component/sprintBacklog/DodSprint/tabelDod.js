@@ -479,11 +479,19 @@ function TableDodSprint(props) {
         // data-aos="fade-up"
         className="w-full text-left text-sm font-normal mt-5"
       >
-        <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 grid grid-cols-5 gap-4">
-          <div className="font-medium">Judul</div>
-          <div className="font-medium">Target</div>
-          <div className="font-medium">Capaian</div>
-          <div className="font-medium">Aksi</div>
+        <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 gap-4 flex justify-between items-center">
+          <div className="font-medium flex justify-center items-center w-[40%]">
+            Judul
+          </div>
+          <div className="font-medium flex justify-center items-center w-[10%]">
+            Target
+          </div>
+          <div className="font-medium flex justify-center items-center w-[10%]">
+            Capaian
+          </div>
+          <div className="font-medium flex justify-center items-center w-[30%]">
+            Aksi
+          </div>
         </div>
 
         <div className=" bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl  p-2 mt-5">
@@ -491,16 +499,18 @@ function TableDodSprint(props) {
             <>
               <div
                 data-aos="fade-up"
-                className="hover:cursor-pointer py-2 px-4 grid grid-cols-5 gap-4 w-full items-center  border-b border-blue-blue-300 bg-white"
+                className={`hover:cursor-pointer py-4 bg-white px-4 gap-4 w-[72rem] text-sm border-b border-blue-blue-300 flex justify-between items-center `}
               >
-                <div>{dataSelected.Judul[0].value}</div>
-                <div>
+                <div className="font-normal flex justify-start items-center w-[40%] overflow-wrap break-words word-break break-all">
+                  {dataSelected.Judul[0].value}
+                </div>
+                <div className="font-normal flex justify-start items-center w-[10%]">
                   {dataSelected.Target} {dataSelected.Satuan[0].value}
                 </div>
-                <div>
+                <div className="font-normal flex justify-start items-center w-[10%]">
                   {totalCapaian} {dataSelected.Satuan[0].value}
                 </div>
-                <div className="flex gap-6 w-[25rem]">
+                <div className="font-normal flex justify-end items-center w-[30%] gap-6">
                   <button
                     className="cssbuttons-io-button w-[10rem]"
                     onClick={(e) => {
@@ -537,23 +547,25 @@ function TableDodSprint(props) {
               <motion.div
                 initial={{ y: 1000, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ type: "spring", duration: 2, delay: 0.3 }}
+                transition={{ type: "spring", duration: 1.5, delay: 0.3 }}
               >
                 <AnimatePresence>
                   {currentData.map((data) => (
                     <div
                       // data-aos="fade-up"
                       key={data.id}
-                      className="hover:cursor-pointer py-1 px-4 grid grid-cols-5 gap-4 w-full items-center  border-b border-blue-blue-300 bg-white"
+                      className={`hover:cursor-pointer py-4 bg-white px-4 gap-4 w-[72rem] text-sm border-b border-blue-blue-300 flex justify-between items-center `}
                     >
-                      <div>{data.Judul[0].value}</div>
-                      <div>
+                      <div className="font-normal flex justify-start items-center w-[40%] overflow-wrap break-words word-break break-all">
+                        {data.Judul[0].value}
+                      </div>
+                      <div className="font-normal flex justify-start items-center w-[10%]">
                         {data.Target} {data.Satuan[0].value}
                       </div>
-                      <div>
+                      <div className="font-normal flex justify-start items-center w-[10%]">
                         {data.Capaian} {data.Satuan[0].value}
                       </div>
-                      <div className="flex gap-6 w-[25rem]">
+                      <div className="font-normal flex justify-end items-center w-[30%] gap-6">
                         <div class="group relative">
                           <button
                             onClick={() => props.setDod(data)}

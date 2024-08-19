@@ -274,7 +274,7 @@ function PbiSprintBacklog({ params }) {
   );
   return (
     <div className="w-full h-full flex flex-col justify-start items-center pb-25">
-           <div className="w-full  h-[3rem] rounded-md flex justify-start items-center bg-white px-6">
+      <div className="w-full  h-[3rem] rounded-md flex justify-start items-center bg-white px-6">
         <Link
           to={"/sprint-backlog"}
           className="p-2 flex justify-center items-center text-sm text-slate-500  font-medium"
@@ -325,6 +325,9 @@ function PbiSprintBacklog({ params }) {
                 <h3 className="text-xl font-medium text-blue-700">
                   {dataSprint == null ? "" : dataSprint.Judul[0].value}
                 </h3>
+                <h3 className="text-sm font-normal ">
+                  {dataSprint == null ? "" : dataSprint.Goal[0].value}
+                </h3>
                 <h6 className="text-sm font-normal">
                   {dataSprint == null
                     ? "2020-12-10"
@@ -362,8 +365,11 @@ function PbiSprintBacklog({ params }) {
               </div>
             </div>
             <div className="w-full overflow-x-hidden pb-6 px-6">
-             
-              <ProgressBar bgcolor="#2563EB" progress={persentase} height={30} />
+              <ProgressBar
+                bgcolor="#2563EB"
+                progress={persentase}
+                height={30}
+              />
             </div>
           </div>
 

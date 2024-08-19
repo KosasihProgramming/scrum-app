@@ -75,7 +75,7 @@ function FormAddPBISprint(props) {
           </div>
           <div className="w-[100%] gap-2 flex  justify-between items-center p-2 gap-4 ">
             <div className="w-[100%] gap-2 flex flex-col justify-start items-start p-2 gap-4 ">
-              <h4 className="font-semibold text-sm">Target</h4>
+              <h4 className="font-semibold text-sm">Bobot</h4>
               <input
                 type="number"
                 className="w-full flex p-2 bg-white font-normal border-blue-500 border rounded-xl justify-start items-center h-[3rem] text-sm"

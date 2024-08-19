@@ -66,7 +66,7 @@ function TableDodProduct(props) {
       });
 
       if (result.isConfirmed) {
-        setIsLoad(true)
+        setIsLoad(true);
         const response = await axios({
           method: "DELETE",
           url:
@@ -77,7 +77,7 @@ function TableDodProduct(props) {
             Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           },
         });
-        setIsLoad(false)
+        setIsLoad(false);
 
         props.getData();
         Swal.fire({
@@ -87,7 +87,7 @@ function TableDodProduct(props) {
         });
       }
     } catch (error) {
-      setIsLoad(false)
+      setIsLoad(false);
 
       if (error.response) {
         // The request was made, and the server responded with a status code
@@ -128,7 +128,7 @@ function TableDodProduct(props) {
         });
         return;
       } else {
-        setIsLoad(true)
+        // setIsLoad(true)
 
         const data = {
           Judul: judul,
@@ -149,7 +149,7 @@ function TableDodProduct(props) {
           },
           data: data,
         });
-        setIsLoad(false)
+        setIsLoad(false);
 
         props.getData();
         Swal.fire({
@@ -161,7 +161,7 @@ function TableDodProduct(props) {
         setIsAddData(false);
       }
     } catch (error) {
-      setIsLoad(false)
+      setIsLoad(false);
 
       if (error.response) {
         // The request was made, and the server responded with a status code
@@ -209,7 +209,7 @@ function TableDodProduct(props) {
         });
         return;
       } else {
-        setIsLoad(true)
+        setIsLoad(true);
 
         const data = {
           Judul: judul,
@@ -228,7 +228,7 @@ function TableDodProduct(props) {
           },
           data: data,
         });
-        setIsLoad(false)
+        setIsLoad(false);
 
         props.getData();
         Swal.fire({
@@ -240,7 +240,7 @@ function TableDodProduct(props) {
         setIsEditData(false);
       }
     } catch (error) {
-      setIsLoad(false)
+      setIsLoad(false);
 
       if (error.response) {
         // The request was made, and the server responded with a status code
@@ -319,25 +319,43 @@ function TableDodProduct(props) {
         // data-aos-delay="550"
         className="w-full text-left text-sm font-normal mt-5"
       >
-        <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 grid grid-cols-5 gap-4">
-          <div className="font-medium">Judul</div>
-          <div className="font-medium">Target</div>
-          <div className="font-medium">Satuan</div>
-          <div className="font-medium">Capaian</div>
-          <div className="font-medium">Aksi</div>
+        <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 gap-4 flex justify-between items-center">
+          <div className="font-medium flex justify-center items-center w-[40%]">
+            Judul
+          </div>
+          <div className="font-medium flex justify-center items-center w-[8%]">
+            Target
+          </div>
+          <div className="font-medium flex justify-center items-center w-[8%]">
+            Satuan
+          </div>
+          <div className="font-medium flex justify-center items-center w-[15%]">
+            Capaian
+          </div>
+          <div className="font-medium flex justify-center items-center w-[30%]">
+            Aksi
+          </div>
         </div>
         <div className=" bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl  p-2 mt-5">
           {currentData.map((data) => (
             <div
               key={data.id}
-              className="hover:cursor-pointer py-2 px-4 grid grid-cols-5 gap-4 w-full items-center  border-b border-blue-blue-300"
+              className={`hover:cursor-pointer py-4 px-4 gap-4 w-full text-sm border-b border-blue-blue-300 flex justify-between items-center`}
             >
-              <div>{data.Judul}</div>
-              <div>{data.Target}</div>
+              <div className="font-normal flex justify-start items-center w-[40%] overflow-wrap break-words word-break break-all">
+                {data.Judul}
+              </div>
+              <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
+                {data.Target}
+              </div>
 
-              <div>{data.Satuan[0].value}</div>
-              <div>{data.Capaian} %</div>
-              <div className="flex gap-6">
+              <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
+                {data.Satuan[0].value}
+              </div>
+              <div className="font-normal flex justify-start items-center w-[15%] flex-wrap">
+                {data.Capaian} %
+              </div>
+              <div className="font-normal flex gap-6 justify-end items-center w-[30%] flex-wrap">
                 <button
                   className="button-table border border-teal-500 bg-teal-500  hover:border-teal-700"
                   onClick={() => editData(data)}
@@ -351,6 +369,7 @@ function TableDodProduct(props) {
                   <span>Hapus</span>
                 </button>
               </div>
+            
             </div>
           ))}
         </div>
