@@ -433,7 +433,10 @@ function TableDodSprint(props) {
           <div className="font-medium">Capaian</div>
           <div className="font-medium">Aksi</div>
         </div>
-        <div className=" bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl  p-2 mt-5">
+        <div
+          data-aos="fade-up"
+          className=" bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl  p-2  mt-5"
+        >
           {isCapaian ? (
             <>
               <div
@@ -483,7 +486,6 @@ function TableDodSprint(props) {
             <>
               {currentData.map((data) => (
                 <div
-                  data-aos="fade-up"
                   key={data.id}
                   className="hover:cursor-pointer py-1 px-4 grid grid-cols-5 gap-4 w-full items-center  border-b border-blue-blue-300 bg-white"
                 >
