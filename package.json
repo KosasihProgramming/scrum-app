@@ -27,9 +27,9 @@
     "react-scripts": "5.0.1",
     "react-slick": "^0.30.2",
     "sweetalert2": "^11.12.3",
-    "proxy": "https://202.157.189.177:8080",
     "web-vitals": "^2.1.4"
   },
+  "proxy": "https://202.157.189.177:8080",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
