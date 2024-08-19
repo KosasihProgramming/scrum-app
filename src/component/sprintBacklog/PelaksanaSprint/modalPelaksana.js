@@ -28,7 +28,7 @@ export default function ModalAddPelaksana(props) {
     try {
       const response = await axios({
         method: "GET",
-        url: `https://202.157.189.177:8080/api/database/rows/table/577/${props.idPbi}/?user_field_names=true`,
+        url: `http://202.157.189.177:8080/api/database/rows/table/577/${props.idPbi}/?user_field_names=true`,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -69,7 +69,7 @@ export default function ModalAddPelaksana(props) {
     try {
       const response = await axios({
         method: "GET",
-        url: `https://202.157.189.177:8080/api/database/rows/table/717/${id}/?user_field_names=true`,
+        url: `http://202.157.189.177:8080/api/database/rows/table/717/${id}/?user_field_names=true`,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -102,7 +102,7 @@ export default function ModalAddPelaksana(props) {
 
       const response = await axios({
         method: "POST",
-        url: "https://202.157.189.177:8080/api/database/rows/table/718/?user_field_names=true",
+        url: "http://202.157.189.177:8080/api/database/rows/table/718/?user_field_names=true",
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           "Content-Type": "application/json",
@@ -162,7 +162,7 @@ export default function ModalAddPelaksana(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "https://202.157.189.177:8080/api/database/rows/table/718/" +
+            "http://202.157.189.177:8080/api/database/rows/table/718/" +
             id +
             "/",
           headers: {

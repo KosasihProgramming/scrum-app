@@ -18,7 +18,7 @@ function TableCapaian(props) {
       const response = await axios({
         method: "GET",
         url:
-          "https://202.157.189.177:8080/api/database/rows/table/714/?" + param,
+          "http://202.157.189.177:8080/api/database/rows/table/714/?" + param,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -55,7 +55,7 @@ function TableCapaian(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "https://202.157.189.177:8080/api/database/rows/table/714/" +
+            "http://202.157.189.177:8080/api/database/rows/table/714/" +
             data.id +
             "/",
           headers: {

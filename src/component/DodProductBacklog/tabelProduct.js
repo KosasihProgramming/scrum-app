@@ -73,7 +73,7 @@ function TableDodProduct(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "https://202.157.189.177:8080/api/database/rows/table/651/" +
+            "http://202.157.189.177:8080/api/database/rows/table/651/" +
             id +
             "/",
           headers: {
@@ -137,7 +137,7 @@ function TableDodProduct(props) {
 
       const response = await axios({
         method: "POST",
-        url: "https://202.157.189.177:8080/api/database/rows/table/651/?user_field_names=true",
+        url: "http://202.157.189.177:8080/api/database/rows/table/651/?user_field_names=true",
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           "Content-Type": "application/json",
@@ -207,7 +207,7 @@ function TableDodProduct(props) {
 
       const response = await axios({
         method: "PATCH",
-        url: `https://202.157.189.177:8080/api/database/rows/table/651/${idData}/?user_field_names=true`,
+        url: `http://202.157.189.177:8080/api/database/rows/table/651/${idData}/?user_field_names=true`,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           "Content-Type": "application/json",

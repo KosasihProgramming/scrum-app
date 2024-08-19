@@ -78,7 +78,7 @@ function TableDodSprint(props) {
       const response = await axios({
         method: "GET",
         url:
-          "https://202.157.189.177:8080/api/database/rows/table/714/?" + param,
+          "http://202.157.189.177:8080/api/database/rows/table/714/?" + param,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -119,7 +119,7 @@ function TableDodSprint(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "https://202.157.189.177:8080/api/database/rows/table/578/" +
+            "http://202.157.189.177:8080/api/database/rows/table/578/" +
             id +
             "/",
           headers: {
@@ -182,7 +182,7 @@ function TableDodSprint(props) {
 
       const response = await axios({
         method: "POST",
-        url: "https://202.157.189.177:8080/api/database/rows/table/578/?user_field_names=true",
+        url: "http://202.157.189.177:8080/api/database/rows/table/578/?user_field_names=true",
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           "Content-Type": "application/json",
@@ -254,7 +254,7 @@ function TableDodSprint(props) {
 
       const response = await axios({
         method: "PATCH",
-        url: `https://202.157.189.177:8080/api/database/rows/table/578/${idData}/?user_field_names=true`,
+        url: `http://202.157.189.177:8080/api/database/rows/table/578/${idData}/?user_field_names=true`,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           "Content-Type": "application/json",

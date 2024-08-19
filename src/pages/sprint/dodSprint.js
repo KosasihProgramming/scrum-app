@@ -51,7 +51,7 @@ function DodSprint({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "https://202.157.189.177:8080/api/database/rows/table/578/?" + param,
+          "http://202.157.189.177:8080/api/database/rows/table/578/?" + param,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -80,7 +80,7 @@ function DodSprint({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "https://202.157.189.177:8080/api/database/rows/table/651/?" + param,
+          "http://202.157.189.177:8080/api/database/rows/table/651/?" + param,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -106,13 +106,13 @@ function DodSprint({ params }) {
     try {
       const response = await axios({
         method: "GET",
-        url: `https://202.157.189.177:8080/api/database/rows/table/577/${idPbi}/?user_field_names=true`,
+        url: `http://202.157.189.177:8080/api/database/rows/table/577/${idPbi}/?user_field_names=true`,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
       });
       console.log(
-        `https://202.157.189.177:8080/api/database/rows/table/577/${idPbi}/?user_field_names=true`
+        `http://202.157.189.177:8080/api/database/rows/table/577/${idPbi}/?user_field_names=true`
       );
       console.log(response.data, "all data Angota");
       const allData = response.data;
@@ -145,7 +145,7 @@ function DodSprint({ params }) {
     try {
       const response = await axios({
         method: "GET",
-        url: `https://202.157.189.177:8080/api/database/rows/table/717/${id}/?user_field_names=true`,
+        url: `http://202.157.189.177:8080/api/database/rows/table/717/${id}/?user_field_names=true`,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -172,7 +172,7 @@ function DodSprint({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "https://202.157.189.177:8080/api/database/rows/table/718/?" + param,
+          "http://202.157.189.177:8080/api/database/rows/table/718/?" + param,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
