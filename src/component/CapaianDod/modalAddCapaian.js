@@ -59,7 +59,7 @@ export default function ModalAddCapaian(props) {
 
                 try {
                   const fileUploadResponse = await axios.post(
-                    "http://202.157.189.177:8080/api/user-files/upload-file/",
+                    "https://202.157.189.177:8080/api/user-files/upload-file/",
                     formData,
                     {
                       headers: {
@@ -109,7 +109,7 @@ export default function ModalAddCapaian(props) {
             } else {
               const response = await axios({
                 method: "POST",
-                url: "http://202.157.189.177:8080/api/database/rows/table/714/?user_field_names=true",
+                url: "https://202.157.189.177:8080/api/database/rows/table/714/?user_field_names=true",
                 headers: {
                   Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
                   "Content-Type": "application/json",

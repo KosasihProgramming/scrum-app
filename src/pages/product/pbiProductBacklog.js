@@ -50,7 +50,7 @@ function PbiProductBacklog({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/632/?" + param,
+          "https://202.157.189.177:8080/api/database/rows/table/632/?" + param,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },

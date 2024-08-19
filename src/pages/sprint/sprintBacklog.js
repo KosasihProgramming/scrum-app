@@ -52,10 +52,9 @@ function SprintBacklog() {
 
   const fetchData = async () => {
     try {
-      
       const response = await axios({
         method: "GET",
-        url: "http://202.157.189.177:8080/api/database/rows/table/575/?user_field_names=true",
+        url: "https://202.157.189.177:8080/api/database/rows/table/575/?user_field_names=true",
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -79,7 +78,7 @@ function SprintBacklog() {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://202.157.189.177:8080/api/database/rows/table/273/?user_field_names=true",
+        url: "https://202.157.189.177:8080/api/database/rows/table/273/?user_field_names=true",
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -99,7 +98,7 @@ function SprintBacklog() {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
+        url: "https://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -107,7 +106,11 @@ function SprintBacklog() {
       const data = response.data.results;
 
       const dataOption = data.map((item) => {
-        return { value: item.id, text: item.Judul[0].value,tim:item.Tim[0].id };
+        return {
+          value: item.id,
+          text: item.Judul[0].value,
+          tim: item.Tim[0].id,
+        };
       });
       console.log(dataOption, "productahdfjsw");
 

@@ -13,10 +13,7 @@ function DodProduct({ params }) {
   const { id, pbi } = params;
   const [idProduct, setIdProduct] = useState(params.idProduct);
   const [idPbi, setIdPbi] = useState(params.idPbi);
-  const [dataSatuan, setDataSatuan] = useState([
-
-  ]);
-
+  const [dataSatuan, setDataSatuan] = useState([]);
 
   const handleTabChange = (index) => {
     setActiveTabIndex(`tab${index + 1}`);
@@ -25,7 +22,6 @@ function DodProduct({ params }) {
   useEffect(() => {
     fetchData();
   }, [activeTabIndex]);
-
 
   const [error, setError] = useState(null);
 
@@ -47,7 +43,7 @@ function DodProduct({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/651/?" + param,
+          "https://202.157.189.177:8080/api/database/rows/table/651/?" + param,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -66,7 +62,7 @@ function DodProduct({ params }) {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://202.157.189.177:8080/api/database/rows/table/706/?user_field_names=true",
+        url: "https://202.157.189.177:8080/api/database/rows/table/706/?user_field_names=true",
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },

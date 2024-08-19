@@ -47,7 +47,7 @@ export default function ModalEditCapaian(props) {
             }
 
             const fileUploadResponse = await axios.post(
-              "http://202.157.189.177:8080/api/user-files/upload-file/",
+              "https://202.157.189.177:8080/api/user-files/upload-file/",
               formData,
               {
                 headers: {
@@ -87,7 +87,7 @@ export default function ModalEditCapaian(props) {
           } else {
             const response = await axios({
               method: "PATCH",
-              url: `http://202.157.189.177:8080/api/database/rows/table/714/${props.data.id}/?user_field_names=true`,
+              url: `https://202.157.189.177:8080/api/database/rows/table/714/${props.data.id}/?user_field_names=true`,
               headers: {
                 Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
                 "Content-Type": "application/json",

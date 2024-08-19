@@ -32,7 +32,7 @@ function MasterDataSatuan() {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
+        url: "https://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
@@ -56,7 +56,7 @@ function MasterDataSatuan() {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://202.157.189.177:8080/api/database/rows/table/273/?user_field_names=true",
+        url: "https://202.157.189.177:8080/api/database/rows/table/273/?user_field_names=true",
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },

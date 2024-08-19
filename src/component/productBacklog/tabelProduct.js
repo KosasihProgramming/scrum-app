@@ -99,7 +99,7 @@ function TableProduct(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/597/" +
+            "https://202.157.189.177:8080/api/database/rows/table/597/" +
             id +
             "/",
           headers: {
@@ -159,7 +159,7 @@ function TableProduct(props) {
         console.error("Invalid data: All fields are required.");
         return;
       }
-  
+
       // Validate and format date
       const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -167,11 +167,11 @@ function TableProduct(props) {
           throw new Error("Invalid date");
         }
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
         return `${year}-${month}-${day}`;
       };
-  
+
       try {
         tanggalMulai = formatDate(tanggalMulai);
         tanggalBerakhir = formatDate(tanggalBerakhir);
@@ -183,7 +183,7 @@ function TableProduct(props) {
         });
         return;
       }
-  
+
       const data = {
         Bulan: [bulan.value], // Ensure bulan.value is a string
         ProductGoal: goal, // Ensure goal is a string
@@ -193,19 +193,19 @@ function TableProduct(props) {
         TargetBobot: target, // Ensure target is a number
         Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
       };
-  
+
       console.log(data, "Data being sent");
-  
+
       const response = await axios({
         method: "POST",
-        url: "http://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
+        url: "https://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           "Content-Type": "application/json",
         },
         data: data,
       });
-  
+
       props.getData();
       Swal.fire({
         icon: "success",
@@ -239,7 +239,7 @@ function TableProduct(props) {
       }
     }
   };
-  
+
   const editData = (data) => {
     setIsEditData(true);
     setIsAddData(false);
@@ -263,7 +263,7 @@ function TableProduct(props) {
         console.error("Invalid data: All fields are required.");
         return;
       }
-  
+
       // Validate and format date
       const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -271,11 +271,11 @@ function TableProduct(props) {
           throw new Error("Invalid date");
         }
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
         return `${year}-${month}-${day}`;
       };
-  
+
       try {
         tanggalMulai = formatDate(tanggalMulai);
         tanggalBerakhir = formatDate(tanggalBerakhir);
@@ -287,7 +287,7 @@ function TableProduct(props) {
         });
         return;
       }
-  
+
       const data = {
         Bulan: [bulan.value], // Ensure bulan.value is a string
         ProductGoal: goal, // Ensure goal is a string
@@ -297,19 +297,19 @@ function TableProduct(props) {
         TargetBobot: target, // Ensure target is a number
         Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
       };
-  
+
       console.log(data, "Data being Update");
-  
+
       const response = await axios({
         method: "PATCH",
-        url: `http://202.157.189.177:8080/api/database/rows/table/597/${idData}/?user_field_names=true`,
+        url: `https://202.157.189.177:8080/api/database/rows/table/597/${idData}/?user_field_names=true`,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           "Content-Type": "application/json",
         },
         data: data,
       });
-  
+
       props.getData();
       Swal.fire({
         icon: "success",
@@ -343,7 +343,6 @@ function TableProduct(props) {
       }
     }
   };
-  
 
   return (
     <div
