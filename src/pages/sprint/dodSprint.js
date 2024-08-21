@@ -8,6 +8,7 @@ import TableDodProduct from "../../component/DodProductBacklog/tabelProduct";
 import TableDodSprint from "../../component/sprintBacklog/DodSprint/tabelDod";
 import ModalAddAnggota from "../../component/sprintBacklog/anggotaSprint/modalAnggota";
 import ModalAddPelaksana from "../../component/sprintBacklog/PelaksanaSprint/modalPelaksana";
+import { AnimatePresence, motion } from "framer-motion";
 
 function DodSprint({ params }) {
   const [activeTabIndex, setActiveTabIndex] = useState("tab1");
@@ -135,50 +136,54 @@ function DodSprint({ params }) {
     getDataPelaksana(data.id);
   };
   return (
-    <div
-      data-aos="fade-down"
-      data-aos-delay="550"
-      className="w-full h-full flex flex-col justify-start items-center pb-25"
+    <motion.div
+      initial={{ y: 1000, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: "spring", duration: 1.5, delay: 0.3 }}
     >
-      <div className="w-full flex justify-start items-center mt-5 bg-gradient-to-r from-[#1D4ED8] to-[#a2bbff] p-4 rounded-md">
-        <h3 className="text-white text-base font-medium">DOD SPRINT</h3>
-      </div>
+      <AnimatePresence>
+        <div className="w-full h-full flex flex-col justify-start items-center pb-25">
+          <div className="w-full flex justify-start items-center mt-5 bg-gradient-to-r from-[#1D4ED8] to-[#a2bbff] p-4 rounded-md">
+            <h3 className="text-white text-base font-medium">DOD SPRINT</h3>
+          </div>
 
-      <div className="w-full flex justify-between items-center transition-transform duration-500 ease-in-out transform">
-        <div className="w-full transform transition-transform duration-500 ease-in-out">
-          <ModalAddPelaksana
-            id={selectedDod.id}
-            isGet={isgetdata}
-            setGet={() => {
-              setIsgetdata(false);
-            }}
-            idSprint={idSprint}
-            open={isAddPelaksana}
-            setOpen={() => setIsAddPelaksana(false)}
-            dataDod={selectedDod}
-            data={dataPelaksana}
-            getData={getDataPelaksana}
-          />
+          <div className="w-full flex justify-between items-center transition-transform duration-500 ease-in-out transform">
+            <div className="w-full transform transition-transform duration-500 ease-in-out">
+              <ModalAddPelaksana
+                id={selectedDod.id}
+                isGet={isgetdata}
+                setGet={() => {
+                  setIsgetdata(false);
+                }}
+                idSprint={idSprint}
+                open={isAddPelaksana}
+                setOpen={() => setIsAddPelaksana(false)}
+                dataDod={selectedDod}
+                data={dataPelaksana}
+                getData={getDataPelaksana}
+              />
 
-          <TableDodSprint
-            idSprint={idSprint}
-            idPbi={idPbi}
-            width={50}
-            setDod={(a) => {
-              openPelaksana(a);
-            }}
-            data={data}
-            getData={fetchData}
-            getDataPBI={() => {
-              params.getDataPBI();
-            }}
-            dataUser={dataPelaksana}
-            getDataUser={getDataPelaksana}
-            optionDod={dataDodProduct}
-          />
+              <TableDodSprint
+                idSprint={idSprint}
+                idPbi={idPbi}
+                width={50}
+                setDod={(a) => {
+                  openPelaksana(a);
+                }}
+                data={data}
+                getData={fetchData}
+                getDataPBI={() => {
+                  params.getDataPBI();
+                }}
+                dataUser={dataPelaksana}
+                getDataUser={getDataPelaksana}
+                optionDod={dataDodProduct}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </AnimatePresence>
+    </motion.div>
   );
 }
 

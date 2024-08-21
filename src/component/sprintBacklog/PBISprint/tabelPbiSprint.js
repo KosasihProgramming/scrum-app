@@ -322,240 +322,241 @@ function TablePBISprint(props) {
     setIsAddAnggota(true);
   };
   return (
-    <div
-      data-aos="fade-down"
-      data-aos-delay="450"
-      className="  w-full rounded-xl  mb-16 mt-5"
+    <motion.div
+      initial={{ y: 1000, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: "spring", duration: 1.5, delay: 0.3 }}
     >
-      {props.isOpen == false && (
-        <>
-          <div className="w-full flex justify-between items-center rounded-xl bg-white py-2 px-5 shadow-md gap-6">
-            <div className="flex justify-start items-center gap-10 w-[25rem]">
-              <div className="input-wrapper">
-                <input
-                  type="text"
-                  placeholder="Cari..."
-                  name="text"
-                  className="input border p-2 rounded-lg w-full"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
-              </div>
-            </div>
-            <div className="flex justify-end gap-6 items-center">
-              <button
-                className="button-insert w-[15rem]"
-                onClick={() => {
-                  openAnggota();
-                }}
-              >
-                Tambah Anggota
-              </button>
-              <button
-                className="button-insert w-[15rem]"
-                onClick={() => {
-                  setIsAddData(!isAddData);
-                }}
-              >
-                Tambah
-              </button>
-            </div>
-          </div>
-        </>
-      )}
-      <ModalAddAnggota
-        open={isAddAnggota}
-        setOpen={() => {
-          setIsAddAnggota(false);
-        }}
-        idSprint={props.idSprint}
-        dataSprint={props.dataSprint}
-        data={props.dataAnggota}
-        dataUser={props.dataUser}
-        getData={props.getDataAnggota}
-      />
-      <ModalAddPBISprint
-        open={isAddData}
-        setOpen={() => setIsAddData(false)}
-        addData={handleAdd}
-        optionProduct={props.optionProduct}
-      />
-
-      <ModalEditPBISprint
-        open={isEditData}
-        setOpen={() => setIsEditData(false)}
-        editData={handleEdit}
-        data={dataUpdate}
-        optionProduct={props.optionProduct}
-      />
-
-      {props.isOpen == true && (
-        <>
-          <div
-            data-aos="fade-up"
-            data-aos-delay="150"
-            className="mt-10 flex justify-between w-full flex-col bg-white rounded-xl py-6 px-6 shadow-md"
-          >
-            <div className=" flex justify-between w-full bg-white rounded-xl  ">
-              <div className="flex flex-col justify-start gap-2 items-start w-[80%]">
-                <h3 className="text-xl font-medium text-blue-700">
-                  {selectedData.Judul[0].value}
-                </h3>
-                <h3 className="text-sm font-normal ">
-                  {selectedData.Alasan[0].value}
-                </h3>
-                <div className="w-full flex justify-start gap-4 items-center mt-4">
-                  <div className="bg-teal-50 rounded-md border border-teal-700 text-teal-700 flex justify-center items-center p-2 text-xs font-medium min-w-[8rem]">
-                    Bobot :{selectedData.Bobot}
-                  </div>
-                  <div className="bg-blue-50 rounded-md border border-blue-700 text-blue-700 flex justify-center items-center p-2 text-xs font-medium min-w-[8rem]">
-                    Capaian : {selectedData.Capaian}
-                  </div>
-                  <div className="bg-blue-50 rounded-md border border-blue-700 text-blue-700 flex justify-center items-center p-2 text-xs font-medium min-w-[8rem]">
-                    Persentase: {selectedData.PersentaseCapaian} %
+      <AnimatePresence>
+        <div className="  w-full rounded-xl  mb-16 mt-5">
+          {props.isOpen == false && (
+            <>
+              <div className="w-full flex justify-between items-center rounded-xl bg-white py-2 px-5 shadow-md gap-6">
+                <div className="flex justify-start items-center gap-10 w-[25rem]">
+                  <div className="input-wrapper">
+                    <input
+                      type="text"
+                      placeholder="Cari..."
+                      name="text"
+                      className="input border p-2 rounded-lg w-full"
+                      value={searchTerm}
+                      onChange={handleSearchChange}
+                    />
                   </div>
                 </div>
+                <div className="flex justify-end gap-6 items-center">
+                  <button
+                    className="button-insert w-[15rem]"
+                    onClick={() => {
+                      openAnggota();
+                    }}
+                  >
+                    Tambah Anggota
+                  </button>
+                  <button
+                    className="button-insert w-[15rem]"
+                    onClick={() => {
+                      setIsAddData(!isAddData);
+                    }}
+                  >
+                    Tambah
+                  </button>
+                </div>
               </div>
+            </>
+          )}
+          <ModalAddAnggota
+            open={isAddAnggota}
+            setOpen={() => {
+              setIsAddAnggota(false);
+            }}
+            idSprint={props.idSprint}
+            dataSprint={props.dataSprint}
+            data={props.dataAnggota}
+            dataUser={props.dataUser}
+            getData={props.getDataAnggota}
+          />
+          <ModalAddPBISprint
+            open={isAddData}
+            setOpen={() => setIsAddData(false)}
+            addData={handleAdd}
+            optionProduct={props.optionProduct}
+          />
 
-              <div className="flex justify-center items-center">
-                <button
-                  className="cssbuttons-io-button w-[10rem]"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleCloseClick();
-                  }}
-                >
-                  Tutup
-                  <div className="icon">
-                    <RiDeleteBack2Fill className="text-xl text-blue-600" />
-                  </div>
-                </button>
-              </div>
-            </div>
+          <ModalEditPBISprint
+            open={isEditData}
+            setOpen={() => setIsEditData(false)}
+            editData={handleEdit}
+            data={dataUpdate}
+            optionProduct={props.optionProduct}
+          />
 
-            <div className="w-full  overflow-x-hidden mt-7">
-              <ProgressBar
-                bgcolor="#2563EB"
-                progress={parseInt(selectedData.PersentaseCapaian)}
-                height={30}
-              />
-            </div>
-          </div>
-        </>
-      )}
-      {props.isOpen == false && (
-        <>
-          {" "}
-          <div
-        
-            className="w-full text-left text-sm font-normal mt-5"
-          >
-            <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 gap-4 flex justify-between items-center">
-              <div className="font-medium flex justify-center items-center w-[30%]">
-                Judul
-              </div>
-              <div className="font-medium flex justify-center items-center w-[8%]">
-                Bobot
-              </div>
-              <div className="font-medium flex justify-center items-center w-[8%]">
-                Capaian
-              </div>
-              <div className="font-medium flex justify-center items-center w-[15%]">
-                Persentase
-              </div>
-              <div className="font-medium flex justify-center items-center w-[40%]">
-                Aksi
-              </div>
-            </div>
-            <motion.div
-              initial={{ y: 1000, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ type: "spring", duration: 1.5, delay: 0.3 }}
-            >
-              <AnimatePresence>
-                <div className=" bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl  p-2 mt-5">
-                  {currentData.map((data) => (
-                    <div
-                      key={data.id}
-                      className="hover:cursor-pointer py-4 px-4  gap-4 w-full text-sm  border-b border-blue-blue-300 flex justify-between items-center"
-                    >
-                      <div className="font-normal flex justify-start items-center w-[30%]  overflow-wrap break-words word-break break-all">
-                        {data.Judul[0].value}
+          {props.isOpen == true && (
+            <>
+              <div
+                data-aos="fade-up"
+                data-aos-delay="150"
+                className="mt-10 flex justify-between w-full flex-col bg-white rounded-xl py-6 px-6 shadow-md"
+              >
+                <div className=" flex justify-between w-full bg-white rounded-xl  ">
+                  <div className="flex flex-col justify-start gap-2 items-start w-[80%]">
+                    <h3 className="text-xl font-medium text-blue-700">
+                      {selectedData.Judul[0].value}
+                    </h3>
+                    <h3 className="text-sm font-normal ">
+                      {selectedData.Alasan[0].value}
+                    </h3>
+                    <div className="w-full flex justify-start gap-4 items-center mt-4">
+                      <div className="bg-teal-50 rounded-md border border-teal-700 text-teal-700 flex justify-center items-center p-2 text-xs font-medium min-w-[8rem]">
+                        Bobot :{selectedData.Bobot}
                       </div>
-                      <div className="font-normal flex justify-start items-center w-[8%]">
-                        {data.Bobot}
+                      <div className="bg-blue-50 rounded-md border border-blue-700 text-blue-700 flex justify-center items-center p-2 text-xs font-medium min-w-[8rem]">
+                        Capaian : {selectedData.Capaian}
                       </div>
-                      <div className="font-normal flex justify-start items-center w-[8%]">
-                        {data.Capaian}
-                      </div>
-                      <div className="font-normal flex justify-start items-center w-[15%]">
-                        {data.PersentaseCapaian}%
-                      </div>
-                      <div className="font-normal flex justify-end items-center w-[40%] gap-4">
-                        <button
-                          className="button-table border border-teal-500 bg-teal-500  hover:border-teal-700"
-                          onClick={() => editData(data)}
-                        >
-                          <span>Update</span>
-                        </button>
-                        <button
-                          className="button-table  border border-red-500 bg-red-500  hover:border-red-700"
-                          onClick={() => handleDelete(data.id)}
-                        >
-                          <span>Hapus</span>
-                        </button>
-                        <button
-                          onClick={() => handleItemClick(data)}
-                          className="cssbuttons-io-button w-[13rem]"
-                        >
-                          Lihat Dod Sprint
-                          <div class="icon">
-                            <LuArrowRight className="text-xl text-blue-600" />
-                          </div>
-                        </button>
+                      <div className="bg-blue-50 rounded-md border border-blue-700 text-blue-700 flex justify-center items-center p-2 text-xs font-medium min-w-[8rem]">
+                        Persentase: {selectedData.PersentaseCapaian} %
                       </div>
                     </div>
-                  ))}
+                  </div>
+
+                  <div className="flex justify-center items-center">
+                    <button
+                      className="cssbuttons-io-button w-[10rem]"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCloseClick();
+                      }}
+                    >
+                      Tutup
+                      <div className="icon">
+                        <RiDeleteBack2Fill className="text-xl text-blue-600" />
+                      </div>
+                    </button>
+                  </div>
                 </div>
-              </AnimatePresence>
-            </motion.div>
-          </div>
-          <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
-            {Array.from(
-              { length: Math.ceil(filteredData.length / dataPerPage) },
-              (_, i) => i + 1
-            ).map((page) => (
-              <button
-                key={page}
-                className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
-                  currentPage === page
-                    ? "bg-blue-600 text-white border-none"
-                    : "bg-transparent border-blue-600  border"
-                }`}
-                onClick={() => paginate(page)}
-              >
-                {page}
-              </button>
-            ))}
-          </div>
-        </>
-      )}
-      {props.isOpen === true && (
-        <>
-          <DodSprint
-            params={{
-              id: props.idSprint,
-              idPbi: selectedId,
-              idPbiProduct: selectedData.PBIProduct[0].id,
-              dataPbi: selectedData,
-              getDataPBI: () => {
-                getSingleDataPBI();
-              },
-            }}
-          />
-        </>
-      )}
-    </div>
+
+                <div className="w-full  overflow-x-hidden mt-7">
+                  <ProgressBar
+                    bgcolor="#2563EB"
+                    progress={parseInt(selectedData.PersentaseCapaian)}
+                    height={30}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+          {props.isOpen == false && (
+            <>
+              {" "}
+              <div className="w-full text-left text-sm font-normal mt-5">
+                <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 gap-4 flex justify-between items-center">
+                  <div className="font-medium flex justify-center items-center w-[30%]">
+                    Judul
+                  </div>
+                  <div className="font-medium flex justify-center items-center w-[8%]">
+                    Bobot
+                  </div>
+                  <div className="font-medium flex justify-center items-center w-[8%]">
+                    Capaian
+                  </div>
+                  <div className="font-medium flex justify-center items-center w-[15%]">
+                    Persentase
+                  </div>
+                  <div className="font-medium flex justify-center items-center w-[40%]">
+                    Aksi
+                  </div>
+                </div>
+                <motion.div
+                  initial={{ y: 1000, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ type: "spring", duration: 1.5, delay: 0.3 }}
+                >
+                  <AnimatePresence>
+                    <div className=" bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl  p-2 mt-5">
+                      {currentData.map((data) => (
+                        <div
+                          key={data.id}
+                          className="hover:cursor-pointer py-4 px-4  gap-4 w-full text-sm  border-b border-blue-blue-300 flex justify-between items-center"
+                        >
+                          <div className="font-normal flex justify-start items-center w-[30%]  overflow-wrap break-words word-break break-all">
+                            {data.Judul[0].value}
+                          </div>
+                          <div className="font-normal flex justify-start items-center w-[8%]">
+                            {data.Bobot}
+                          </div>
+                          <div className="font-normal flex justify-start items-center w-[8%]">
+                            {data.Capaian}
+                          </div>
+                          <div className="font-normal flex justify-start items-center w-[15%]">
+                            {data.PersentaseCapaian}%
+                          </div>
+                          <div className="font-normal flex justify-end items-center w-[40%] gap-4">
+                            <button
+                              className="button-table border border-teal-500 bg-teal-500  hover:border-teal-700"
+                              onClick={() => editData(data)}
+                            >
+                              <span>Update</span>
+                            </button>
+                            <button
+                              className="button-table  border border-red-500 bg-red-500  hover:border-red-700"
+                              onClick={() => handleDelete(data.id)}
+                            >
+                              <span>Hapus</span>
+                            </button>
+                            <button
+                              onClick={() => handleItemClick(data)}
+                              className="cssbuttons-io-button w-[13rem]"
+                            >
+                              Lihat Dod Sprint
+                              <div class="icon">
+                                <LuArrowRight className="text-xl text-blue-600" />
+                              </div>
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </AnimatePresence>
+                </motion.div>
+              </div>
+              <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
+                {Array.from(
+                  { length: Math.ceil(filteredData.length / dataPerPage) },
+                  (_, i) => i + 1
+                ).map((page) => (
+                  <button
+                    key={page}
+                    className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
+                      currentPage === page
+                        ? "bg-blue-600 text-white border-none"
+                        : "bg-transparent border-blue-600  border"
+                    }`}
+                    onClick={() => paginate(page)}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+          {props.isOpen === true && (
+            <>
+              <DodSprint
+                params={{
+                  id: props.idSprint,
+                  idPbi: selectedId,
+                  idPbiProduct: selectedData.PBIProduct[0].id,
+                  dataPbi: selectedData,
+                  getDataPBI: () => {
+                    getSingleDataPBI();
+                  },
+                }}
+              />
+            </>
+          )}
+        </div>
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
