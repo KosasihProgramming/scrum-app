@@ -83,7 +83,7 @@ function FormEditDodProduct(props) {
                     }}
                     value={satuan}
                     name={"Satuan"}
-                    isSearch={false}
+                    isSearch={true}
                   />
                 </div>
               </div>

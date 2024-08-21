@@ -94,7 +94,7 @@ function FormAddDodProduct(props) {
                       setSatuan(item);
                     }}
                     name={"Satuan"}
-                    isSearch={false}
+                    isSearch={true}
                   />
                 </div>
               </div>
