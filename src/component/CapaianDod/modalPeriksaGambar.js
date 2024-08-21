@@ -51,6 +51,8 @@ export default function ModalPeriksaGambar(props) {
       }, 0);
       console.log("data total", data);
       console.log("Total", totalCapaian);
+      props.getDataPBI();
+      props.fetchDod();
       props.setDataCapaian(data);
       props.setTotalCapaian(totalCapaian);
     } catch (error) {

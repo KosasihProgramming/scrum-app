@@ -122,7 +122,8 @@ function TableDodSprint(props) {
       }, 0);
       setTotalCapaian(totalCapaian);
       console.log("total", totalCapaian);
-
+      await props.getDataPBI();
+      await props.getData();
       if (isCek) {
         setDataCapaian(data);
       } else {
@@ -454,6 +455,9 @@ function TableDodSprint(props) {
         getData={getDataCapaian}
         getDataPBI={() => {
           props.getDataPBI();
+        }}
+        fetchDod={() => {
+          props.getData();
         }}
         getDataDod={getSingleDataDod}
         setOpen={() => setIsCekGambar(false)}
