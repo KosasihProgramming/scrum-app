@@ -232,7 +232,7 @@ function TableCapaian(props) {
                     </button>
                     <span
                       class={`absolute -top-10 left-[50%] -translate-x-[50%] 
-  z-20 origin-left scale-0 px-3 rounded-lg border w-[6rem]
+  z-20 origin-left scale-0 px-3 rounded-lg border w-[6.5rem]
   border-gray-300 ${
     data.Link === "" ? "bg-blue-600" : "bg-purple-600"
   }  text-white py-2 text-xs font-semibold
@@ -241,7 +241,7 @@ function TableCapaian(props) {
                     >
                       <span>
                         {" "}
-                        {data.Link === "" ? "Periksa Bukti" : "Keterangan"}
+                        {data.Link === "" ? "Periksa Bukti" : "Periksa Detail"}
                       </span>
                     </span>
                   </div>

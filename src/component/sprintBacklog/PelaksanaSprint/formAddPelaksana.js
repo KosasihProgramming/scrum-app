@@ -112,12 +112,16 @@ function FormAddPelaksana(props) {
                 <div className="w-full py-2 px-4 flex justify-start rounded-xl shadow-md border border-blue-600 gap-6">
                   <img
                     className="w-[3rem] h-[3rem] rounded-full flex justify-center items-center object-cover "
-                    src="https://www.exabytes.co.id/blog/wp-content/uploads/2021/11/Mystery-1024x514.png"
+                    src={`${
+                      data.Foto.length > 0
+                        ? data.Foto[0].url
+                        : "https://www.exabytes.co.id/blog/wp-content/uploads/2021/11/Mystery-1024x514.png"
+                    }`}
                   />
                   <div className="flex w-full justify-between  items-center gap-2 ">
                     <div className="flex justify-between flex-col items-start gap-2 ">
                       <h4 className="font-semibold text-sm">
-                        {/* {data.Nama[0].value} */}
+                        {data.Nama[0].value}
                       </h4>
                       <div className="flex justify-start items-center gap-6">
                         <div className="text-xs font-normal flex justify-center items-center p-1 px-4 bg-blue-50 text-blue-700 rounded-md border  border-blue-700">

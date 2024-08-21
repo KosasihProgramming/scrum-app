@@ -131,6 +131,7 @@ function DodSprint({ params }) {
   };
 
   const openPelaksana = (data) => {
+    console.log("data Dod Pelaksana", data);
     setIsAddPelaksana(true);
     setSelectedDod(data);
     getDataPelaksana(data.id);

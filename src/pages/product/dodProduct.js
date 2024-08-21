@@ -5,6 +5,7 @@ import axios from "axios";
 import withRouter from "../../component/features/withRouter";
 import Filter from "../../component/features/filter";
 import TableDodProduct from "../../component/DodProductBacklog/tabelProduct";
+import { AnimatePresence, motion } from "framer-motion";
 
 function DodProduct({ params }) {
   const [activeTabIndex, setActiveTabIndex] = useState("tab1");
@@ -13,10 +14,7 @@ function DodProduct({ params }) {
   const { id, pbi } = params;
   const [idProduct, setIdProduct] = useState(params.idProduct);
   const [idPbi, setIdPbi] = useState(params.idPbi);
-  const [dataSatuan, setDataSatuan] = useState([
-
-  ]);
-
+  const [dataSatuan, setDataSatuan] = useState([]);
 
   const handleTabChange = (index) => {
     setActiveTabIndex(`tab${index + 1}`);
@@ -25,7 +23,6 @@ function DodProduct({ params }) {
   useEffect(() => {
     fetchData();
   }, [activeTabIndex]);
-
 
   const [error, setError] = useState(null);
 
@@ -83,28 +80,36 @@ function DodProduct({ params }) {
     }
   };
   return (
-    <div
-      data-aos="fade-down"
-      data-aos-delay="550"
-      className="w-full h-full flex flex-col justify-start items-center pb-25"
+    <motion.div
+      initial={{ y: 1000, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: "spring", duration: 1.5, delay: 0.3 }}
     >
-      {/* <div className="w-full flex justify-start items-center mt-5 bg-gradient-to-r from-[#1D4ED8] to-[#a2bbff] p-4 rounded-md">
+      <AnimatePresence>
+        <div
+          // data-aos="fade-down"
+          // data-aos-delay="550"
+          className="w-full h-full flex flex-col justify-start items-center pb-25"
+        >
+          {/* <div className="w-full flex justify-start items-center mt-5 bg-gradient-to-r from-[#1D4ED8] to-[#a2bbff] p-4 rounded-md">
         <h3 className="text-white text-base font-medium">DOD PRODUCT</h3>
       </div> */}
 
-      <div className="w-full flex justify-between items-center transition-transform duration-500 ease-in-out transform">
-        <div className="w-full transform transition-transform duration-500 ease-in-out">
-          <TableDodProduct
-            idProduct={idProduct}
-            idPbi={idPbi}
-            width={50}
-            data={data}
-            getData={fetchData}
-            optionSatuan={dataSatuan}
-          />
+          <div className="w-full flex justify-between items-center transition-transform duration-500 ease-in-out transform">
+            <div className="w-full transform transition-transform duration-500 ease-in-out">
+              <TableDodProduct
+                idProduct={idProduct}
+                idPbi={idPbi}
+                width={50}
+                data={data}
+                getData={fetchData}
+                optionSatuan={dataSatuan}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
