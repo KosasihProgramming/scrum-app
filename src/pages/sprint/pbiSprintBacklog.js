@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { RiDeleteBack2Fill } from "react-icons/ri";
 import { IoIosArrowForward } from "react-icons/io";
 import ProgressBar from "../../component/features/progressBar";
+import TableTodo from "../../component/sprintBacklog/TodoList/tableTodo";
 function PbiSprintBacklog({ params }) {
   const [activeTabIndex, setActiveTabIndex] = useState("tab1");
   const [dataTim, setDataTim] = useState([]);
@@ -20,6 +21,7 @@ function PbiSprintBacklog({ params }) {
   const [dataAnggota, setDataAnggota] = useState([]);
   const { id, idProduct } = params;
   const [dataUser, setDataUser] = useState([]);
+  const [dataTodo, setDataTodo] = useState([]);
   const [idSprint, setIdSprint] = useState(id);
   const [totalPbi, setTotalPbi] = useState(0);
   const [idProductBacklog, setIdProduct] = useState(idProduct);
@@ -33,6 +35,10 @@ function PbiSprintBacklog({ params }) {
       id: "tab2",
       name: "Unplan",
     },
+    {
+      id: "tab3",
+      name: "Todo List",
+    },
   ];
 
   const handleTabChange = (index) => {
@@ -41,7 +47,7 @@ function PbiSprintBacklog({ params }) {
 
   useEffect(() => {
     fetchData();
-
+    getTodo();
     getDataPbiProduct();
     getSingleDataSprint(idSprint);
   }, [activeTabIndex]);
@@ -95,6 +101,34 @@ function PbiSprintBacklog({ params }) {
       setTotalPbi(allData.length);
       setDataPbiPlan(dataPlan);
       setDataPbiUnPlan(dataUnplan);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const getTodo = async () => {
+    try {
+      const filters = [
+        {
+          type: "link_row_has",
+          field: "Sprint",
+          value: `${idSprint}`,
+        },
+      ];
+
+      const param = await Filter(filters);
+      console.log("objek param", filters);
+      console.log(param, "params");
+      const response = await axios({
+        method: "GET",
+        url:
+          "http://202.157.189.177:8080/api/database/rows/table/726/?" + param,
+        headers: {
+          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+        },
+      });
+      console.log("all data Todo", response.data.results);
+      const allData = response.data.results;
+      setDataTodo(allData);
     } catch (error) {
       console.log(error.message);
     }
@@ -417,6 +451,21 @@ function PbiSprintBacklog({ params }) {
               optionProduct={dataProduct}
               optionTim={dataTim}
               dataUser={dataUser}
+            />
+          </div>
+        )}
+
+        {activeTabIndex === "tab3" && (
+          <div
+            ref={tableRef}
+            className="w-full transform transition-transform duration-500 ease-in-out"
+          >
+            <TableTodo
+              data={dataTodo}
+              dataAnggota={dataAnggota}
+              id={idSprint}
+              getData={getTodo}
+              // idSprint={idSprint}
             />
           </div>
         )}
