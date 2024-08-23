@@ -9,6 +9,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { TbEyeSearch } from "react-icons/tb";
 import { ImFileText2 } from "react-icons/im";
 import { FaRegCheckCircle } from "react-icons/fa";
+import { MdDoubleArrow } from "react-icons/md";
 import { useLoading } from "../features/context/loadContext";
 function TableCapaian(props) {
   const { setIsLoad } = useLoading();
@@ -196,7 +197,8 @@ function TableCapaian(props) {
                           href={data.Link}
                           className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
                         >
-                          <TbEyeSearch class="text-lg  duration-200 text-blue-700" />
+                          
+                          <MdDoubleArrow class="text-lg  duration-200 text-blue-700" />
                         </a>
                         <span
                           class="absolute -top-10 left-[50%] -translate-x-[50%] 
@@ -226,7 +228,7 @@ function TableCapaian(props) {
                         </>
                       ) : (
                         <>
-                          <ImFileText2 class="text-lg  duration-200 text-purple-700" />
+                          <TbEyeSearch class="text-lg  duration-200 text-purple-700" />
                         </>
                       )}
                     </button>
