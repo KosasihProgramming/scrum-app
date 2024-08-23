@@ -538,7 +538,7 @@ function TableDodSprint(props) {
                         </div>
                       </button>
                       <button
-                        className="cssbuttons-io-button w-[13rem]"
+                        className="cssbuttons-io-button w-[15rem]"
                         onClick={(e) => {
                           setIsAddCapaian(true);
                           setIsCek(false);
