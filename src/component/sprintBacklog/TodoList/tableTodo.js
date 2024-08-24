@@ -408,7 +408,7 @@ function TableTodo(props) {
     const result = filteredData
       .map(
         (item, i) =>
-          `${i + 1}. ${item.Task}| ${item.Jam}|${item.IsCheck ? "✅" : ""}`
+          `${i + 1}. ${item.Task} | ${item.Jam} | ${item.IsCheck ? "✅" : ""}`
       )
       .join("\n");
     console.log(result);

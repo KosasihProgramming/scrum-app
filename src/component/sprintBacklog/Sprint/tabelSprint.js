@@ -237,8 +237,8 @@ function TableSprint(props) {
 
         const data = {
           Teams: [product.tim], // Ensure bulan.value is a string
-          TanggalMulai: formatDate(tanggalMulai), // Ensure tanggalMulai is a string in YYYY-MM-DD format
-          TanggalBerakhir: formatDate(tanggalBerakhir), // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
+          TanggalMulai: formatDateEdit(tanggalMulai), // Ensure tanggalMulai is a string in YYYY-MM-DD format
+          TanggalBerakhir: formatDateEdit(tanggalBerakhir), // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
           ProductBacklog: [product.value], // Ensure target is a number
           Status: [status.value], // Ensure status.value is a string
           UrutanSprint: urutan.value, // Ensure tim.value is an ID or array of IDs
@@ -294,23 +294,35 @@ function TableSprint(props) {
     }
   };
   function formatDate(dateString) {
-    // Regex untuk memeriksa format DD/MM/YYYY
-    const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-    const match = dateString.match(regex);
+    console.log(dateString);
 
-    if (match) {
-      // Mengambil bagian dari tanggal
-      const day = match[1];
-      const month = match[2];
-      const year = match[3];
-
-      // Mengembalikan format YYYY-MM-DD
-      return `${year}-${month}-${day}`;
+    // Pisahkan tanggal berdasarkan pemisah "/"
+    const [day, month, year] = dateString.split("/");
+    // Periksa apakah bagian-bagian tanggal valid
+    if (!day || !month || !year) {
+      return dateString; // Kembalikan string aslinya jika format tidak sesuai
     }
 
-    // Jika tidak cocok dengan format DD/MM/YYYY, kembalikan string aslinya
-    return dateString;
+    // Buat objek Date menggunakan bagian yang dipisahkan
+    const date = new Date(`${year}-${month}-${day}`);
+
+    // Periksa apakah objek Date valid
+    if (isNaN(date.getTime())) {
+      return dateString; // Kembalikan string aslinya jika tidak valid
+    }
+
+    // Mengembalikan format YYYY-MM-DD
+    return date.toISOString().slice(0, 10);
   }
+
+  const formatDateEdit = (date) => {
+    // Ambil objek Date dari yourDate.$d
+    const dateObject = new Date(date.$d);
+
+    // Format tanggal menjadi YYYY-MM-DD
+    const format = dateObject.toISOString().split("T")[0];
+    return format;
+  };
   return (
     <div
       //   data-aos="fade-down"

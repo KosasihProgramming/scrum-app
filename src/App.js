@@ -30,6 +30,7 @@ import DodProduct from "./pages/product/dodProduct";
 import PbiSprintBacklog from "./pages/sprint/pbiSprintBacklog";
 import { useLoading } from "./component/features/context/loadContext";
 import Loader from "./component/features/loader";
+import Send from "./pages/x";
 
 const App = () => {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -97,7 +98,7 @@ const App = () => {
         <> */}
       <Router>
         <section className={` flex w-full gap-6 bg-slate-100 h-full p-0`}>
-          {isLoad  && (
+          {isLoad && (
             <>
               <div className="w-full h-[100vh] overflow-hidden flex justify-center items-center absolute z-[9999] bg-white">
                 <Loader />
@@ -307,6 +308,7 @@ const App = () => {
                   path="/pbi-product/:id"
                   element={<PbiProductBacklog />}
                 />
+                <Route path="/send" element={<Send />} />
                 <Route path="/product-backlog" element={<ProductBacklog />} />
                 <Route
                   path="/pbi-sprint/:id/:idProduct"
