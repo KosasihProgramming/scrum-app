@@ -102,6 +102,7 @@ export default function ModalAddPelaksana(props) {
           Durasi: waktu,
           DodSprint: [parseInt(props.id)], // Ensure this is an array
           UserId: [parseInt(user.value)], // Ensure this is an array
+          Sprint: [parseInt(props.idSprint)],
         };
 
         console.log(data, "Data being sent");

@@ -427,7 +427,7 @@ function TableTodo(props) {
     try {
       const botToken = "bot7140283752:AAEUOiJb7eO3c_UyLWCyn5-HWb7IeTgSKeY";
       const chatId = "-1001812360373";
-      const thread = "16775";
+      const thread = "531";
       const response = await fetch(
         `https://api.telegram.org/${botToken}/sendMessage`,
         {
