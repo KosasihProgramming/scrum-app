@@ -213,6 +213,9 @@ function TableDodPersonal(props) {
               <div className="font-medium flex justify-center items-center w-[10%]">
                 Capaian
               </div>
+              <div className="font-medium flex justify-center items-center w-[10%]">
+                Persentase
+              </div>
               <div className="font-medium flex justify-center items-center w-[30%]">
                 Aksi
               </div>
@@ -238,6 +241,9 @@ function TableDodPersonal(props) {
                     </div>
                     <div className="font-normal flex justify-start items-center w-[10%]">
                       {totalCapaian} {dataSelected.Satuan[0].value}
+                    </div>
+                    <div className="font-normal flex justify-start items-center w-[10%]">
+                      {dataSelected.Persentase}%
                     </div>
                     <div className="font-normal flex justify-end items-center w-[30%] gap-6">
                       <button
@@ -289,6 +295,9 @@ function TableDodPersonal(props) {
                       </div>
                       <div className="font-normal flex justify-start items-center w-[10%]">
                         {data.Capaian} {data.Satuan[0].value}
+                      </div>
+                      <div className="font-normal flex justify-start items-center w-[10%]">
+                        {data.Persentase}%
                       </div>
                       <div className="font-normal flex justify-center items-center w-[30%] gap-6">
                         <button

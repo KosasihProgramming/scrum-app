@@ -18,7 +18,7 @@ function DodPersonal({ params }) {
   const [dataTim, setDataTim] = useState([]);
   const tableRef = useRef(null);
   const [dataDod, setDataDod] = useState([]);
-
+  const [userSet, setUserSet] = useState(false);
   const [dataSprint, setdataSprint] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [dataAnggota, setDataAnggota] = useState([]);
@@ -28,6 +28,7 @@ function DodPersonal({ params }) {
   const [dataTodo, setDataTodo] = useState([]);
   const [idSprint, setIdSprint] = useState(id);
   const [totalPbi, setTotalPbi] = useState(0);
+  const [totalCapaian, setTotalCapaian] = useState(0);
   console.log(params, "param page");
 
   const handleTabChange = (index) => {
@@ -93,6 +94,10 @@ function DodPersonal({ params }) {
 
       // Menunggu semua promise selesai dan mengumpulkan hasilnya
       const dodDetails = await Promise.all(dodDetailsPromises);
+      const totalCapaian = dodDetails.reduce((total, item) => {
+        return total + parseInt(item.Persentase || 0); // Asumsikan ada properti `capaian`
+      }, 0);
+      setTotalCapaian(totalCapaian);
       setDataDod(dodDetails);
       console.log(dodDetails, "hasil dod");
     } catch (error) {
@@ -131,6 +136,7 @@ function DodPersonal({ params }) {
       const userData = response.data;
 
       setDataUser(response.data);
+      setUserSet(true);
     } catch (error) {
       console.log(error);
     }
@@ -157,9 +163,7 @@ function DodPersonal({ params }) {
 
     return `${parseInt(hari)} ${namaBulan} ${tahun}`;
   }
-  const persentase = Math.floor(
-    parseInt(dataSprint == null ? 0 : dataSprint.CapaianPBI)
-  );
+  const persentase = Math.floor(parseInt(totalCapaian));
   return (
     <div className="w-full h-full flex flex-col justify-start items-center pb-25">
       <div className="w-full  h-[3rem] rounded-md flex justify-start items-center bg-white px-6">
@@ -210,12 +214,34 @@ function DodPersonal({ params }) {
               className=" flex justify-between w-full bg-white rounded-xl py-6 px-6"
             >
               <div className="flex flex-col justify-start gap-2 items-start w-[80%]">
+                {userSet == true && (
+                  <>
+                    <div className="w-full flex justify-start gap-4 items-center mb-5  p-2 rounded-md ">
+                      <img
+                        className="w-[6rem] h-[6rem] bg-cover object-cover flex justify-center items-center rounded-xl"
+                        src={`${
+                          dataUser.Foto.length > 0
+                            ? dataUser.Foto[0].url
+                            : "https://www.exabytes.co.id/blog/wp-content/uploads/2021/11/Mystery-1024x514.png"
+                        }`}
+                      />
+                      <div className="flex flex-col justify-start items-start gap-2">
+                        <h4 className="text-xl font-medium capitaliza">
+                          {dataUser.Nama}
+                        </h4>
+                        <p className="text-sm font-normal ">{dataUser.Email}</p>
+                        <p className="text-sm font-normal ">
+                          {" "}
+                          {dataUser.Tim[0].value}
+                        </p>
+                      </div>
+                    </div>
+                  </>
+                )}
                 <h3 className="text-xl font-medium text-blue-700">
                   {dataSprint == null ? "" : dataSprint.Judul[0].value}
                 </h3>
-                <h3 className="text-sm font-normal ">
-                  {dataSprint == null ? "" : dataSprint.Goal[0].value}
-                </h3>
+
                 <h6 className="text-sm font-normal">
                   {dataSprint == null
                     ? "2020-12-10"
@@ -226,10 +252,6 @@ function DodPersonal({ params }) {
                     : formatTanggal(dataSprint.TanggalBerakhir)}
                 </h6>
                 <div className="w-full flex justify-start gap-4 items-center mt-4">
-                  <div className="bg-blue-50 rounded-md border border-blue-700 text-blue-700 flex justify-center items-center p-2 text-xs font-medium min-w-[8rem]">
-                    Total PBI : {totalPbi}
-                  </div>
-
                   <div className="bg-blue-50 rounded-md border border-blue-700 text-blue-700 flex justify-center items-center p-2 text-xs font-medium min-w-[8rem]">
                     Capaian : {dataSprint == null ? "" : persentase + "%"}
                   </div>
