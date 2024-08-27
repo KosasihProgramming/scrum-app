@@ -174,6 +174,8 @@ export default function ModalEditCapaian(props) {
                       addData={handleAdd}
                       dataDod={props.dataSprint}
                       optionUser={props.optionUser}
+                      dataPelaksana={props.dataPelaksana}
+                      select={props.select}
                       data={props.data}
                       totalCapaian={props.totalCapaian}
                     />

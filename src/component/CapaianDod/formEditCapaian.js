@@ -22,14 +22,16 @@ function FormEditCapaian(props) {
   const [link, setLink] = useState(props.data.Link || "");
   const [keterangan, setKeterangan] = useState(props.data.Keterangan || "");
   const [files, setFiles] = useState([]);
-
-  const dataOption = props.optionUser.map((item) => {
-    return {
-      value: item.id,
-      text: item.Nama[0].value,
-      target: item.Target,
-    };
-  });
+  let dataOption = [];
+  if (!props.select) {
+    dataOption = props.optionUser.map((item) => {
+      return {
+        value: item.id,
+        text: item.Nama[0].value,
+        target: item.Target,
+      };
+    });
+  }
   console.log(props.data, "Edit Capaian");
 
   const [user, setUser] = useState(
@@ -38,8 +40,15 @@ function FormEditCapaian(props) {
 
   const handleAdd = (e) => {
     e.preventDefault();
-    props.addData(capaian, keterangan, link, files, user);
 
+    if (!props.select) {
+      props.addData(capaian, keterangan, link, files, user);
+    } else {
+      props.addData(capaian, keterangan, link, files, {
+        value: props.dataPelaksana.id,
+        text: props.dataPelaksana.Nama,
+      });
+    }
     const data = {
       capaian,
       keterangan,
@@ -64,44 +73,52 @@ function FormEditCapaian(props) {
         <div
           className={`flex w-full flex-col justify-start items-start rounded-xl mb-2  `}
         >
-          <div className="w-[100%] gap-2 flex  justify-between items-center p-2 gap-4 ">
-            <div className="w-[100%] gap-2 flex flex-col justify-start items-start p-2 gap-4 ">
-              <h4 className="font-semibold text-sm">Judul</h4>
-              <div className="w-full flex p-2 bg-white font-normal border-emerald-500 border rounded-xl justify-start items-center h-[3rem] text-sm">
-                {props.dataDod.Judul[0].value}
+          <div className="w-[100%] gap-4 border-b-2 mb-5 border-b-teal-500 flex flex-col justify-between items-start p-4 ">
+            <h3 className=" text-lg font-medium capitalize">
+              {props.dataDod.Judul[0].value}
+            </h3>
+            <div className="w-full flex justify-start gap-6 items-center">
+              <div className="flex justify-center items-center p-2 rounded-lg font-medium bg-teal-100 border text-sm border-teal-700 text-teal-700">
+                Target : {props.dataDod.Target} {props.dataDod.Satuan[0].value}
               </div>
-            </div>
-          </div>
-          <div className="w-[100%] gap-2 flex  justify-between items-center p-2 gap-4 ">
-            <div className="w-[100%] gap-2 flex flex-col justify-start items-start p-2 gap-4 ">
-              <h4 className="font-semibold text-sm">Target Capaian</h4>
-              <div className="w-full flex p-2 bg-white font-normal border-emerald-500 border rounded-xl justify-start items-center h-[3rem] text-sm">
-                {props.dataDod.Target} {props.dataDod.Satuan[0].value}
-              </div>
-            </div>
-          </div>
-          <div className="w-[100%] gap-2 flex  justify-between items-center p-2 gap-4 ">
-            <div className="w-[100%] gap-2 flex flex-col justify-start items-start p-2 gap-4 ">
-              <h4 className="font-semibold text-sm">Capaian Saat Ini</h4>
-              <div className="w-full flex p-2 bg-white font-normal border-emerald-500 border rounded-xl justify-start items-center h-[3rem] text-sm">
-                {props.totalCapaian} {props.dataDod.Satuan[0].value}
+              <div className="flex justify-center items-center p-2 rounded-lg font-medium bg-blue-100 border text-sm border-blue-700 text-blue-700">
+                Capaian : {props.totalCapaian} {props.dataDod.Satuan[0].value}
               </div>
             </div>
           </div>
           <div className="w-[100%] gap-2 flex justify-between items-center p-2 px-4 gap-4 ">
-            <div className="w-full flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
-              <div className="flex items-center justify-center z-[999] w-[100%]">
-                <DropdownSearch
-                  options={dataOption}
-                  change={(item) => {
-                    setUser(item);
-                  }}
-                  name={"Pelaksana"}
-                  isSearch={false}
-                  value={user}
-                />
-              </div>
-            </div>
+            {props.select ? (
+              <>
+                <div className="w-[100%] gap-4 flex flex-col justify-between items-start ">
+                  <h4 className="font-semibold text-sm">Pelaksana</h4>
+                  <div className="w-full flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
+                    <div className="flex items-center justify-center z-[999] w-[100%]">
+                      <div className="w-full flex p-2 bg-white font-normal rounded-xl justify-start items-center h-[3rem] text-sm">
+                        {props.optionUser.Nama}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="w-[100%] gap-2 flex flex-col justify-between items-center p-2 px-4 gap-4 ">
+                  <h4 className="font-semibold text-sm">Pelaksana</h4>
+                  <div className="w-full flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
+                    <div className="flex items-center justify-center z-[999] w-[100%]">
+                      <DropdownSearch
+                        options={dataOption}
+                        change={(item) => {
+                          setUser(item);
+                        }}
+                        name={"Pelaksana"}
+                        isSearch={false}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
           <div className="w-[100%] gap-2 flex  justify-between items-center p-2 gap-4 ">
             <div className="w-[100%] gap-2 flex flex-col justify-start items-start p-2 gap-4 ">

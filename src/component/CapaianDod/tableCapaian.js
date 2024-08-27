@@ -126,9 +126,17 @@ function TableCapaian(props) {
   console.log(props.dataCapaian, "hahahzahahahahaahahahaahahah");
   return (
     <div className="w-full px-6">
-      <div className="w-full flex justify-start items-center mt-5 bg-gradient-to-r from-[#1D4ED8] to-[#a2bbff] p-4 rounded-md">
-        <h3 className="text-white text-base font-medium">Capaian DOD</h3>
-      </div>
+      <motion.div
+        initial={{ y: 1000, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", duration: 1.5, delay: 0.1 }}
+      >
+        <AnimatePresence>
+          <div className="w-full flex justify-start items-center mt-5 bg-gradient-to-r from-[#1D4ED8] to-[#a2bbff] p-4 rounded-md">
+            <h3 className="text-white text-base font-medium">Capaian DOD</h3>
+          </div>
+        </AnimatePresence>
+      </motion.div>
       <motion.div
         initial={{ y: 1000, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -197,7 +205,6 @@ function TableCapaian(props) {
                           href={data.Link}
                           className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
                         >
-                          
                           <MdDoubleArrow class="text-lg  duration-200 text-blue-700" />
                         </a>
                         <span

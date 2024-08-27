@@ -181,6 +181,7 @@ function TableDodPersonal(props) {
         setIsDisplay={() => {
           setIsdisplay(false);
         }}
+        isPersonal={true}
         dataAll={dataCapaian}
         setTotalCapaian={(value) => {
           setTotalCapaian(value);
@@ -289,24 +290,13 @@ function TableDodPersonal(props) {
                       <div className="font-normal flex justify-start items-center w-[10%]">
                         {data.Capaian} {data.Satuan[0].value}
                       </div>
-                      <div className="font-normal flex justify-end items-center w-[30%] gap-6">
-                        <div class="group relative">
-                          <button
-                            onClick={() => handleCapaian(data)}
-                            className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
-                          >
-                            <FaArrowUpRightDots class="text-lg  duration-200 text-blue-700" />
-                          </button>
-                          <span
-                            class="absolute -top-10 left-[50%] -translate-x-[50%] 
-  z-20 origin-left scale-0 px-3 rounded-lg border w-[7rem]
-  border-gray-300 bg-blue-600 text-white py-2 text-xs font-semibold
-  shadow-md transition-all duration-300 ease-in-out 
-  group-hover:scale-100"
-                          >
-                            Tambah Capaian<span></span>
-                          </span>
-                        </div>
+                      <div className="font-normal flex justify-center items-center w-[30%] gap-6">
+                        <button
+                          onClick={() => handleCapaian(data)}
+                          class="w-[150px] border font-medium border-blue-600 bg-blue-100 h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer relative overflow-hidden transition-all duration-500 ease-in-out shadow-md hover:scale-105 hover:shadow-lg before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-600 before:to-blue-400 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-xl hover:before:left-0 text-blue-700  hover:text-[#fff]"
+                        >
+                          Tambah Capaian
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -338,7 +328,7 @@ function TableDodPersonal(props) {
           </div>
         </>
       )}
-      {isCek == true && isCapaian == true && (
+      {/* {isCek == true && isCapaian == true && (
         <>
           <TableCapaian
             dataCapaian={dataCapaianUpdate}
@@ -359,8 +349,8 @@ function TableDodPersonal(props) {
             handleEdit={handleUpdateCapaian}
           />
         </>
-      )}
-      {isCekDisplay == true && isCapaian == true && (
+      )} */}
+      {isCapaian && (
         <>
           <TableCapaian
             dataCapaian={dataCapaian}

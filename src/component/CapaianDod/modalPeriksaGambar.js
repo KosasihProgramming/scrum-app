@@ -51,7 +51,9 @@ export default function ModalPeriksaGambar(props) {
       }, 0);
       console.log("data total", data);
       console.log("Total", totalCapaian);
-      props.getDataPBI();
+      if (!props.isPersonal) {
+        props.getDataPBI();
+      }
       props.fetchDod();
       props.setDataCapaian(data);
       props.setTotalCapaian(totalCapaian);
@@ -89,7 +91,9 @@ export default function ModalPeriksaGambar(props) {
         return s; // Mengembalikan objek siswa yang lain tanpa perubahan
       });
 
-      props.getDataPBI();
+      if (!props.isPersonal) {
+        props.getDataPBI();
+      }
 
       getDataCapaian(props.data);
       // props.getDataDod();
