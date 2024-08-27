@@ -311,7 +311,7 @@ const App = () => {
                 />
                 <Route path="/send" element={<Send />} />
                 <Route
-                  path="/dod-pribadi/:id/:idUser"
+                  path="/dod-pribadi/:id/:idUser/:idProduct"
                   element={<DodPersonal />}
                 />
                 <Route path="/product-backlog" element={<ProductBacklog />} />

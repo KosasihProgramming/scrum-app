@@ -80,7 +80,7 @@ function FormAddAnggota(props) {
                     <div className="flex justify-end gap-6 items-center">
                       <div class="group relative">
                         <Link
-                          to={`/dod-pribadi/${props.idSprint}/${data.id}`}
+                          to={`/dod-pribadi/${props.idSprint}/${data.id}/${props.idProduct}`}
                           className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
                         >
                           <FaArrowRightFromBracket class="text-lg  duration-200 text-blue-700" />

@@ -202,6 +202,7 @@ export default function ModalAddAnggota(props) {
                       data={props.data}
                       open={props.open}
                       idSprint={props.idSprint}
+                      idProduct={props.idProduct}
                       delete={handleDelete}
                     />
                   </div>

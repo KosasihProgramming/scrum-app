@@ -371,6 +371,7 @@ function TablePBISprint(props) {
               setIsAddAnggota(false);
             }}
             idSprint={props.idSprint}
+            idProduct={props.idProduct}
             dataSprint={props.dataSprint}
             data={props.dataAnggota}
             dataUser={props.dataUser}

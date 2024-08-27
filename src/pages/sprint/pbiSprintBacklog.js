@@ -428,6 +428,7 @@ function PbiSprintBacklog({ params }) {
               dataAnggota={dataAnggota}
               getDataAnggota={getDataAnggota}
               dataSprint={dataSprint}
+              idProduct={idProduct}
               dataUser={dataUser}
               optionProduct={dataProduct}
             />
@@ -448,6 +449,7 @@ function PbiSprintBacklog({ params }) {
               isOpen={isOpen}
               data={dataPbiUnPlan}
               getData={fetchData}
+              idProduct={idProduct}
               optionProduct={dataProduct}
               optionTim={dataTim}
               dataUser={dataUser}

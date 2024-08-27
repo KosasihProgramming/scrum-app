@@ -22,7 +22,7 @@ function DodPersonal({ params }) {
   const [dataSprint, setdataSprint] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [dataAnggota, setDataAnggota] = useState([]);
-  const { id, idUser } = params;
+  const { id, idUser,idProduct } = params;
   const [dataUser, setDataUser] = useState([]);
   const [dataPelaksana, setDataPelaksana] = useState([]);
   const [dataTodo, setDataTodo] = useState([]);
@@ -208,36 +208,42 @@ function DodPersonal({ params }) {
             data-aos-delay="150"
             className="mt-10 flex flex-col justify-between w-full bg-white rounded-xl shadow-md"
           >
+            {userSet == true && (
+              <>
+                <div
+                  data-aos="fade-up"
+                  data-aos-delay="150"
+                  className=" flex justify-between w-full bg-white rounded-xl px-6"
+                >
+                  <div className="w-full flex justify-start gap-4 items-center mb-2  p-2 border-b-2 border-b-blue-600 py-6 ">
+                    <img
+                      className="w-[6rem] h-[6rem] bg-cover object-cover shadow-md flex justify-center items-center rounded-xl"
+                      src={`${
+                        dataUser.Foto.length > 0
+                          ? dataUser.Foto[0].url
+                          : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcsfuYy-W3XTybiWt3ggO_lkKgjWgt6ZqaSQ&s"
+                      }`}
+                    />
+                    <div className="flex flex-col justify-start items-start gap-2">
+                      <h4 className="text-xl font-medium capitaliza">
+                        {dataUser.Nama}
+                      </h4>
+                      <p className="text-sm font-normal ">{dataUser.Email}</p>
+                      <p className="text-sm font-normal ">
+                        {" "}
+                        {dataUser.Tim[0].value}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
             <div
               data-aos="fade-up"
               data-aos-delay="150"
-              className=" flex justify-between w-full bg-white rounded-xl py-6 px-6"
+              className=" flex justify-between w-full bg-white rounded-xl pb-6 px-6"
             >
               <div className="flex flex-col justify-start gap-2 items-start w-[80%]">
-                {userSet == true && (
-                  <>
-                    <div className="w-full flex justify-start gap-4 items-center mb-5  p-2 rounded-md ">
-                      <img
-                        className="w-[6rem] h-[6rem] bg-cover object-cover flex justify-center items-center rounded-xl"
-                        src={`${
-                          dataUser.Foto.length > 0
-                            ? dataUser.Foto[0].url
-                            : "https://www.exabytes.co.id/blog/wp-content/uploads/2021/11/Mystery-1024x514.png"
-                        }`}
-                      />
-                      <div className="flex flex-col justify-start items-start gap-2">
-                        <h4 className="text-xl font-medium capitaliza">
-                          {dataUser.Nama}
-                        </h4>
-                        <p className="text-sm font-normal ">{dataUser.Email}</p>
-                        <p className="text-sm font-normal ">
-                          {" "}
-                          {dataUser.Tim[0].value}
-                        </p>
-                      </div>
-                    </div>
-                  </>
-                )}
                 <h3 className="text-xl font-medium text-blue-700">
                   {dataSprint == null ? "" : dataSprint.Judul[0].value}
                 </h3>
@@ -264,7 +270,7 @@ function DodPersonal({ params }) {
               </div>
               <div className="flex justify-center items-center">
                 <Link
-                  to="/sprint-backlog"
+                  to={`/pbi-sprint/${id}/${idProduct}`}
                   className="cssbuttons-io-button w-[10rem]"
                 >
                   Tutup
