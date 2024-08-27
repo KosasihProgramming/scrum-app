@@ -327,10 +327,10 @@ function TableDodProduct(props) {
             Target
           </div>
           <div className="font-medium flex justify-center items-center w-[8%]">
-            Satuan
+            Capaian
           </div>
           <div className="font-medium flex justify-center items-center w-[15%]">
-            Capaian
+            Persentase
           </div>
           <div className="font-medium flex justify-center items-center w-[30%]">
             Aksi
@@ -346,14 +346,14 @@ function TableDodProduct(props) {
                 {data.Judul}
               </div>
               <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
-                {data.Target}
+                {data.Target} {data.Satuan[0].value}
               </div>
 
               <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
-                {data.Satuan[0].value}
+                {data.Capaian} {data.Satuan[0].value}
               </div>
               <div className="font-normal flex justify-start items-center w-[15%] flex-wrap">
-                {data.Capaian} %
+                {data.PersentaseCapaian} %
               </div>
               <div className="font-normal flex gap-6 justify-end items-center w-[30%] flex-wrap">
                 <button
@@ -369,7 +369,6 @@ function TableDodProduct(props) {
                   <span>Hapus</span>
                 </button>
               </div>
-            
             </div>
           ))}
         </div>

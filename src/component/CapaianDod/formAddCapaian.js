@@ -26,17 +26,27 @@ function FormAddCapaian(props) {
   const [user, setUser] = useState({});
   const [isGambar, setIsGambar] = useState(false);
 
-  const dataOption = props.optionUser.map((item) => {
-    return {
-      value: item.id,
-      text: item.Nama[0].value,
-      target: item.Target,
-    };
-  });
+  let dataOption = [];
+  if (!props.select) {
+    dataOption = props.optionUser.map((item) => {
+      return {
+        value: item.id,
+        text: item.Nama[0].value,
+        target: item.Target,
+      };
+    });
+  }
+
   const handleAdd = (e) => {
     e.preventDefault();
-    props.addData(capaian, keterangan, isGambar, link, files, user);
-
+    if (!props.select) {
+      props.addData(capaian, keterangan, isGambar, link, files, user);
+    } else {
+      props.addData(capaian, keterangan, isGambar, link, files, {
+        value: props.dataPelaksana.id,
+        text: props.dataPelaksana.Nama,
+      });
+    }
     const data = {
       capaian,
       keterangan,
@@ -53,6 +63,7 @@ function FormAddCapaian(props) {
     setIsGambar(true);
   };
 
+  console.log(props.optionUser, "user Single");
   return (
     <div>
       <div
@@ -85,19 +96,36 @@ function FormAddCapaian(props) {
               </div>
             </div>
           </div>
+
           <div className="w-[100%] gap-2 flex justify-between items-center p-2 px-4 gap-4 ">
-            <div className="w-full flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
-              <div className="flex items-center justify-center z-[999] w-[100%]">
-                <DropdownSearch
-                  options={dataOption}
-                  change={(item) => {
-                    setUser(item);
-                  }}
-                  name={"Pelaksana"}
-                  isSearch={false}
-                />
-              </div>
-            </div>
+            {props.select ? (
+              <>
+                <div className="w-full flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
+                  <div className="flex items-center justify-center z-[999] w-[100%]">
+                    <div className="w-full flex p-2 bg-white font-normal rounded-xl justify-start items-center h-[3rem] text-sm">
+                      {props.optionUser.Nama}
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="w-[100%] gap-2 flex justify-between items-center p-2 px-4 gap-4 ">
+                  <div className="w-full flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
+                    <div className="flex items-center justify-center z-[999] w-[100%]">
+                      <DropdownSearch
+                        options={dataOption}
+                        change={(item) => {
+                          setUser(item);
+                        }}
+                        name={"Pelaksana"}
+                        isSearch={false}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
           <div className="w-[100%] gap-2 flex justify-between items-center p-2 gap-4 ">
             <div className="w-[100%] gap-2 flex flex-col justify-start items-start p-2 gap-4 ">

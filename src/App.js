@@ -31,6 +31,7 @@ import PbiSprintBacklog from "./pages/sprint/pbiSprintBacklog";
 import { useLoading } from "./component/features/context/loadContext";
 import Loader from "./component/features/loader";
 import Send from "./pages/x";
+import DodPersonal from "./pages/sprint/dodPersonal";
 
 const App = () => {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -309,6 +310,10 @@ const App = () => {
                   element={<PbiProductBacklog />}
                 />
                 <Route path="/send" element={<Send />} />
+                <Route
+                  path="/dod-pribadi/:id/:idUser"
+                  element={<DodPersonal />}
+                />
                 <Route path="/product-backlog" element={<ProductBacklog />} />
                 <Route
                   path="/pbi-sprint/:id/:idProduct"

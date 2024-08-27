@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import "dayjs/locale/id";
 import "dayjs/locale/id";
 import { MdOutlineSave } from "react-icons/md";
-
+import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { MdDeleteOutline } from "react-icons/md";
 import DropdownSearch from "../../features/dropdown";
+import { Link } from "react-router-dom";
 function FormAddAnggota(props) {
   const [user, setUser] = useState(null);
 
@@ -54,7 +55,7 @@ function FormAddAnggota(props) {
 
           <div
             data-aos="fade-up"
-            className="w-[100%] h-[20rem] gap-2 flex flex-col  justify-start items-center py-2 px-4 gap-4 overflow-y-scroll "
+            className="w-[100%] h-[20rem] gap-2 flex flex-col pt-8  justify-start items-center py-2 px-4 gap-4 overflow-y-scroll "
           >
             {props.data.map((data) => (
               <>
@@ -76,22 +77,41 @@ function FormAddAnggota(props) {
                         </p>
                       </div>
                     </div>
-                    <div class="group relative">
-                      <button
-                        onClick={() => props.delete(data.id)}
-                        className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
-                      >
-                        <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
-                      </button>
-                      <span
-                        class="absolute -top-10 left-[50%] -translate-x-[50%] 
-  z-20 origin-left scale-0 px-3 rounded-lg border 
+                    <div className="flex justify-end gap-6 items-center">
+                      <div class="group relative">
+                        <Link
+                          to={`/dod-pribadi/${props.idSprint}/${data.id}`}
+                          className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
+                        >
+                          <FaArrowRightFromBracket class="text-lg  duration-200 text-blue-700" />
+                        </Link>
+                        <span
+                          class="absolute -top-10 left-[50%] -translate-x-[50%] 
+ origin-left scale-0 px-3 rounded-lg border z-[9999] w-[6rem]
+  border-gray-300 bg-blue-600 text-white py-2 text-xs font-semibold
+  shadow-md transition-all duration-300 ease-in-out 
+  group-hover:scale-100"
+                        >
+                          Dod Pribadi<span></span>
+                        </span>
+                      </div>
+                      <div class="group relative">
+                        <button
+                          onClick={() => props.delete(data.id)}
+                          className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
+                        >
+                          <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
+                        </button>
+                        <span
+                          class="absolute -top-10 left-[50%] -translate-x-[50%] 
+ origin-left scale-0 px-3 rounded-lg border z-[9999]
   border-gray-300 bg-red-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                      >
-                        Hapus<span></span>
-                      </span>
+                        >
+                          Hapus<span></span>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -195,8 +195,10 @@ export default function ModalAddCapaian(props) {
                   <div className=" px-4">
                     <FormAddCapaian
                       addData={handleAdd}
+                      select={props.select}
                       dataDod={props.data}
                       optionUser={props.optionUser}
+                      dataPelaksana={props.dataPelaksana}
                       totalCapaian={props.totalCapaian}
                     />
                   </div>

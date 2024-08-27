@@ -201,6 +201,7 @@ export default function ModalAddAnggota(props) {
                       optionUser={props.dataUser}
                       data={props.data}
                       open={props.open}
+                      idSprint={props.idSprint}
                       delete={handleDelete}
                     />
                   </div>

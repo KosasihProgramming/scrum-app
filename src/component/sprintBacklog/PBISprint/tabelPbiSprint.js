@@ -351,7 +351,7 @@ function TablePBISprint(props) {
                       openAnggota();
                     }}
                   >
-                    Tambah Anggota
+                    Anggota Sprint
                   </button>
                   <button
                     className="button-insert w-[15rem]"
