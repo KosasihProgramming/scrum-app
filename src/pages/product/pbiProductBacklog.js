@@ -12,6 +12,7 @@ import { IoIosArrowForward } from "react-icons/io";
 function PbiProductBacklog({ params }) {
   const [activeTabIndex, setActiveTabIndex] = useState("tab1");
   const [dataTim, setDataTim] = useState([]);
+  const [optionProduct, setOptionProduct] = useState([]);
   const tableRef = useRef(null);
   const { id } = params;
   const [idProduct, setIdProduct] = useState(id);
@@ -36,6 +37,7 @@ function PbiProductBacklog({ params }) {
 
   useEffect(() => {
     fetchData();
+    getProduct();
     getSingleDataProduct(idProduct);
   }, [activeTabIndex]);
 
@@ -59,6 +61,25 @@ function PbiProductBacklog({ params }) {
       setdataProduct(data);
     } catch (error) {
       console.log(error);
+    }
+  };
+  const getProduct = async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: "http://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
+        headers: {
+          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+        },
+      });
+      console.log(response.data.results, "all data backlog");
+      const allData = response.data.results;
+      const dataOption = allData.map((item) => {
+        return { value: item.id, text: item.Judul[0].value };
+      });
+      setOptionProduct(dataOption);
+    } catch (error) {
+      setError(error.message);
     }
   };
   const fetchData = async () => {
@@ -247,6 +268,7 @@ function PbiProductBacklog({ params }) {
               isOpen={isOpen}
               getData={fetchData}
               optionTim={dataTim}
+              optionBacklog={optionProduct}
             />
           </div>
         )}
@@ -260,6 +282,7 @@ function PbiProductBacklog({ params }) {
               isOpen={isOpen}
               idProduct={idProduct}
               data={dataStandard}
+              optionBacklog={optionProduct}
               getData={fetchData}
               setOpen={(value) => setIsOpen(value)}
               optionTim={dataTim}

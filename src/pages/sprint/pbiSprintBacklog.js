@@ -21,11 +21,11 @@ function PbiSprintBacklog({ params }) {
   const [dataAnggota, setDataAnggota] = useState([]);
   const { id, idProduct } = params;
   const [dataUser, setDataUser] = useState([]);
+  const [optionSprint, setOptionSprint] = useState([]);
   const [dataTodo, setDataTodo] = useState([]);
   const [idSprint, setIdSprint] = useState(id);
   const [totalPbi, setTotalPbi] = useState(0);
   const [idProductBacklog, setIdProduct] = useState(idProduct);
-  console.log(params, "param page");
   const allTabs = [
     {
       id: "tab1",
@@ -48,6 +48,7 @@ function PbiSprintBacklog({ params }) {
   useEffect(() => {
     fetchData();
     getTodo();
+    getSprint();
     getDataPbiProduct();
     getSingleDataSprint(idSprint);
   }, [activeTabIndex]);
@@ -83,8 +84,6 @@ function PbiSprintBacklog({ params }) {
       ];
 
       const param = await Filter(filters);
-      console.log("objek param", filters);
-      console.log(param, "params");
       const response = await axios({
         method: "GET",
         url:
@@ -93,7 +92,6 @@ function PbiSprintBacklog({ params }) {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
       });
-      console.log(response.data.results, "all data");
       const allData = response.data.results;
       const dataPlan = allData.filter((a) => a.Unplan === false);
       const dataUnplan = allData.filter((a) => a.Unplan === true);
@@ -116,8 +114,7 @@ function PbiSprintBacklog({ params }) {
       ];
 
       const param = await Filter(filters);
-      console.log("objek param", filters);
-      console.log(param, "params");
+
       const response = await axios({
         method: "GET",
         url:
@@ -249,6 +246,25 @@ function PbiSprintBacklog({ params }) {
       console.log(error);
     }
   };
+  const getSprint = async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: "http://202.157.189.177:8080/api/database/rows/table/575/?user_field_names=true",
+        headers: {
+          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+        },
+      });
+      console.log(response.data.results, "all data sprint");
+      const allData = response.data.results;
+      const dataOption = allData.map((item) => {
+        return { value: item.id, text: item.Judul[0].value };
+      });
+      setOptionSprint(dataOption);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   const getDataPbiProduct = async () => {
     try {
       const filters = [
@@ -269,12 +285,10 @@ function PbiSprintBacklog({ params }) {
         },
       });
       const data = response.data.results;
-      console.log("skdhkjsdh", param, "param Product");
-      console.log(data, "data Product");
+
       const dataOption = data.map((item) => {
         return { value: item.id, text: item.Judul, bobot: item.Bobot };
       });
-      console.log(dataOption, "productahdfjsw");
 
       setDataProduct(dataOption);
     } catch (error) {
@@ -427,6 +441,7 @@ function PbiSprintBacklog({ params }) {
               getData={fetchData}
               dataAnggota={dataAnggota}
               getDataAnggota={getDataAnggota}
+              optionSprint={optionSprint}
               dataSprint={dataSprint}
               idProduct={idProduct}
               dataUser={dataUser}
@@ -449,6 +464,7 @@ function PbiSprintBacklog({ params }) {
               isOpen={isOpen}
               data={dataPbiUnPlan}
               getData={fetchData}
+              optionSprint={optionSprint}
               idProduct={idProduct}
               optionProduct={dataProduct}
               optionTim={dataTim}

@@ -10,7 +10,9 @@ import { DatePicker, Space } from "antd";
 import { LuArrowRight } from "react-icons/lu";
 import { RiDeleteBack2Fill } from "react-icons/ri";
 import { AnimatePresence, motion } from "framer-motion";
-
+import { MdDeleteOutline } from "react-icons/md";
+import { MdContentCopy } from "react-icons/md";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import DropdownSearch from "../../features/dropdown";
 import ModalProduct from "./modalPBISprint";
@@ -24,6 +26,7 @@ import DodSprint from "../../../pages/sprint/dodSprint";
 import ModalAddAnggota from "../anggotaSprint/modalAnggota";
 import Aos from "aos";
 import { useLoading } from "../../features/context/loadContext";
+import ModalCopyPbiSprint from "../../CopyPbiSprint/modalCopy";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 function TablePBISprint(props) {
@@ -38,9 +41,9 @@ function TablePBISprint(props) {
   const [isAddAnggota, setIsAddAnggota] = useState(false);
   const [idData, setIdData] = useState(0);
   const [isAddData, setIsAddData] = useState(false);
+  const [isCopy, setIscopy] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
   const { setIsLoad } = useLoading();
-
   const [searchTerm, setSearchTerm] = useState(""); // State u
   useEffect(() => {
     Aos.init({ duration: 700 });
@@ -55,7 +58,6 @@ function TablePBISprint(props) {
       data.PersentaseCapaian.toString().includes(searchTerm)
     );
   });
-  console.log(props.idProduct, "id");
 
   const indexOfLastData = currentPage * dataPerPage;
   const indexOfFirstData = indexOfLastData - dataPerPage;
@@ -68,7 +70,6 @@ function TablePBISprint(props) {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleItemClick = (data) => {
-    console.log(data, "data");
     setIsOpen(true);
     props.setOpen(true);
     setSelectedData(data);
@@ -244,6 +245,12 @@ function TablePBISprint(props) {
     setDataUpdate(data);
     setIdData(data.id);
   };
+  const copyData = (data) => {
+    setIsEditData(false);
+    setIsAddData(false);
+    setSelectedData(data);
+    setIscopy(true);
+  };
 
   const handleEdit = async (target, plan, product) => {
     try {
@@ -377,6 +384,7 @@ function TablePBISprint(props) {
             dataUser={props.dataUser}
             getData={props.getDataAnggota}
           />
+
           <ModalAddPBISprint
             open={isAddData}
             setOpen={() => setIsAddData(false)}
@@ -391,7 +399,15 @@ function TablePBISprint(props) {
             data={dataUpdate}
             optionProduct={props.optionProduct}
           />
-
+          <ModalCopyPbiSprint
+            open={isCopy}
+            setOpen={() => {
+              setIscopy(false);
+            }}
+            dataSprint={props.optionSprint}
+            data={selectedData}
+            idSprint={props.idSprint}
+          />
           {props.isOpen == true && (
             <>
               <div
@@ -492,18 +508,61 @@ function TablePBISprint(props) {
                             {data.PersentaseCapaian}%
                           </div>
                           <div className="font-normal flex justify-end items-center w-[40%] gap-4">
-                            <button
-                              className="button-table border border-teal-500 bg-teal-500  hover:border-teal-700"
-                              onClick={() => editData(data)}
-                            >
-                              <span>Update</span>
-                            </button>
-                            <button
-                              className="button-table  border border-red-500 bg-red-500  hover:border-red-700"
-                              onClick={() => handleDelete(data.id)}
-                            >
-                              <span>Hapus</span>
-                            </button>
+                            <div class="group relative">
+                              <button
+                                onClick={(e) => {
+                                  copyData(data);
+                                }}
+                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
+                              >
+                                <MdContentCopy class="text-lg  duration-200 text-blue-700" />
+                              </button>
+                              <span
+                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+  z-20 origin-left scale-0 px-3 rounded-lg border 
+  border-gray-300 bg-blue-600 text-white py-2 text-xs font-semibold
+  shadow-md transition-all duration-300 ease-in-out 
+  group-hover:scale-100"
+                              >
+                                Copy<span></span>
+                              </span>
+                            </div>
+                            <div class="group relative">
+                              <button
+                                onClick={() => editData(data)}
+                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
+                              >
+                                <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
+                              </button>
+                              <span
+                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+  z-20 origin-left scale-0 px-3 rounded-lg border 
+  border-gray-300 bg-teal-600 text-white py-2 text-xs font-semibold
+  shadow-md transition-all duration-300 ease-in-out 
+  group-hover:scale-100"
+                              >
+                                Update<span></span>
+                              </span>
+                            </div>
+
+                            <div class="group relative">
+                              <button
+                                onClick={() => handleDelete(data.id)}
+                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
+                              >
+                                <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
+                              </button>
+                              <span
+                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+  z-20 origin-left scale-0 px-3 rounded-lg border 
+  border-gray-300 bg-red-600 text-white py-2 text-xs font-semibold
+  shadow-md transition-all duration-300 ease-in-out 
+  group-hover:scale-100"
+                              >
+                                Hapus<span></span>
+                              </span>
+                            </div>
+
                             <button
                               onClick={() => handleItemClick(data)}
                               className="cssbuttons-io-button w-[13rem]"

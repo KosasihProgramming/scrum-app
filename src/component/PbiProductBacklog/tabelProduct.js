@@ -18,8 +18,12 @@ import ModalEditProduct from "./modalEditProduct";
 import DodProduct from "../../pages/product/dodProduct";
 import { AnimatePresence, motion } from "framer-motion";
 import Aos from "aos";
+import { MdDeleteOutline } from "react-icons/md";
+import { MdContentCopy } from "react-icons/md";
+import { HiOutlinePencilSquare } from "react-icons/hi2";import ModalCopyPbiProduct from "../CopyPbiProduct/modalCopy";
 import ProgressBar from "../features/progressBar";
 import { useLoading } from "../features/context/loadContext";
+
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 function TablePBIProduct(props) {
@@ -30,6 +34,7 @@ function TablePBIProduct(props) {
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const [selectedData, setSelectedData] = useState({});
+  const [isCopy, setIscopy] = useState(false);
 
   const [dataUpdate, setDataUpdate] = useState({});
   const { setIsLoad } = useLoading();
@@ -221,6 +226,12 @@ function TablePBIProduct(props) {
     setDataUpdate(data);
     setIdData(data.id);
   };
+  const copyData = (data) => {
+    setIsEditData(false);
+    setIsAddData(false);
+    setSelectedData(data);
+    setIscopy(true);
+  };
 
   const handleEdit = async (judul, target, alasan, perspektif, jenis) => {
     try {
@@ -355,6 +366,15 @@ function TablePBIProduct(props) {
         data={dataUpdate}
         optionTim={props.optionTim}
       />
+      <ModalCopyPbiProduct
+        open={isCopy}
+        setOpen={() => {
+          setIscopy(false);
+        }}
+        dataProduct={props.optionBacklog}
+        data={selectedData}
+        idProduct={props.idProduct}
+      />
       {props.isOpen == true && (
         <>
           <div
@@ -478,24 +498,68 @@ function TablePBIProduct(props) {
                           </button>
                         ) : (
                           <>
-                            <button
-                              className="button-table border border-teal-500 bg-teal-500 hover:border-teal-700"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                editData(data);
-                              }}
-                            >
-                              <span>Update</span>
-                            </button>
-                            <button
-                              className="button-table border border-red-500 bg-red-500 hover:border-red-700"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDelete(data.id);
-                              }}
-                            >
-                              <span>Hapus</span>
-                            </button>
+                            <div class="group relative">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  copyData(data);
+                                }}
+                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
+                              >
+                                <MdContentCopy class="text-lg  duration-200 text-blue-700" />
+                              </button>
+                              <span
+                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+  z-20 origin-left scale-0 px-3 rounded-lg border 
+  border-gray-300 bg-blue-600 text-white py-2 text-xs font-semibold
+  shadow-md transition-all duration-300 ease-in-out 
+  group-hover:scale-100"
+                              >
+                                Copy<span></span>
+                              </span>
+                            </div>
+                            <div class="group relative">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  editData(data);
+                                }}
+                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
+                              >
+                                <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
+                              </button>
+                              <span
+                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+  z-20 origin-left scale-0 px-3 rounded-lg border 
+  border-gray-300 bg-teal-600 text-white py-2 text-xs font-semibold
+  shadow-md transition-all duration-300 ease-in-out 
+  group-hover:scale-100"
+                              >
+                                Update<span></span>
+                              </span>
+                            </div>
+
+                            <div class="group relative">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDelete(data.id);
+                                }}
+                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
+                              >
+                                <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
+                              </button>
+                              <span
+                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+  z-20 origin-left scale-0 px-3 rounded-lg border 
+  border-gray-300 bg-red-600 text-white py-2 text-xs font-semibold
+  shadow-md transition-all duration-300 ease-in-out 
+  group-hover:scale-100"
+                              >
+                                Hapus<span></span>
+                              </span>
+                            </div>
+
                             <button
                               onClick={() => handleItemClick(data)}
                               className="cssbuttons-io-button w-[10rem]"
