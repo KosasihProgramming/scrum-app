@@ -14,7 +14,8 @@ import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { MdDeleteOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 import DropdownSearch from "../../features/dropdown";
-
+import animationData from "../../../styles/blue.json";
+import Lottie from "react-lottie";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FaCheck } from "react-icons/fa";
@@ -73,7 +74,11 @@ function TableTodo(props) {
   const indexOfLastData = currentPage * dataPerPage;
   const indexOfFirstData = indexOfLastData - dataPerPage;
   const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
-
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+  };
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleTeamChange = (item) => {
@@ -592,74 +597,90 @@ function TableTodo(props) {
                 Aksi
               </div>
             </div>
-            <motion.div
-              initial={{ y: 1000, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ type: "spring", duration: 1.5, delay: 0.3 }}
-            >
-              <AnimatePresence>
-                <div className="flex flex-col gap-2 justify-start items-center w-full rounded-xl  p-2 mt-5">
-                  {currentData.map((data) => (
-                    <div
-                      key={data.id}
-                      className={`${
-                        data.IsCheck ? " bg-blue-100 text-blue-700" : "bg-white"
-                      } shadow-md rounded-md hover:cursor-pointer py-4 px-4  gap-4 w-full text-sm  border-b border-blue-blue-300 flex justify-between items-center`}
-                    >
-                      <div className="font-normal flex justify-start items-center w-[12%]  overflow-wrap break-words word-break break-all">
-                        {formatTanggal(data.Tanggal)}
-                      </div>
-                      <div className="font-normal flex justify-start items-center w-[8%]">
-                        {data.Jam}
-                      </div>
-                      <div className=" flex justify-start items-center w-[30%] font-medium">
-                        {data.Task}
-                      </div>
-                      <div className="font-normal flex justify-start items-center w-[15%]">
-                        {data.Pelaksana[0].value}
-                      </div>
-                      <div className="font-normal flex justify-center items-center w-[8%]">
-                        {data.IsPriorithize ? (
-                          <>
-                            <div className="p-2 w-[4rem] bg-teal-100 border border-teal-600 text-teal-700 rounded-md flex justify-center items-center">
-                              Ya
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div className="p-2 w-[4rem] bg-yellow-100 border border-yellow-600 text-yellow-700 rounded-md flex justify-center items-center">
-                              Tidak
-                            </div>
-                          </>
-                        )}
-                      </div>
-                      <div className="font-normal flex justify-center items-center w-[30%] gap-4">
-                        {data.IsCheck ? (
-                          <>
-                            <div className="p-2 w-[100%] bg-blue-600  text-white rounded-md flex justify-center items-center">
-                              Selesai
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div class="group relative">
-                              <button
-                                onClick={() => handleCheck(data)}
-                                className={`w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border  hover:border-blue-600 bg-blue-100   hover:scale-125 `}
-                              >
-                                <FaCheck class="text-lg  duration-200 text-blue-700" />
-                              </button>
-                              <span
-                                class={`absolute -top-10 left-[50%] -translate-x-[50%] 
+            {currentData.length == 0 && (
+              <>
+                <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
+                  <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
+                    <Lottie options={defaultOptions} height={250} width={250} />
+                    <h3 className="text-base text-blue-500 font-medium text-center">
+                      Belum Ada Data Cuyy..
+                    </h3>
+                  </div>
+                </div>
+              </>
+            )}
+            {currentData.length > 0 && (
+              <>
+                <motion.div
+                  initial={{ y: 1000, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ type: "spring", duration: 1.5, delay: 0.3 }}
+                >
+                  <AnimatePresence>
+                    <div className="flex flex-col gap-2 justify-start items-center w-full rounded-xl  p-2 mt-5">
+                      {currentData.map((data) => (
+                        <div
+                          key={data.id}
+                          className={`${
+                            data.IsCheck
+                              ? " bg-blue-100 text-blue-700"
+                              : "bg-white"
+                          } shadow-md rounded-md hover:cursor-pointer py-4 px-4  gap-4 w-full text-sm  border-b border-blue-blue-300 flex justify-between items-center`}
+                        >
+                          <div className="font-normal flex justify-start items-center w-[12%]  overflow-wrap break-words word-break break-all">
+                            {formatTanggal(data.Tanggal)}
+                          </div>
+                          <div className="font-normal flex justify-start items-center w-[8%]">
+                            {data.Jam}
+                          </div>
+                          <div className=" flex justify-start items-center w-[30%] font-medium">
+                            {data.Task}
+                          </div>
+                          <div className="font-normal flex justify-start items-center w-[15%]">
+                            {data.Pelaksana[0].value}
+                          </div>
+                          <div className="font-normal flex justify-center items-center w-[8%]">
+                            {data.IsPriorithize ? (
+                              <>
+                                <div className="p-2 w-[4rem] bg-teal-100 border border-teal-600 text-teal-700 rounded-md flex justify-center items-center">
+                                  Ya
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <div className="p-2 w-[4rem] bg-yellow-100 border border-yellow-600 text-yellow-700 rounded-md flex justify-center items-center">
+                                  Tidak
+                                </div>
+                              </>
+                            )}
+                          </div>
+                          <div className="font-normal flex justify-center items-center w-[30%] gap-4">
+                            {data.IsCheck ? (
+                              <>
+                                <div className="p-2 w-[100%] bg-blue-600  text-white rounded-md flex justify-center items-center">
+                                  Selesai
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <div class="group relative">
+                                  <button
+                                    onClick={() => handleCheck(data)}
+                                    className={`w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border  hover:border-blue-600 bg-blue-100   hover:scale-125 `}
+                                  >
+                                    <FaCheck class="text-lg  duration-200 text-blue-700" />
+                                  </button>
+                                  <span
+                                    class={`absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border w-[5rem]
   border-gray-300 bg-blue-600  text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100`}
-                              >
-                                <span> Selesaikan</span>
-                              </span>
-                            </div>
-                            {/* <div class="group relative">
+                                  >
+                                    <span> Selesaikan</span>
+                                  </span>
+                                </div>
+                                {/* <div class="group relative">
                               <button
                                 onClick={() => props.handleEdit(data)}
                                 className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
@@ -676,50 +697,56 @@ function TableTodo(props) {
                                 Update<span></span>
                               </span>
                             </div> */}
-                            <div class="group relative">
-                              <button
-                                onClick={() => handleDelete(data.id)}
-                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
-                              >
-                                <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
-                              </button>
-                              <span
-                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                                <div class="group relative">
+                                  <button
+                                    onClick={() => handleDelete(data.id)}
+                                    className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
+                                  >
+                                    <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
+                                  </button>
+                                  <span
+                                    class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-red-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                              >
-                                Hapus<span></span>
-                              </span>
-                            </div>
-                          </>
-                        )}
-                      </div>
+                                  >
+                                    Hapus<span></span>
+                                  </span>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </AnimatePresence>
-            </motion.div>
+                  </AnimatePresence>
+                </motion.div>
+              </>
+            )}
           </div>
-          <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
-            {Array.from(
-              { length: Math.ceil(filteredData.length / dataPerPage) },
-              (_, i) => i + 1
-            ).map((page) => (
-              <button
-                key={page}
-                className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
-                  currentPage === page
-                    ? "bg-blue-600 text-white border-none"
-                    : "bg-transparent border-blue-600  border"
-                }`}
-                onClick={() => paginate(page)}
-              >
-                {page}
-              </button>
-            ))}
-          </div>
+          {currentData.length > 0 && (
+            <>
+              <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
+                {Array.from(
+                  { length: Math.ceil(filteredData.length / dataPerPage) },
+                  (_, i) => i + 1
+                ).map((page) => (
+                  <button
+                    key={page}
+                    className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
+                      currentPage === page
+                        ? "bg-blue-600 text-white border-none"
+                        : "bg-transparent border-blue-600  border"
+                    }`}
+                    onClick={() => paginate(page)}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </AnimatePresence>
     </motion.div>

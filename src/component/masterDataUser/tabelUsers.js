@@ -275,7 +275,17 @@ function TableUsers(props) {
             }
           );
 
-          fileNames = fileUploadResponse.data.map((file) => file.name); // Mengambil nama file dari response
+          // Assuming the response data contains an array of files
+          if (Array.isArray(fileUploadResponse.data)) {
+            fileNames = fileUploadResponse.data.map((file) => file.name);
+          } else if (fileUploadResponse.data.name) {
+            // In case it's a single file
+            fileNames.push(fileUploadResponse.data.name);
+          } else {
+            // Handle unexpected response structure
+            throw new Error("Unexpected response structure from file upload");
+          }
+
           data = {
             Tim: [parseInt(tim.value)], // Ensure tim.value is a string
             Nama: nama, // Ensure tanggalMulai is a string in YYYY-MM-DD format
