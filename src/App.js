@@ -19,7 +19,7 @@ import { FaRegUser } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "dayjs/locale/id";
-
+import { HiUserGroup } from "react-icons/hi2";
 import { IoMdExit } from "react-icons/io";
 
 import { BsPersonLinesFill } from "react-icons/bs";
@@ -32,6 +32,7 @@ import { useLoading } from "./component/features/context/loadContext";
 import Loader from "./component/features/loader";
 import Send from "./pages/x";
 import DodPersonal from "./pages/sprint/dodPersonal";
+import MasterDataUser from "./pages/masterData/masterDataUser";
 
 const App = () => {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -66,6 +67,13 @@ const App = () => {
       icon: GiSprint,
       main: false,
     },
+    {
+      name: "Data User",
+      link: "data-user",
+      icon: HiUserGroup,
+      main: false,
+    },
+
     {
       name: "Master Data",
       link: "master-data",
@@ -305,6 +313,7 @@ const App = () => {
             <div className="h-[100vh] w-[100%]  p-0 m-0 overflow-x-hidden">
               <Routes>
                 <Route path="/product-backlog" element={<ProductBacklog />} />
+                <Route path="/data-user" element={<MasterDataUser />} />
                 <Route
                   path="/pbi-product/:id"
                   element={<PbiProductBacklog />}
