@@ -52,7 +52,9 @@ function TableDodPersonal(props) {
   const [totalCapaian, setTotalCapaian] = useState(0);
   // Filter data berdasarkan kata kunci pencarian
   const filteredData = props.data.filter((data) => {
-    return data.Judul[0].value.toLowerCase().includes(searchTerm.toLowerCase());
+    return data.dod.Judul[0].value
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
   });
   console.log(props.idProduct, "id");
   useEffect(() => {
@@ -94,7 +96,7 @@ function TableDodPersonal(props) {
         {
           type: "link_row_has",
           field: "DodSprint",
-          value: `${item.id}`,
+          value: `${item.dod.id}`,
         },
       ];
       const param = await Filter(filters);
@@ -116,12 +118,8 @@ function TableDodPersonal(props) {
       setTotalCapaian(totalCapaian);
       console.log("total", totalCapaian);
       await props.getData();
-      if (isCek) {
-        setDataCapaian(data);
-      } else {
-        setDataCapaian(data);
-        setDataCapaianUpdate(data);
-      }
+
+      setDataCapaian(data);
     } catch (error) {
       console.log(error, "error");
     }
@@ -239,13 +237,13 @@ function TableDodPersonal(props) {
                     className={`hover:cursor-pointer py-4 bg-white px-4 gap-4 w-full text-sm border-b border-blue-blue-300 flex justify-between items-center `}
                   >
                     <div className="font-normal flex justify-start items-center w-[40%] overflow-wrap break-words word-break break-all">
-                      {dataSelected.Judul[0].value}
+                      {dataSelected.dod.Judul[0].value}
                     </div>
                     <div className="font-normal flex justify-start items-center w-[10%]">
-                      {dataSelected.Target} {dataSelected.Satuan[0].value}
+                      {dataSelected.Target} {dataSelected.dod.Satuan[0].value}
                     </div>
                     <div className="font-normal flex justify-start items-center w-[10%]">
-                      {totalCapaian} {dataSelected.Satuan[0].value}
+                      {totalCapaian} {dataSelected.dod.Satuan[0].value}
                     </div>
                     <div className="font-normal flex justify-start items-center w-[10%]">
                       {dataSelected.Persentase}%
@@ -312,13 +310,13 @@ function TableDodPersonal(props) {
                           className={`hover:cursor-pointer py-4 bg-white px-4 gap-4 w-[100%] text-sm border-b border-blue-blue-300 flex justify-between items-center `}
                         >
                           <div className="font-normal flex justify-start items-center w-[40%] overflow-wrap break-words word-break break-all">
-                            {data.Judul[0].value}
+                            {data.dod.Judul[0].value}
                           </div>
                           <div className="font-normal flex justify-start items-center w-[10%]">
-                            {data.Target} {data.Satuan[0].value}
+                            {data.Target} {data.dod.Satuan[0].value}
                           </div>
                           <div className="font-normal flex justify-start items-center w-[10%]">
-                            {data.Capaian} {data.Satuan[0].value}
+                            {data.Capaian} {data.dod.Satuan[0].value}
                           </div>
                           <div className="font-normal flex justify-start items-center w-[10%]">
                             {data.Persentase}%
@@ -396,8 +394,6 @@ function TableDodPersonal(props) {
             dataSelected={dataSelected}
             handleCekGambar={handleCekGambar}
             getData={getDataCapaian}
-            setCek={() => setIsCek(true)}
-            setDisplay={() => setIsdisplay(false)}
             dataUpdate={(data) => {
               setDataCapaianUpdate(data);
             }}
@@ -407,6 +403,7 @@ function TableDodPersonal(props) {
             setDataCapaian={(data) => {
               setDataCapaian(data);
             }}
+            isPersonal={true}
             handleEdit={handleUpdateCapaian}
           />
         </>

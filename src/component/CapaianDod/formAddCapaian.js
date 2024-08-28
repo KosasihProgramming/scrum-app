@@ -33,6 +33,7 @@ function FormAddCapaian(props) {
         value: item.id,
         text: item.Nama[0].value,
         target: item.Target,
+        capaian: item.Capaian,
       };
     });
   }
@@ -43,8 +44,10 @@ function FormAddCapaian(props) {
       props.addData(capaian, keterangan, isGambar, link, files, user);
     } else {
       props.addData(capaian, keterangan, isGambar, link, files, {
-        value: props.dataPelaksana.id,
-        text: props.dataPelaksana.Nama,
+        value: props.dataDod.id,
+        text: props.dataDod.Nama,
+        target: props.dataDod.Target,
+        capaian: props.dataDod.Capaian,
       });
     }
     const data = {
@@ -74,7 +77,9 @@ function FormAddCapaian(props) {
         >
           <div className="w-[100%] gap-4 border-b-2 mb-5 border-b-teal-500 flex flex-col justify-between items-start p-4 ">
             <h3 className=" text-lg font-medium capitalize">
-              {props.dataDod.Judul[0].value}
+              {props.dataDod.Judul
+                ? props.dataDod.Judul[0].value
+                : props.dataDod.dod.Judul[0].value}
             </h3>
             <div className="w-full flex justify-start gap-6 items-center">
               <div className="flex justify-center items-center p-2 rounded-lg font-medium bg-teal-100 border text-sm border-teal-700 text-teal-700">

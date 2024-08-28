@@ -22,7 +22,14 @@ export default function ModalEditCapaian(props) {
     props.setOpen(false);
   };
 
-  const handleAdd = async (capaian, keterangan, link, files, user) => {
+  const handleAdd = async (
+    capaian,
+    keterangan,
+    link,
+    files,
+    user,
+    exCapaian
+  ) => {
     return new Promise(async (resolve, reject) => {
       try {
         if (parseInt(capaian) > parseInt(user.target)) {
@@ -101,7 +108,7 @@ export default function ModalEditCapaian(props) {
               },
               data: data,
             });
-
+            await updatePelaksana(user, capaian, exCapaian);
             setOpen();
             props.getData(props.dataSprint);
             Swal.fire({
@@ -144,7 +151,59 @@ export default function ModalEditCapaian(props) {
       }
     });
   };
+  const updatePelaksana = async (user, capaian, exCapaian) => {
+    try {
+      // Validate the data
 
+      setIsLoad(true);
+
+      const data = {
+        Capaian:
+          parseInt(user.capaian) - parseInt(exCapaian) + parseInt(capaian),
+      };
+
+      console.log(data, "Data being Update");
+
+      const response = await axios({
+        method: "PATCH",
+        url: `http://202.157.189.177:8080/api/database/rows/table/718/${user.value}/?user_field_names=true`,
+        headers: {
+          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          "Content-Type": "application/json",
+        },
+        data: data,
+      });
+    } catch (error) {
+      setIsLoad(false);
+
+      if (error.response) {
+        // The request was made, and the server responded with a status code
+        // that falls out of the range of 2xx
+        Swal.fire({
+          icon: "error",
+          title: "Server Error",
+          text: `Error: ${error.response.data.error}`,
+        });
+        console.error("Server responded with an error:", error.response.data);
+      } else if (error.request) {
+        // The request was made, but no response was received
+        Swal.fire({
+          icon: "error",
+          title: "Network Error",
+          text: "No response received from the server.",
+        });
+        console.error("No response received:", error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: `Error setting up request: ${error.message}`,
+        });
+        console.error("Error setting up request:", error.message);
+      }
+    }
+  };
   return (
     <Dialog open={props.open} onClose={setOpen} className="relative z-10">
       <DialogBackdrop

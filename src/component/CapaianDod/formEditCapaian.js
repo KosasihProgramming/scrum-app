@@ -18,6 +18,7 @@ function FormEditCapaian(props) {
   const [judul, setJudul] = useState("");
   const [alasan, setAlasan] = useState("");
   const [capaian, setcapaian] = useState(props.data.Capaian || 0);
+  const [excapaian, setexcapaian] = useState(props.data.Capaian || 0);
   const [bukti, setBukti] = useState({});
   const [link, setLink] = useState(props.data.Link || "");
   const [keterangan, setKeterangan] = useState(props.data.Keterangan || "");
@@ -28,6 +29,7 @@ function FormEditCapaian(props) {
       return {
         value: item.id,
         text: item.Nama[0].value,
+        capaian: item.Capaian,
         target: item.Target,
       };
     });
@@ -42,12 +44,19 @@ function FormEditCapaian(props) {
     e.preventDefault();
 
     if (!props.select) {
-      props.addData(capaian, keterangan, link, files, user);
+      props.addData(capaian, keterangan, link, files, user, excapaian);
     } else {
-      props.addData(capaian, keterangan, link, files, {
-        value: props.dataPelaksana.id,
-        text: props.dataPelaksana.Nama,
-      });
+      props.addData(
+        capaian,
+        keterangan,
+        link,
+        files,
+        {
+          value: props.dataPelaksana.id,
+          text: props.dataPelaksana.Nama,
+        },
+        excapaian
+      );
     }
     const data = {
       capaian,

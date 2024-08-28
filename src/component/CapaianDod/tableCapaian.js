@@ -84,8 +84,11 @@ function TableCapaian(props) {
         let dataUpdate = props.dataCapaian.filter((a) => a.id != data.id);
         console.log(dataUpdate);
         props.dataUpdate(dataUpdate);
-        props.setCek();
-        props.setDisplay();
+        if (!props.isPersonal) {
+          props.setCek();
+          props.setDisplay();
+        }
+
         setIsLoad(false);
 
         Swal.fire({
@@ -94,7 +97,11 @@ function TableCapaian(props) {
           text: "Data successfully deleted.",
         }).then((result) => {
           if (result.isConfirmed) {
-            getDataCapaian(props.dataSelected);
+            if (!props.isPersonal) {
+              getDataCapaian(props.dataSelected);
+            } else {
+              props.getData();
+            }
           }
         });
       }

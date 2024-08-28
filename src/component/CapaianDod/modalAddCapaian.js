@@ -30,6 +30,7 @@ export default function ModalAddCapaian(props) {
     user
   ) => {
     return new Promise(async (resolve, reject) => {
+      console.log("data product", props.data);
       try {
         if (parseInt(capaian) > parseInt(user.target)) {
           Swal.fire({
@@ -37,6 +38,7 @@ export default function ModalAddCapaian(props) {
             title: "Gagal",
             text: `Capaian ${user.text} Sebesar ${capaian} Tidak Boleh melebihi Target ${user.target} `,
           });
+          resolve(); // Resolve here to exit the function early
         } else {
           // Validasi data
           if (capaian <= 0 || !user) {
@@ -45,6 +47,7 @@ export default function ModalAddCapaian(props) {
               title: "Gagal",
               text: "Capaian Belum Diisi",
             });
+            resolve(); // Resolve here to exit the function early
           } else {
             setIsLoad(true);
             let fileNames = [];
@@ -89,17 +92,39 @@ export default function ModalAddCapaian(props) {
                 Link: link,
                 Pelaksana: [parseInt(user.value)],
                 File: fileNames, // Menggabungkan nama file jika lebih dari satu
-                DodSprint: [parseInt(props.data.id)], // Pastikan ini array
-                DodProduct: [parseInt(props.data.DodProduct[0].id)],
+                DodSprint: [
+                  parseInt(
+                    props.data.DodProduct ? props.data.id : props.data.dod.id
+                  ),
+                ], // Pastikan ini array
+                DodProduct: [
+                  parseInt(
+                    props.data.DodProduct
+                      ? props.data.DodProduct[0].id
+                      : props.data.dod.DodProduct[0].id
+                  ),
+                ],
               };
             } else {
               data = {
                 Capaian: capaian,
                 Pelaksana: [parseInt(user.value)],
                 Keterangan: keterangan,
-                DodProduct: [parseInt(props.data.DodProduct[0].id)],
+                DodProduct: [
+                  parseInt(
+                    props.data.DodProduct
+                      ? props.data.DodProduct[0].id
+                      : props.data.dod.DodProduct[0].id
+                  ),
+                ],
                 Link: link,
-                DodSprint: [parseInt(props.data.id)], // Pastikan ini array
+                DodSprint: [
+                  parseInt(
+                    parseInt(
+                      props.data.DodProduct ? props.data.id : props.data.dod.id
+                    )
+                  ),
+                ], // Pastikan ini array
               };
             }
             let totalCapaian = parseInt(props.totalCapaian) + parseInt(capaian);
@@ -111,30 +136,50 @@ export default function ModalAddCapaian(props) {
               Swal.fire({
                 icon: "warning",
                 title: "Gagal",
-                text: `Total capaian ${totalCapaian} Melebihi Target Dod Sprint ${parseInt(props.data.Target)}`,
+                text: `Total capaian ${totalCapaian} Melebihi Target Dod Sprint ${parseInt(
+                  props.data.Target
+                )}`,
               });
+              resolve(); // Resolve here to exit the function early
             } else {
-              const response = await axios({
-                method: "POST",
-                url: "http://202.157.189.177:8080/api/database/rows/table/714/?user_field_names=true",
-                headers: {
-                  Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-                  "Content-Type": "application/json",
-                },
-                data: data,
-              });
+              try {
+                const response = await axios({
+                  method: "POST",
+                  url: "http://202.157.189.177:8080/api/database/rows/table/714/?user_field_names=true",
+                  headers: {
+                    Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+                    "Content-Type": "application/json",
+                  },
+                  data: data,
+                });
 
-              setOpen();
-              props.getData(props.data);
-              Swal.fire({
-                icon: "success",
-                title: "Success",
-                text: "Data successfully saved.",
-              });
-              setIsLoad(false);
+                await updatePelaksana(user, capaian)
+                  .then(() => {
+                    setOpen();
+                    props.getData(props.data);
+                    Swal.fire({
+                      icon: "success",
+                      title: "Success",
+                      text: "Data successfully saved.",
+                    });
+                    setIsLoad(false);
 
-              console.log("Data successfully saved", response);
-              resolve(response); // Resolve the Promise
+                    console.log("Data successfully saved", response);
+                    resolve(response); // Resolve the Promise
+                  })
+                  .catch((error) => {
+                    console.error("Error updating pelaksana:", error);
+                    reject(error); // Reject the Promise if updatePelaksana fails
+                  });
+              } catch (error) {
+                setIsLoad(false);
+                Swal.fire({
+                  icon: "error",
+                  title: "Server Error",
+                  text: `Error: ${error.message}`,
+                });
+                reject(error); // Reject the Promise in case of an error
+              }
             }
           }
         }
@@ -168,6 +213,61 @@ export default function ModalAddCapaian(props) {
     });
   };
 
+  const updatePelaksana = async (user, capaian) => {
+    try {
+      // Validate the data
+      alert(user.capaian);
+      setIsLoad(true);
+
+      const data = {
+        Capaian:
+          parseInt(user.capaian == undefined ? 0 : user.capaian) +
+          parseInt(capaian),
+      };
+
+      console.log(data, "Data being Update");
+
+      const response = await axios({
+        method: "PATCH",
+        url: `http://202.157.189.177:8080/api/database/rows/table/718/${user.value}/?user_field_names=true`,
+        headers: {
+          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          "Content-Type": "application/json",
+        },
+        data: data,
+      });
+      console.log(response, "update pelaksana");
+    } catch (error) {
+      setIsLoad(false);
+
+      if (error.response) {
+        // The request was made, and the server responded with a status code
+        // that falls out of the range of 2xx
+        Swal.fire({
+          icon: "error",
+          title: "Server Error",
+          text: `Error: ${error.response.data.error}`,
+        });
+        console.error("Server responded with an error:", error.response.data);
+      } else if (error.request) {
+        // The request was made, but no response was received
+        Swal.fire({
+          icon: "error",
+          title: "Network Error",
+          text: "No response received from the server.",
+        });
+        console.error("No response received:", error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: `Error setting up request: ${error.message}`,
+        });
+        console.error("Error setting up request:", error.message);
+      }
+    }
+  };
   return (
     <Dialog open={props.open} onClose={setOpen} className="relative z-10">
       <DialogBackdrop

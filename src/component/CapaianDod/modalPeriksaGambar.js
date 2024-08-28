@@ -142,6 +142,7 @@ export default function ModalPeriksaGambar(props) {
     }
   };
 
+
   return (
     <Dialog
       open={props.open}

@@ -22,7 +22,7 @@ function DodPersonal({ params }) {
   const [dataSprint, setdataSprint] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [dataAnggota, setDataAnggota] = useState([]);
-  const { id, idUser,idProduct } = params;
+  const { id, idUser, idProduct } = params;
   const [dataUser, setDataUser] = useState([]);
   const [dataPelaksana, setDataPelaksana] = useState([]);
   const [dataTodo, setDataTodo] = useState([]);
@@ -94,12 +94,16 @@ function DodPersonal({ params }) {
 
       // Menunggu semua promise selesai dan mengumpulkan hasilnya
       const dodDetails = await Promise.all(dodDetailsPromises);
-      const totalCapaian = dodDetails.reduce((total, item) => {
+      const combinedData = allData.map((anggota, index) => ({
+        ...anggota,
+        dod: dodDetails[index],
+      }));
+      const totalCapaian = combinedData.reduce((total, item) => {
         return total + parseInt(item.Persentase || 0); // Asumsikan ada properti `capaian`
       }, 0);
-      setTotalCapaian(totalCapaian);
-      setDataDod(dodDetails);
-      console.log(dodDetails, "hasil dod");
+      setTotalCapaian(totalCapaian / combinedData.length);
+      setDataDod(combinedData);
+      console.log(combinedData, "hasil dod");
     } catch (error) {
       console.log(error.message);
     }

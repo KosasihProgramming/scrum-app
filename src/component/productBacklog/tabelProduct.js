@@ -444,7 +444,7 @@ function TableProduct(props) {
           </>
         )}
       </div>
-      {currentData.length < 0 && (
+      {currentData.length >0 && (
         <>
           <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
             {Array.from(
