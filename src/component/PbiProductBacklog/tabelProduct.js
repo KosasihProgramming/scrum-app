@@ -20,10 +20,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import Aos from "aos";
 import { MdDeleteOutline } from "react-icons/md";
 import { MdContentCopy } from "react-icons/md";
-import { HiOutlinePencilSquare } from "react-icons/hi2";import ModalCopyPbiProduct from "../CopyPbiProduct/modalCopy";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
+import ModalCopyPbiProduct from "../CopyPbiProduct/modalCopy";
 import ProgressBar from "../features/progressBar";
 import { useLoading } from "../features/context/loadContext";
-
+import animationData from "../../styles/blue.json";
+import Lottie from "react-lottie";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 function TablePBIProduct(props) {
@@ -62,7 +64,11 @@ function TablePBIProduct(props) {
   };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+  };
   const handleItemClick = (data) => {
     console.log(data, "data");
     setIsOpen(true);
@@ -427,176 +433,192 @@ function TablePBIProduct(props) {
       )}
       {props.isOpen == false && (
         <>
-          <motion.div
-            initial={{ y: 1000, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ type: "spring", duration: 1.7 }}
-          >
-            <AnimatePresence>
-              <div className="w-full text-left text-sm font-normal mt-5">
-                <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 gap-4 flex justify-between items-center">
-                  <div className="font-medium flex justify-center items-center w-[20%]">
-                    Judul
-                  </div>
-                  <div className="font-medium flex justify-center items-center w-[20%]">
-                    Alasan
-                  </div>
-                  <div className="font-medium flex justify-center items-center w-[8%]">
-                    Bobot
-                  </div>
-                  <div className="font-medium flex justify-center items-center w-[8%]">
-                    Capaian
-                  </div>
-                  <div className="font-medium flex justify-center items-center w-[15%]">
-                    Perspektif
-                  </div>
-                  <div className="font-medium flex justify-center items-center w-[40%]">
-                    Aksi
-                  </div>
+          {currentData.length == 0 && (
+            <>
+              <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
+                <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
+                  <Lottie options={defaultOptions} height={250} width={250} />
+                  <h3 className="text-base text-blue-500 font-medium text-center">
+                    Belum Ada Data Cuyy..
+                  </h3>
                 </div>
+              </div>
+            </>
+          )}
+          {currentData.length > 0 && (
+            <>
+              <motion.div
+                initial={{ y: 1000, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ type: "spring", duration: 1.7 }}
+              >
+                <AnimatePresence>
+                  <div className="w-full text-left text-sm font-normal mt-5">
+                    <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 gap-4 flex justify-between items-center">
+                      <div className="font-medium flex justify-center items-center w-[20%]">
+                        Judul
+                      </div>
+                      <div className="font-medium flex justify-center items-center w-[20%]">
+                        Alasan
+                      </div>
+                      <div className="font-medium flex justify-center items-center w-[8%]">
+                        Bobot
+                      </div>
+                      <div className="font-medium flex justify-center items-center w-[8%]">
+                        Capaian
+                      </div>
+                      <div className="font-medium flex justify-center items-center w-[15%]">
+                        Perspektif
+                      </div>
+                      <div className="font-medium flex justify-center items-center w-[40%]">
+                        Aksi
+                      </div>
+                    </div>
 
-                <div
-                  className={`bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl p-2 mt-5 duration-500 ${
-                    isOpen ? "h-[6rem] duration-500 " : "h-auto"
-                  }`}
-                >
-                  {currentData.map((data) => (
                     <div
-                      key={data.id}
-                      className={`hover:cursor-pointer py-4 px-4 gap-4 w-full text-sm border-b border-blue-blue-300 flex justify-between items-center ${
-                        selectedId && selectedId !== data.id ? "hidden" : ""
+                      className={`bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl p-2 mt-5 duration-500 ${
+                        isOpen ? "h-[6rem] duration-500 " : "h-auto"
                       }`}
                     >
-                      <div className="font-normal flex justify-start items-center w-[20%] overflow-wrap break-words word-break break-all">
-                        {data.Judul}
-                      </div>
-                      <div className="font-normal flex justify-start items-center w-[20%] flex-wrap text-wrap">
-                        {truncateText(data.Alasan, 70)}
-                      </div>
-                      <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
-                        {data.Bobot}
-                      </div>{" "}
-                      <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
-                        {data.Capaian} %
-                      </div>
-                      <div className="font-normal flex justify-start items-center w-[15%] flex-wrap">
-                        {data.Perspektif[0].value}
-                      </div>
-                      <div className="font-normal flex justify-end items-center w-[40%] gap-4">
-                        {selectedId === data.id ? (
-                          <button
-                            className="cssbuttons-io-button w-[10rem]"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleCloseClick();
-                            }}
-                          >
-                            Tutup
-                            <div className="icon">
-                              <LuArrowRight className="text-xl text-blue-600" />
-                            </div>
-                          </button>
-                        ) : (
-                          <>
-                            <div class="group relative">
+                      {currentData.map((data) => (
+                        <div
+                          key={data.id}
+                          className={`hover:cursor-pointer py-4 px-4 gap-4 w-full text-sm border-b border-blue-blue-300 flex justify-between items-center ${
+                            selectedId && selectedId !== data.id ? "hidden" : ""
+                          }`}
+                        >
+                          <div className="font-normal flex justify-start items-center w-[20%] overflow-wrap break-words word-break break-all">
+                            {data.Judul}
+                          </div>
+                          <div className="font-normal flex justify-start items-center w-[20%] flex-wrap text-wrap">
+                            {truncateText(data.Alasan, 70)}
+                          </div>
+                          <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
+                            {data.Bobot}
+                          </div>{" "}
+                          <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
+                            {data.Capaian} %
+                          </div>
+                          <div className="font-normal flex justify-start items-center w-[15%] flex-wrap">
+                            {data.Perspektif[0].value}
+                          </div>
+                          <div className="font-normal flex justify-end items-center w-[40%] gap-4">
+                            {selectedId === data.id ? (
                               <button
+                                className="cssbuttons-io-button w-[10rem]"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  copyData(data);
+                                  handleCloseClick();
                                 }}
-                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
                               >
-                                <MdContentCopy class="text-lg  duration-200 text-blue-700" />
+                                Tutup
+                                <div className="icon">
+                                  <LuArrowRight className="text-xl text-blue-600" />
+                                </div>
                               </button>
-                              <span
-                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                            ) : (
+                              <>
+                                <div class="group relative">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      copyData(data);
+                                    }}
+                                    className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
+                                  >
+                                    <MdContentCopy class="text-lg  duration-200 text-blue-700" />
+                                  </button>
+                                  <span
+                                    class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-blue-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                              >
-                                Copy<span></span>
-                              </span>
-                            </div>
-                            <div class="group relative">
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  editData(data);
-                                }}
-                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
-                              >
-                                <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
-                              </button>
-                              <span
-                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                                  >
+                                    Copy<span></span>
+                                  </span>
+                                </div>
+                                <div class="group relative">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      editData(data);
+                                    }}
+                                    className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
+                                  >
+                                    <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
+                                  </button>
+                                  <span
+                                    class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-teal-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                              >
-                                Update<span></span>
-                              </span>
-                            </div>
+                                  >
+                                    Update<span></span>
+                                  </span>
+                                </div>
 
-                            <div class="group relative">
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleDelete(data.id);
-                                }}
-                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
-                              >
-                                <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
-                              </button>
-                              <span
-                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                                <div class="group relative">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDelete(data.id);
+                                    }}
+                                    className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
+                                  >
+                                    <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
+                                  </button>
+                                  <span
+                                    class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-red-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                              >
-                                Hapus<span></span>
-                              </span>
-                            </div>
+                                  >
+                                    Hapus<span></span>
+                                  </span>
+                                </div>
 
-                            <button
-                              onClick={() => handleItemClick(data)}
-                              className="cssbuttons-io-button w-[10rem]"
-                            >
-                              Lihat Detail
-                              <div className="icon">
-                                <LuArrowRight className="text-xl text-blue-600" />
-                              </div>
-                            </button>
-                          </>
-                        )}
-                      </div>
+                                <button
+                                  onClick={() => handleItemClick(data)}
+                                  className="cssbuttons-io-button w-[10rem]"
+                                >
+                                  Lihat Detail
+                                  <div className="icon">
+                                    <LuArrowRight className="text-xl text-blue-600" />
+                                  </div>
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </div>
 
-              <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
-                {Array.from(
-                  { length: Math.ceil(filteredData.length / dataPerPage) },
-                  (_, i) => i + 1
-                ).map((page) => (
-                  <button
-                    key={page}
-                    className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
-                      currentPage === page
-                        ? "bg-blue-600 text-white border-none"
-                        : "bg-transparent border-blue-600  border"
-                    }`}
-                    onClick={() => paginate(page)}
-                  >
-                    {page}
-                  </button>
-                ))}
-              </div>
-            </AnimatePresence>
-          </motion.div>
+                  <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
+                    {Array.from(
+                      { length: Math.ceil(filteredData.length / dataPerPage) },
+                      (_, i) => i + 1
+                    ).map((page) => (
+                      <button
+                        key={page}
+                        className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
+                          currentPage === page
+                            ? "bg-blue-600 text-white border-none"
+                            : "bg-transparent border-blue-600  border"
+                        }`}
+                        onClick={() => paginate(page)}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                  </div>
+                </AnimatePresence>
+              </motion.div>
+            </>
+          )}
         </>
       )}
       {props.isOpen == true && (

@@ -6,7 +6,8 @@ import "dayjs/locale/id";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import { DatePicker, Space } from "antd";
-
+import animationData from "../../styles/blue.json";
+import Lottie from "react-lottie";
 import { Link } from "react-router-dom";
 import DropdownSearch from "../features/dropdown";
 import ModalProduct from "./modalProduct";
@@ -32,7 +33,13 @@ function TableDodProduct(props) {
   const [idData, setIdData] = useState(0);
   const [isAddData, setIsAddData] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(""); // State u
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+  }; // State u
   useEffect(() => {
     Aos.init({ duration: 700 });
   }, [props.data]);
@@ -313,85 +320,101 @@ function TableDodProduct(props) {
         data={dataUpdate}
         optionSatuan={props.optionSatuan}
       />
+      {currentData.length == 0 && (
+        <>
+          <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
+            <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
+              <Lottie options={defaultOptions} height={250} width={250} />
+              <h3 className="text-base text-blue-500 font-medium text-center">
+                Belum Ada Data Cuyy..
+              </h3>
+            </div>
+          </div>
+        </>
+      )}
 
-      <div
-        // data-aos="fade-up"
-        // data-aos-delay="550"
-        className="w-full text-left text-sm font-normal mt-5"
-      >
-        <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 gap-4 flex justify-between items-center">
-          <div className="font-medium flex justify-center items-center w-[40%]">
-            Judul
-          </div>
-          <div className="font-medium flex justify-center items-center w-[8%]">
-            Target
-          </div>
-          <div className="font-medium flex justify-center items-center w-[8%]">
-            Capaian
-          </div>
-          <div className="font-medium flex justify-center items-center w-[15%]">
-            Persentase
-          </div>
-          <div className="font-medium flex justify-center items-center w-[30%]">
-            Aksi
-          </div>
-        </div>
-        <div className=" bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl  p-2 mt-5">
-          {currentData.map((data) => (
-            <div
-              key={data.id}
-              className={`hover:cursor-pointer py-4 px-4 gap-4 w-full text-sm border-b border-blue-blue-300 flex justify-between items-center`}
-            >
-              <div className="font-normal flex justify-start items-center w-[40%] overflow-wrap break-words word-break break-all">
-                {data.Judul}
+      {currentData.length > 0 && (
+        <>
+          <div
+            // data-aos="fade-up"
+            // data-aos-delay="550"
+            className="w-full text-left text-sm font-normal mt-5"
+          >
+            <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 gap-4 flex justify-between items-center">
+              <div className="font-medium flex justify-center items-center w-[40%]">
+                Judul
               </div>
-              <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
-                {data.Target} {data.Satuan[0].value}
+              <div className="font-medium flex justify-center items-center w-[8%]">
+                Target
               </div>
-
-              <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
-                {data.Capaian} {data.Satuan[0].value}
+              <div className="font-medium flex justify-center items-center w-[8%]">
+                Capaian
               </div>
-              <div className="font-normal flex justify-start items-center w-[15%] flex-wrap">
-                {data.PersentaseCapaian} %
+              <div className="font-medium flex justify-center items-center w-[15%]">
+                Persentase
               </div>
-              <div className="font-normal flex gap-6 justify-end items-center w-[30%] flex-wrap">
-                <button
-                  className="button-table border border-teal-500 bg-teal-500  hover:border-teal-700"
-                  onClick={() => editData(data)}
-                >
-                  <span>Update</span>
-                </button>
-                <button
-                  className="button-table  border border-red-500 bg-red-500  hover:border-red-700"
-                  onClick={() => handleDelete(data.id)}
-                >
-                  <span>Hapus</span>
-                </button>
+              <div className="font-medium flex justify-center items-center w-[30%]">
+                Aksi
               </div>
             </div>
-          ))}
-        </div>
-      </div>
+            <div className=" bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl  p-2 mt-5">
+              {currentData.map((data) => (
+                <div
+                  key={data.id}
+                  className={`hover:cursor-pointer py-4 px-4 gap-4 w-full text-sm border-b border-blue-blue-300 flex justify-between items-center`}
+                >
+                  <div className="font-normal flex justify-start items-center w-[40%] overflow-wrap break-words word-break break-all">
+                    {data.Judul}
+                  </div>
+                  <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
+                    {data.Target} {data.Satuan[0].value}
+                  </div>
 
-      <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
-        {Array.from(
-          { length: Math.ceil(filteredData.length / dataPerPage) },
-          (_, i) => i + 1
-        ).map((page) => (
-          <button
-            key={page}
-            className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
-              currentPage === page
-                ? "bg-blue-600 text-white border-none"
-                : "bg-transparent border-blue-600  border"
-            }`}
-            onClick={() => paginate(page)}
-          >
-            {page}
-          </button>
-        ))}
-      </div>
+                  <div className="font-normal flex justify-start items-center w-[8%] flex-wrap">
+                    {data.Capaian} {data.Satuan[0].value}
+                  </div>
+                  <div className="font-normal flex justify-start items-center w-[15%] flex-wrap">
+                    {data.PersentaseCapaian} %
+                  </div>
+                  <div className="font-normal flex gap-6 justify-end items-center w-[30%] flex-wrap">
+                    <button
+                      className="button-table border border-teal-500 bg-teal-500  hover:border-teal-700"
+                      onClick={() => editData(data)}
+                    >
+                      <span>Update</span>
+                    </button>
+                    <button
+                      className="button-table  border border-red-500 bg-red-500  hover:border-red-700"
+                      onClick={() => handleDelete(data.id)}
+                    >
+                      <span>Hapus</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
+            {Array.from(
+              { length: Math.ceil(filteredData.length / dataPerPage) },
+              (_, i) => i + 1
+            ).map((page) => (
+              <button
+                key={page}
+                className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
+                  currentPage === page
+                    ? "bg-blue-600 text-white border-none"
+                    : "bg-transparent border-blue-600  border"
+                }`}
+                onClick={() => paginate(page)}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

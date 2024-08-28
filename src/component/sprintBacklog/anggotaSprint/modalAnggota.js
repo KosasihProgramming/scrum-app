@@ -184,7 +184,7 @@ export default function ModalAddAnggota(props) {
             transition
             className="relative transform overflow-hidden rounded-lg h-[95vh] overflow-y-auto text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
           >
-            <div className="bg-slate-100  h-[95vh] pb-8   w-[45rem]">
+            <div className="bg-slate-100   pb-8   w-[45rem]">
               <div className="flex items-start">
                 <div className=" text-center w-full  ">
                   <div className=" w-full flex justify-center">

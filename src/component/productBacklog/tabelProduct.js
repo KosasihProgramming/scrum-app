@@ -19,6 +19,8 @@ import { LuArrowRight } from "react-icons/lu";
 import ModalEditProduct from "./modalEditProduct";
 import Loader from "../features/loader";
 import { useLoading } from "../features/context/loadContext";
+import animationData from "../../styles/blue.json";
+import Lottie from "react-lottie";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 function TableProduct(props) {
@@ -66,6 +68,11 @@ function TableProduct(props) {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value); // Update kolom pencarian
     setCurrentPage(1); // Reset halaman ke halaman pertama setelah pencarian diterapkan
+  };
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
   };
   const handleDelete = async (id) => {
     try {
@@ -383,62 +390,82 @@ function TableProduct(props) {
           <div className="font-medium">Status</div>
           <div className="font-medium">Aksi</div>
         </div>
-        <div className="bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl p-2 mt-5">
-          {currentData.map((data) => (
-            <div
-              key={data.id}
-              className="hover:cursor-pointer py-4 px-4 grid grid-cols-[2fr_2fr_1fr_1fr_3fr] gap-4 w-full items-center border-b border-blue-blue-300"
-            >
-              <div>{data.Judul[0].value}</div>
-              <div>{data.Tim[0].value}</div>
-              <div>{data.Bulan[0].value}</div>
-              <div>{data.Status[0].value}</div>
-              <div className="flex gap-6 ">
-                <button
-                  className="button-table border border-teal-500 bg-teal-500 hover:border-teal-700"
-                  onClick={() => editData(data)}
-                >
-                  <span>Update</span>
-                </button>
-                <button
-                  className="button-table border border-red-500 bg-red-500 hover:border-red-700"
-                  onClick={() => handleDelete(data.id)}
-                >
-                  <span>Hapus</span>
-                </button>
-                <Link
-                  to={`/pbi-product/${data.id}`}
-                  className="cssbuttons-io-button w-[10rem]"
-                >
-                  Lihat Detail
-                  <div class="icon">
-                    <LuArrowRight className="text-xl text-blue-600" />
-                  </div>
-                </Link>
+
+        {currentData.length == 0 && (
+          <>
+            <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
+              <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
+                <Lottie options={defaultOptions} height={250} width={250} />
+                <h3 className="text-base text-blue-500 font-medium text-center">
+                  Belum Ada Data Cuyy..
+                </h3>
               </div>
             </div>
-          ))}
-        </div>
+          </>
+        )}
+        {currentData.length > 0 && (
+          <>
+            <div className="bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl p-2 mt-5">
+              {currentData.map((data) => (
+                <div
+                  key={data.id}
+                  className="hover:cursor-pointer py-4 px-4 grid grid-cols-[2fr_2fr_1fr_1fr_3fr] gap-4 w-full items-center border-b border-blue-blue-300"
+                >
+                  <div>{data.Judul[0].value}</div>
+                  <div>{data.Tim[0].value}</div>
+                  <div>{data.Bulan[0].value}</div>
+                  <div>{data.Status[0].value}</div>
+                  <div className="flex gap-6 ">
+                    <button
+                      className="button-table border border-teal-500 bg-teal-500 hover:border-teal-700"
+                      onClick={() => editData(data)}
+                    >
+                      <span>Update</span>
+                    </button>
+                    <button
+                      className="button-table border border-red-500 bg-red-500 hover:border-red-700"
+                      onClick={() => handleDelete(data.id)}
+                    >
+                      <span>Hapus</span>
+                    </button>
+                    <Link
+                      to={`/pbi-product/${data.id}`}
+                      className="cssbuttons-io-button w-[10rem]"
+                    >
+                      Lihat Detail
+                      <div class="icon">
+                        <LuArrowRight className="text-xl text-blue-600" />
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
-
-      <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
-        {Array.from(
-          { length: Math.ceil(filteredData.length / dataPerPage) },
-          (_, i) => i + 1
-        ).map((page) => (
-          <button
-            key={page}
-            className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
-              currentPage === page
-                ? "bg-blue-600 text-white border-none"
-                : "bg-transparent border-blue-600  border"
-            }`}
-            onClick={() => paginate(page)}
-          >
-            {page}
-          </button>
-        ))}
-      </div>
+      {currentData.length < 0 && (
+        <>
+          <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
+            {Array.from(
+              { length: Math.ceil(filteredData.length / dataPerPage) },
+              (_, i) => i + 1
+            ).map((page) => (
+              <button
+                key={page}
+                className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
+                  currentPage === page
+                    ? "bg-blue-600 text-white border-none"
+                    : "bg-transparent border-blue-600  border"
+                }`}
+                onClick={() => paginate(page)}
+              >
+                {page}
+              </button>
+            ))}
+          </div>{" "}
+        </>
+      )}
     </div>
   );
 }

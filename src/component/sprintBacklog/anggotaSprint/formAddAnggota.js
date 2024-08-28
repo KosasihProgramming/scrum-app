@@ -87,7 +87,7 @@ function FormAddAnggota(props) {
                         </Link>
                         <span
                           class="absolute -top-10 left-[50%] -translate-x-[50%] 
- origin-left scale-0 px-3 rounded-lg border z-[9999] w-[6rem]
+ origin-left scale-0 px-3 rounded-lg border z-[10] w-[6rem]
   border-gray-300 bg-blue-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
@@ -104,7 +104,7 @@ function FormAddAnggota(props) {
                         </button>
                         <span
                           class="absolute -top-10 left-[50%] -translate-x-[50%] 
- origin-left scale-0 px-3 rounded-lg border z-[9999]
+ origin-left scale-0 px-3 rounded-lg border z-[10]
   border-gray-300 bg-red-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
