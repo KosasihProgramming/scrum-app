@@ -90,7 +90,7 @@ function FormAddCapaian(props) {
               </div>
             </div>
           </div>
-          <div className="w-[100%] gap-2 flex justify-between items-center p-2 px-4 gap-4 ">
+          <div className="w-[100%] flex justify-between items-center p-2 px-4 gap-4  ">
             {props.select ? (
               <>
                 <div className="w-[100%] gap-4 flex flex-col justify-between items-start ">
@@ -106,7 +106,7 @@ function FormAddCapaian(props) {
               </>
             ) : (
               <>
-                <div className="w-[100%] gap-2 flex flex-col justify-between items-center p-2 px-4 gap-4 ">
+                <div className="w-[100%] gap-2 flex flex-col justify-between items-start  gap-4 ">
                   <h4 className="font-semibold text-sm">Pelaksana</h4>
                   <div className="w-full flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
                     <div className="flex items-center justify-center z-[999] w-[100%]">
