@@ -47,7 +47,14 @@ function FormEditUser(props) {
   const handleAdd = (e) => {
     e.preventDefault();
 
-    props.addData(nama, email, peran, files, password, tim);
+    let pass = "";
+    if (password2 !== "") {
+      pass = password2;
+    } else {
+      pass = password;
+    }
+
+    props.addData(nama, email, peran, files, pass, tim);
   };
   const handleFileChange = (e) => {
     setFiles((prevFiles) => [...prevFiles, ...Array.from(e.target.files)]);

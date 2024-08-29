@@ -303,6 +303,7 @@ function TableUsers(props) {
             Password: password, // Ensure status.value is a string
           };
         }
+        console.log(data, "data send");
         const response = await axios({
           method: "PATCH",
           url: `http://202.157.189.177:8080/api/database/rows/table/717/${dataUpdate.id}/?user_field_names=true`,
