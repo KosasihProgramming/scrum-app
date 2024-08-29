@@ -220,7 +220,6 @@ export default function ModalAddCapaian(props) {
   const updatePelaksana = async (user, capaian) => {
     try {
       // Validate the data
-      alert(user.capaian);
       setIsLoad(true);
 
       const data = {
