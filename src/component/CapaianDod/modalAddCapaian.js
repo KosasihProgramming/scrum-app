@@ -171,6 +171,10 @@ export default function ModalAddCapaian(props) {
                     console.error("Error updating pelaksana:", error);
                     reject(error); // Reject the Promise if updatePelaksana fails
                   });
+
+                props.getDataUser(
+                  props.data.DodProduct ? props.data.id : props.data.dod.id
+                );
               } catch (error) {
                 setIsLoad(false);
                 Swal.fire({

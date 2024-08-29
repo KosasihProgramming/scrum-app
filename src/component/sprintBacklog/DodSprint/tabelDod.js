@@ -434,6 +434,7 @@ function TableDodSprint(props) {
         totalCapaian={totalCapaian}
         data={dataSelected}
         getData={getDataCapaian}
+        getDataUser={props.getDataUser}
         optionUser={props.dataUser}
       />
       <ModalEditCapaian
@@ -444,6 +445,7 @@ function TableDodSprint(props) {
         dataSprint={dataSelected}
         optionUser={props.dataUser}
         getData={getDataCapaian}
+        getDataUser={props.getDataUser}
       />
       <ModalEditDodSprint
         open={isEditData}

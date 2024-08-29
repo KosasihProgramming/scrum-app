@@ -243,7 +243,7 @@ function TableDodPersonal(props) {
                       {dataSelected.Target} {dataSelected.dod.Satuan[0].value}
                     </div>
                     <div className="font-normal flex justify-start items-center w-[10%]">
-                      {totalCapaian} {dataSelected.dod.Satuan[0].value}
+                      {dataSelected.Capaian} {dataSelected.dod.Satuan[0].value}
                     </div>
                     <div className="font-normal flex justify-start items-center w-[10%]">
                       {dataSelected.Persentase}%

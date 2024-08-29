@@ -75,6 +75,7 @@ function FormEditCapaian(props) {
   function getObjectByValue(array, value) {
     return array.find((obj) => obj.value === value);
   }
+  console.log(props.optionUser, "user update");
 
   return (
     <div>
@@ -125,6 +126,7 @@ function FormEditCapaian(props) {
                           setUser(item);
                         }}
                         name={"Pelaksana"}
+                        value={user}
                         isSearch={false}
                       />
                     </div>

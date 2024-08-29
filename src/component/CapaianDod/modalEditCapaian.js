@@ -111,6 +111,7 @@ export default function ModalEditCapaian(props) {
             await updatePelaksana(user, capaian, exCapaian);
             setOpen();
             props.getData(props.dataSprint);
+            props.getDataUser(props.dataSprint.id);
             Swal.fire({
               icon: "success",
               title: "Success",
@@ -162,7 +163,12 @@ export default function ModalEditCapaian(props) {
           parseInt(user.capaian) - parseInt(exCapaian) + parseInt(capaian),
       };
 
-      console.log(data, "Data being Update");
+      console.log(
+        parseInt(user.capaian),
+        parseInt(exCapaian),
+        parseInt(capaian),
+        "Data being Update"
+      );
 
       const response = await axios({
         method: "PATCH",
