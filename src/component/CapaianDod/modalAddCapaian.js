@@ -153,28 +153,40 @@ export default function ModalAddCapaian(props) {
                   data: data,
                 });
 
-                await updatePelaksana(user, capaian)
-                  .then(() => {
-                    setOpen();
-                    props.getData(props.data);
-                    Swal.fire({
-                      icon: "success",
-                      title: "Success",
-                      text: "Data successfully saved.",
-                    });
-                    setIsLoad(false);
+                // await updatePelaksana(user, capaian)
+                //   .then(() => {
+                //     setOpen();
+                //     props.getData(props.data);
+                //     Swal.fire({
+                //       icon: "success",
+                //       title: "Success",
+                //       text: "Data successfully saved.",
+                //     });
+                //     setIsLoad(false);
 
-                    console.log("Data successfully saved", response);
-                    resolve(response); // Resolve the Promise
-                  })
-                  .catch((error) => {
-                    console.error("Error updating pelaksana:", error);
-                    reject(error); // Reject the Promise if updatePelaksana fails
-                  });
+                //     console.log("Data successfully saved", response);
+                //     resolve(response); // Resolve the Promise
+                //   })
+                //   .catch((error) => {
+                //     console.error("Error updating pelaksana:", error);
+                //     reject(error); // Reject the Promise if updatePelaksana fails
+                //   });
+                if (!props.select) {
+                  props.getDataUser(
+                    props.data.DodProduct ? props.data.id : props.data.dod.id
+                  );
+                  props.getData(props.data);
+                } else {
+                  props.getData(props.data);
+                }
+                setOpen();
 
-                props.getDataUser(
-                  props.data.DodProduct ? props.data.id : props.data.dod.id
-                );
+                Swal.fire({
+                  icon: "success",
+                  title: "Success",
+                  text: "Data successfully saved.",
+                });
+                setIsLoad(false);
               } catch (error) {
                 setIsLoad(false);
                 Swal.fire({
@@ -217,60 +229,60 @@ export default function ModalAddCapaian(props) {
     });
   };
 
-  const updatePelaksana = async (user, capaian) => {
-    try {
-      // Validate the data
-      setIsLoad(true);
+  // const updatePelaksana = async (user, capaian) => {
+  //   try {
+  //     // Validate the data
+  //     setIsLoad(true);
 
-      const data = {
-        Capaian:
-          parseInt(user.capaian == undefined ? 0 : user.capaian) +
-          parseInt(capaian),
-      };
+  //     const data = {
+  //       Capaian:
+  //         parseInt(user.capaian == undefined ? 0 : user.capaian) +
+  //         parseInt(capaian),
+  //     };
 
-      console.log(data, "Data being Update");
+  //     console.log(data, "Data being Update");
 
-      const response = await axios({
-        method: "PATCH",
-        url: `http://202.157.189.177:8080/api/database/rows/table/718/${user.value}/?user_field_names=true`,
-        headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-          "Content-Type": "application/json",
-        },
-        data: data,
-      });
-      console.log(response, "update pelaksana");
-    } catch (error) {
-      setIsLoad(false);
+  //     const response = await axios({
+  //       method: "PATCH",
+  //       url: `http://202.157.189.177:8080/api/database/rows/table/718/${user.value}/?user_field_names=true`,
+  //       headers: {
+  //         Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+  //         "Content-Type": "application/json",
+  //       },
+  //       data: data,
+  //     });
+  //     console.log(response, "update pelaksana");
+  //   } catch (error) {
+  //     setIsLoad(false);
 
-      if (error.response) {
-        // The request was made, and the server responded with a status code
-        // that falls out of the range of 2xx
-        Swal.fire({
-          icon: "error",
-          title: "Server Error",
-          text: `Error: ${error.response.data.error}`,
-        });
-        console.error("Server responded with an error:", error.response.data);
-      } else if (error.request) {
-        // The request was made, but no response was received
-        Swal.fire({
-          icon: "error",
-          title: "Network Error",
-          text: "No response received from the server.",
-        });
-        console.error("No response received:", error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: `Error setting up request: ${error.message}`,
-        });
-        console.error("Error setting up request:", error.message);
-      }
-    }
-  };
+  //     if (error.response) {
+  //       // The request was made, and the server responded with a status code
+  //       // that falls out of the range of 2xx
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Server Error",
+  //         text: `Error: ${error.response.data.error}`,
+  //       });
+  //       console.error("Server responded with an error:", error.response.data);
+  //     } else if (error.request) {
+  //       // The request was made, but no response was received
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Network Error",
+  //         text: "No response received from the server.",
+  //       });
+  //       console.error("No response received:", error.request);
+  //     } else {
+  //       // Something happened in setting up the request that triggered an Error
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Error",
+  //         text: `Error setting up request: ${error.message}`,
+  //       });
+  //       console.error("Error setting up request:", error.message);
+  //     }
+  //   }
+  // };
   return (
     <Dialog open={props.open} onClose={setOpen} className="relative z-10">
       <DialogBackdrop

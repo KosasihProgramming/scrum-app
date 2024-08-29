@@ -100,7 +100,7 @@ function TableCapaian(props) {
             if (!props.isPersonal) {
               getDataCapaian(props.dataSelected);
             } else {
-              props.getData();
+              props.getData(props.dataSelected);
             }
           }
         });
@@ -296,45 +296,45 @@ function TableCapaian(props) {
                       </div>
                       {data.isCheck == false && (
                         <>
-                          {!props.isPersonal && (
-                            <>
-                              <div class="group relative">
-                                <button
-                                  onClick={() => props.handleEdit(data)}
-                                  className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
-                                >
-                                  <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
-                                </button>
-                                <span
-                                  class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                          {/* {!props.isPersonal && (
+                            <> */}
+                          <div class="group relative">
+                            <button
+                              onClick={() => props.handleEdit(data)}
+                              className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
+                            >
+                              <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
+                            </button>
+                            <span
+                              class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-teal-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                                >
-                                  Update<span></span>
-                                </span>
-                              </div>
-                              <div class="group relative">
-                                <button
-                                  onClick={() => handleDeleteCapaian(data)}
-                                  className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
-                                >
-                                  <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
-                                </button>
-                                <span
-                                  class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                            >
+                              Update<span></span>
+                            </span>
+                          </div>
+                          <div class="group relative">
+                            <button
+                              onClick={() => handleDeleteCapaian(data)}
+                              className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
+                            >
+                              <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
+                            </button>
+                            <span
+                              class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-red-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                                >
-                                  Hapus<span></span>
-                                </span>
-                              </div>
-                            </>
-                          )}
+                            >
+                              Hapus<span></span>
+                            </span>
+                          </div>
                         </>
+                        //   )}
+                        // </>
                       )}
                     </div>
                   </div>

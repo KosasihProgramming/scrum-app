@@ -78,7 +78,15 @@ export default function ModalEditCapaian(props) {
               Keterangan: keterangan,
               Link: link,
               File: fileNames, // Menggabungkan nama file jika lebih dari satu
-              DodSprint: [parseInt(props.dataSprint.id)], // Pastikan ini array
+              DodSprint: [
+                parseInt(
+                  parseInt(
+                    props.dataSprint.DodProduct
+                      ? props.dataSprint.id
+                      : props.dataSprint.dod.id
+                  )
+                ),
+              ], // Pastikan, // Pastikan ini array
             };
           } else {
             data = {
@@ -86,7 +94,15 @@ export default function ModalEditCapaian(props) {
               Keterangan: keterangan,
               Pelaksana: [parseInt(user.value)],
               Link: link,
-              DodSprint: [parseInt(props.dataSprint.id)], // Pastikan ini array
+              DodSprint: [
+                parseInt(
+                  parseInt(
+                    props.dataSprint.DodProduct
+                      ? props.dataSprint.id
+                      : props.dataSprint.dod.id
+                  )
+                ),
+              ], // Pastikan, // Pastikan ini array
             };
           }
           let totalCapaian = parseInt(props.totalCapaian) + parseInt(capaian);
@@ -108,10 +124,18 @@ export default function ModalEditCapaian(props) {
               },
               data: data,
             });
-            await updatePelaksana(user, capaian, exCapaian);
+            // await updatePelaksana(user, capaian, exCapaian);
             setOpen();
-            props.getData(props.dataSprint);
-            props.getDataUser(props.dataSprint.id);
+            if (!props.select) {
+              props.getDataUser(
+                props.dataSprint.DodProduct
+                  ? props.dataSprint.id
+                  : props.dataSprint.dod.id
+              );
+              props.getData(props.dataSprint);
+            } else {
+              props.getData(props.dataSprint);
+            }
             Swal.fire({
               icon: "success",
               title: "Success",
@@ -152,64 +176,64 @@ export default function ModalEditCapaian(props) {
       }
     });
   };
-  const updatePelaksana = async (user, capaian, exCapaian) => {
-    try {
-      // Validate the data
+  // const updatePelaksana = async (user, capaian, exCapaian) => {
+  //   try {
+  //     // Validate the data
 
-      setIsLoad(true);
+  //     setIsLoad(true);
 
-      const data = {
-        Capaian:
-          parseInt(user.capaian) - parseInt(exCapaian) + parseInt(capaian),
-      };
+  //     const data = {
+  //       Capaian:
+  //         parseInt(user.capaian) - parseInt(exCapaian) + parseInt(capaian),
+  //     };
 
-      console.log(
-        parseInt(user.capaian),
-        parseInt(exCapaian),
-        parseInt(capaian),
-        "Data being Update"
-      );
+  //     console.log(
+  //       parseInt(user.capaian),
+  //       parseInt(exCapaian),
+  //       parseInt(capaian),
+  //       "Data being Update"
+  //     );
 
-      const response = await axios({
-        method: "PATCH",
-        url: `http://202.157.189.177:8080/api/database/rows/table/718/${user.value}/?user_field_names=true`,
-        headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-          "Content-Type": "application/json",
-        },
-        data: data,
-      });
-    } catch (error) {
-      setIsLoad(false);
+  //     const response = await axios({
+  //       method: "PATCH",
+  //       url: `http://202.157.189.177:8080/api/database/rows/table/718/${user.value}/?user_field_names=true`,
+  //       headers: {
+  //         Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+  //         "Content-Type": "application/json",
+  //       },
+  //       data: data,
+  //     });
+  //   } catch (error) {
+  //     setIsLoad(false);
 
-      if (error.response) {
-        // The request was made, and the server responded with a status code
-        // that falls out of the range of 2xx
-        Swal.fire({
-          icon: "error",
-          title: "Server Error",
-          text: `Error: ${error.response.data.error}`,
-        });
-        console.error("Server responded with an error:", error.response.data);
-      } else if (error.request) {
-        // The request was made, but no response was received
-        Swal.fire({
-          icon: "error",
-          title: "Network Error",
-          text: "No response received from the server.",
-        });
-        console.error("No response received:", error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: `Error setting up request: ${error.message}`,
-        });
-        console.error("Error setting up request:", error.message);
-      }
-    }
-  };
+  //     if (error.response) {
+  //       // The request was made, and the server responded with a status code
+  //       // that falls out of the range of 2xx
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Server Error",
+  //         text: `Error: ${error.response.data.error}`,
+  //       });
+  //       console.error("Server responded with an error:", error.response.data);
+  //     } else if (error.request) {
+  //       // The request was made, but no response was received
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Network Error",
+  //         text: "No response received from the server.",
+  //       });
+  //       console.error("No response received:", error.request);
+  //     } else {
+  //       // Something happened in setting up the request that triggered an Error
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Error",
+  //         text: `Error setting up request: ${error.message}`,
+  //       });
+  //       console.error("Error setting up request:", error.message);
+  //     }
+  //   }
+  // };
   return (
     <Dialog open={props.open} onClose={setOpen} className="relative z-10">
       <DialogBackdrop
