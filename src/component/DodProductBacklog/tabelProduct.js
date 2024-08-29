@@ -34,6 +34,7 @@ function TableDodProduct(props) {
   const [isAddData, setIsAddData] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const peran = sessionStorage.getItem("peran");
 
   const defaultOptions = {
     loop: true,
@@ -61,6 +62,14 @@ function TableDodProduct(props) {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleDelete = async (id) => {
+    if (peran !== "Scrum Master") {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
+      });
+      return [];
+    }
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
@@ -200,6 +209,14 @@ function TableDodProduct(props) {
   };
 
   const editData = (data) => {
+    if (peran !== "Scrum Master") {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
+      });
+      return [];
+    }
     setIsEditData(true);
     setIsAddData(false);
     setDataUpdate(data);
@@ -383,6 +400,7 @@ function TableDodProduct(props) {
                     >
                       <span>Update</span>
                     </button>
+
                     <button
                       className="button-table  border border-red-500 bg-red-500  hover:border-red-700"
                       onClick={() => handleDelete(data.id)}

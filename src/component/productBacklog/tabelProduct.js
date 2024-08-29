@@ -40,6 +40,7 @@ function TableProduct(props) {
   const [tanggalBerakhir, setTanggalBerakhir] = useState(
     dayjs().locale("id").format("YYYY/MM/DD")
   );
+  const peran = sessionStorage.getItem("peran");
   const [idData, setIdData] = useState(0);
   const [isAddData, setIsAddData] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
@@ -75,6 +76,14 @@ function TableProduct(props) {
     animationData: animationData,
   };
   const handleDelete = async (id) => {
+    if (peran !== "Scrum Master") {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
+      });
+      return [];
+    }
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
@@ -222,6 +231,14 @@ function TableProduct(props) {
   };
 
   const editData = (data) => {
+    if (peran !== "Scrum Master") {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
+      });
+      return [];
+    }
     setIsEditData(true);
     setIsAddData(false);
     setDataUpdate(data);
@@ -428,6 +445,7 @@ function TableProduct(props) {
                     >
                       <span>Hapus</span>
                     </button>
+
                     <Link
                       to={`/pbi-product/${data.id}`}
                       className="cssbuttons-io-button w-[10rem]"
@@ -444,7 +462,7 @@ function TableProduct(props) {
           </>
         )}
       </div>
-      {currentData.length >0 && (
+      {currentData.length > 0 && (
         <>
           <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
             {Array.from(

@@ -37,6 +37,7 @@ function TablePBIProduct(props) {
   const [selectedId, setSelectedId] = useState(null);
   const [selectedData, setSelectedData] = useState({});
   const [isCopy, setIscopy] = useState(false);
+  const peran = sessionStorage.getItem("peran");
 
   const [dataUpdate, setDataUpdate] = useState({});
   const { setIsLoad } = useLoading();
@@ -86,6 +87,14 @@ function TablePBIProduct(props) {
   };
 
   const handleDelete = async (id) => {
+    if (peran !== "Scrum Master") {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
+      });
+      return [];
+    }
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
@@ -227,6 +236,14 @@ function TablePBIProduct(props) {
   };
 
   const editData = (data) => {
+    if (peran !== "Scrum Master") {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
+      });
+      return [];
+    }
     setIsEditData(true);
     setIsAddData(false);
     setDataUpdate(data);
@@ -538,6 +555,7 @@ function TablePBIProduct(props) {
                                     Copy<span></span>
                                   </span>
                                 </div>
+
                                 <div class="group relative">
                                   <button
                                     onClick={(e) => {

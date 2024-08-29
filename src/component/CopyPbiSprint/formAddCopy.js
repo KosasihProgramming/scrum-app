@@ -24,7 +24,9 @@ function FormAddCopyPbiSprint(props) {
           className={`flex w-full flex-col justify-start items-start rounded-xl mb-2  `}
         >
           <div className="w-[100%] gap-2 flex flex-col justify-start items-start p-2 px-4 gap-4 ">
-            <h4 className="font-semibold text-sm">Sprint Backlog</h4>
+            <h4 className="font-semibold text-sm">
+              Pilih Sprint Backlog Tujuan
+            </h4>
             {props.open == true && (
               <>
                 <div className="w-full flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">

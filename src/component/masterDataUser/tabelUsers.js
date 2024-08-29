@@ -19,7 +19,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { GoArrowRight } from "react-icons/go";
 import { LuArrowRight } from "react-icons/lu";
-
+import animationData from "../../styles/blue.json";
+import Lottie from "react-lottie";
 import { useLoading } from "../features/context/loadContext";
 import ModalAddUser from "./modalAdd";
 import ModalEditUser from "./modalEdit";
@@ -42,7 +43,11 @@ function TableUsers(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTeam, setSelectedTeam] = useState(""); // State untuk filter tim
   const { setIsLoad } = useLoading();
-
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+  };
   // Filter data berdasarkan NamaTim[0].id dan juga pencarian
   const filteredData = props.data.filter((data) => {
     const matchTeam =
@@ -418,6 +423,7 @@ function TableUsers(props) {
         data={dataUpdate}
         optionTim={props.optionTim}
       />
+
       <motion.div
         initial={{ y: 1000, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -445,94 +451,109 @@ function TableUsers(props) {
                 Aksi
               </div>
             </div>
-
-            <div
-              className={`bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl p-2 mt-5 duration-500 
+            {currentData.length == 0 && (
+              <>
+                <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
+                  <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
+                    <Lottie options={defaultOptions} height={250} width={250} />
+                    <h3 className="text-base text-blue-500 font-medium text-center">
+                      Belum Ada Data Cuyy..
+                    </h3>
+                  </div>
+                </div>
+              </>
+            )}
+            {currentData.length > 0 && (
+              <>
+                <div
+                  className={`bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl p-2 mt-5 duration-500 
                   h-auto
                   `}
-            >
-              {currentData.map((data) => (
-                <div
-                  key={data.id}
-                  className={`hover:cursor-pointer py-4 px-4 gap-4 w-full text-sm border-b border-blue-blue-300 flex justify-between items-center 
-                  `}
                 >
-                  <div
-                    onClick={() =>
-                      showAlert(
-                        data.Foto.length > 0
-                          ? data.Foto[0].url
-                          : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcsfuYy-W3XTybiWt3ggO_lkKgjWgt6ZqaSQ&s",
-                        data.Nama
-                      )
-                    }
-                    className="font-normal flex justify-center items-center w-[8%] overflow-wrap break-words word-break break-all"
-                  >
-                    <img
-                      className="w-[2.5rem] h-[2.5rem] bg-cover object-cover shadow-md flex justify-center items-center rounded-xl"
-                      src={`${
-                        data.Foto.length > 0
-                          ? data.Foto[0].url
-                          : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcsfuYy-W3XTybiWt3ggO_lkKgjWgt6ZqaSQ&s"
-                      }`}
-                    />
-                  </div>
-                  <div className="font-normal flex justify-start items-center w-[30%] flex-wrap text-wrap">
-                    {data.Nama}
-                  </div>
-                  <div className="font-normal flex justify-start items-center w-[25%] flex-wrap">
-                    {data.Email}
-                  </div>{" "}
-                  <div className="font-normal flex justify-start items-center w-[15%] flex-wrap">
-                    {data.Tim.length > 0 ? data.Tim[0].value : ""}
-                  </div>
-                  <div className="font-normal flex justify-start items-center w-[10%] flex-wrap">
-                    {data.Peran.length > 0 ? data.Peran[0].value : ""}
-                  </div>
-                  <div className="font-normal flex justify-end items-center w-[10%] gap-4">
-                    <div class="group relative">
-                      <button
-                        onClick={() => {
-                          editData(data);
-                        }}
-                        className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
+                  {currentData.map((data) => (
+                    <div
+                      key={data.id}
+                      className={`hover:cursor-pointer py-4 px-4 gap-4 w-full text-sm border-b border-blue-blue-300 flex justify-between items-center 
+                  `}
+                    >
+                      <div
+                        onClick={() =>
+                          showAlert(
+                            data.Foto.length > 0
+                              ? data.Foto[0].url
+                              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcsfuYy-W3XTybiWt3ggO_lkKgjWgt6ZqaSQ&s",
+                            data.Nama
+                          )
+                        }
+                        className="font-normal flex justify-center items-center w-[8%] overflow-wrap break-words word-break break-all"
                       >
-                        <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
-                      </button>
-                      <span
-                        class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                        <img
+                          className="w-[2.5rem] h-[2.5rem] bg-cover object-cover shadow-md flex justify-center items-center rounded-xl"
+                          src={`${
+                            data.Foto.length > 0
+                              ? data.Foto[0].url
+                              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcsfuYy-W3XTybiWt3ggO_lkKgjWgt6ZqaSQ&s"
+                          }`}
+                        />
+                      </div>
+                      <div className="font-normal flex justify-start items-center w-[30%] flex-wrap text-wrap">
+                        {data.Nama}
+                      </div>
+                      <div className="font-normal flex justify-start items-center w-[25%] flex-wrap">
+                        {data.Email}
+                      </div>{" "}
+                      <div className="font-normal flex justify-start items-center w-[15%] flex-wrap">
+                        {data.Tim.length > 0 ? data.Tim[0].value : ""}
+                      </div>
+                      <div className="font-normal flex justify-start items-center w-[10%] flex-wrap">
+                        {data.Peran.length > 0 ? data.Peran[0].value : ""}
+                      </div>
+                      <div className="font-normal flex justify-end items-center w-[10%] gap-4">
+                        <div class="group relative">
+                          <button
+                            onClick={() => {
+                              editData(data);
+                            }}
+                            className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
+                          >
+                            <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
+                          </button>
+                          <span
+                            class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-teal-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                      >
-                        Update<span></span>
-                      </span>
-                    </div>
+                          >
+                            Update<span></span>
+                          </span>
+                        </div>
 
-                    <div class="group relative">
-                      <button
-                        onClick={() => {
-                          handleDelete(data.id);
-                        }}
-                        className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
-                      >
-                        <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
-                      </button>
-                      <span
-                        class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                        <div class="group relative">
+                          <button
+                            onClick={() => {
+                              handleDelete(data.id);
+                            }}
+                            className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
+                          >
+                            <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
+                          </button>
+                          <span
+                            class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-red-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                      >
-                        Hapus<span></span>
-                      </span>
+                          >
+                            Hapus<span></span>
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            )}
           </div>
 
           <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">

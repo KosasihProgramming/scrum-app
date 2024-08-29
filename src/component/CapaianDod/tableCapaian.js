@@ -14,6 +14,8 @@ import animationData from "../../styles/blue.json";
 import Lottie from "react-lottie";
 import { useLoading } from "../features/context/loadContext";
 function TableCapaian(props) {
+  const peran = sessionStorage.getItem("peran");
+
   const { setIsLoad } = useLoading();
   const defaultOptions = {
     loop: true,

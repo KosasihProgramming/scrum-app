@@ -42,6 +42,7 @@ function TableDodSprint(props) {
   const [dataUpdate, setDataUpdate] = useState({});
 
   const { setIsLoad } = useLoading();
+  const peran = sessionStorage.getItem("peran");
 
   const [idData, setIdData] = useState(0);
   const [isAddData, setIsAddData] = useState(false);
@@ -141,6 +142,14 @@ function TableDodSprint(props) {
   };
 
   const handleDelete = async (id) => {
+    if (peran !== "Scrum Master") {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
+      });
+      return [];
+    }
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
@@ -279,6 +288,14 @@ function TableDodSprint(props) {
   };
 
   const editData = (data) => {
+    if (peran !== "Scrum Master") {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
+      });
+      return [];
+    }
     setIsEditData(true);
     setIsAddData(false);
     setDataUpdate(data);
@@ -598,7 +615,7 @@ function TableDodSprint(props) {
                           <div className="font-normal flex justify-start items-center w-[10%]">
                             {data.Capaian} {data.Satuan[0].value}
                           </div>
-                          <div className="font-normal flex justify-end items-center w-[30%] gap-6">
+                          <div className="font-normal flex justify-start items-center w-[30%] gap-6">
                             <div class="group relative">
                               <button
                                 onClick={() => props.setDod(data)}
@@ -616,6 +633,7 @@ function TableDodSprint(props) {
                                 Pelaksana<span></span>
                               </span>
                             </div>
+
                             <div class="group relative">
                               <button
                                 onClick={() => editData(data)}
@@ -651,6 +669,7 @@ function TableDodSprint(props) {
                                 Hapus<span></span>
                               </span>
                             </div>
+
                             <div class="group relative">
                               <button
                                 onClick={() => handleCapaian(data)}

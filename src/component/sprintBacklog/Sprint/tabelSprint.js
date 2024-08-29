@@ -39,7 +39,7 @@ function TableSprint(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTeam, setSelectedTeam] = useState(""); // State untuk filter tim
   const { setIsLoad } = useLoading();
-
+  const peran = sessionStorage.getItem("peran");
   // Filter data berdasarkan NamaTim[0].id dan juga pencarian
   const filteredData = props.data.filter((data) => {
     const matchTeam =
@@ -71,6 +71,14 @@ function TableSprint(props) {
     animationData: animationData,
   };
   const handleDelete = async (id) => {
+    if (peran !== "Scrum Master") {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
+      });
+      return [];
+    }
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
@@ -215,6 +223,14 @@ function TableSprint(props) {
   };
 
   const editData = (data) => {
+    if (peran !== "Scrum Master") {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
+      });
+      return [];
+    }
     setIsEditData(true);
     setIsAddData(false);
     setDataUpdate(data);
@@ -438,6 +454,7 @@ function TableSprint(props) {
                         >
                           <span>Hapus</span>
                         </button>
+
                         <Link
                           to={`/pbi-sprint/${data.id}/${data.ProductBacklog[0].id}`}
                           className="cssbuttons-io-button w-[10rem]"

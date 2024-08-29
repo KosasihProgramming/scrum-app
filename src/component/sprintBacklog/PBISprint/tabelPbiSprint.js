@@ -46,6 +46,8 @@ function TablePBISprint(props) {
   const [isCopy, setIscopy] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
   const { setIsLoad } = useLoading();
+  const peran = sessionStorage.getItem("peran");
+
   const [searchTerm, setSearchTerm] = useState(""); // State u
   useEffect(() => {
     Aos.init({ duration: 700 });
@@ -107,6 +109,14 @@ function TablePBISprint(props) {
     setSelectedData(null);
   };
   const handleDelete = async (id) => {
+    if (peran !== "Scrum Master") {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
+      });
+      return [];
+    }
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
@@ -246,6 +256,14 @@ function TablePBISprint(props) {
   };
 
   const editData = (data) => {
+    if (peran !== "Scrum Master") {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
+      });
+      return [];
+    }
     setIsEditData(true);
     setIsAddData(false);
     setDataUpdate(data);
@@ -530,7 +548,7 @@ function TablePBISprint(props) {
                               <div className="font-normal flex justify-start items-center w-[15%]">
                                 {data.PersentaseCapaian}%
                               </div>
-                              <div className="font-normal flex justify-end items-center w-[40%] gap-4">
+                              <div className="font-normal flex justify-start items-center w-[40%] gap-4">
                                 <div class="group relative">
                                   <button
                                     onClick={(e) => {
@@ -550,6 +568,7 @@ function TablePBISprint(props) {
                                     Copy<span></span>
                                   </span>
                                 </div>
+
                                 <div class="group relative">
                                   <button
                                     onClick={() => editData(data)}

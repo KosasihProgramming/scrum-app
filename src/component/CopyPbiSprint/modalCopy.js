@@ -214,7 +214,7 @@ export default function ModalCopyPbiSprint(props) {
                       as="h3"
                       className="text-xl font-semibold leading-6 text-white w-[95%]  py-3 mt-8 rounded-xl bg-blue-600 "
                     >
-                      Copy PBI Product
+                      Copy PBI Sprint
                     </DialogTitle>
                   </div>
                   <div className=" px-4">

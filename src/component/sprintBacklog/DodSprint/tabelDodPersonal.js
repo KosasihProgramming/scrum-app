@@ -37,6 +37,7 @@ function TableDodPersonal(props) {
   const [dataPerPage] = useState(5);
 
   const { setIsLoad } = useLoading();
+  const peran = sessionStorage.getItem("peran");
 
   const [isCapaian, setIsCapaian] = useState(false);
   const [isCekGambar, setIsCekGambar] = useState(false);
@@ -248,7 +249,7 @@ function TableDodPersonal(props) {
                     <div className="font-normal flex justify-start items-center w-[10%]">
                       {dataSelected.Persentase}%
                     </div>
-                    <div className="font-normal flex justify-end items-center w-[30%] gap-6">
+                    <div className="font-normal flex justify-start items-center w-[30%] gap-6">
                       <button
                         className="cssbuttons-io-button w-[10rem]"
                         onClick={(e) => {

@@ -391,9 +391,9 @@
   align-items: center;
   position: relative;
   padding: 0.6em 2em;
-  border: #2563EB solid 0.15em;
+  border: #2563eb solid 0.15em;
   border-radius: 0.25em;
-  color: #2563EB;
+  color: #2563eb;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -421,7 +421,7 @@
   position: absolute;
   width: 13em;
   aspect-ratio: 1;
-  background: #2563EB;
+  background: #2563eb;
   opacity: 50%;
   border-radius: 50%;
   transition: transform 500ms, background 300ms;
@@ -450,11 +450,10 @@
   background: #385aa2;
 }
 
-
 /* bar */
 .wrapper {
   border-radius: 12px;
-  border: 1px solid #2563EB;
+  border: 1px solid #2563eb;
 }
 
 .container-bar {
@@ -466,12 +465,159 @@
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-padding: 2px;
-  background-color: #2563EB;
+  padding: 2px;
+  background-color: #2563eb;
   /* width: 80%; */
 }
 
 .label {
   font-size: 16px;
   color: white;
+}
+
+/* login */
+
+/* CSS */
+.button-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 20rem;
+  position: relative;
+  padding: 0 15px;
+  font-size: 14px;
+  text-transform: uppercase;
+  border: 0;
+  box-shadow: hsl(210deg 87% 36%) 0px 7px 0px 0px;
+  background-color: hsl(210deg 100% 44%);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: 31ms cubic-bezier(0.5, 0.7, 0.4, 1);
+}
+
+.button-login:before {
+  content: attr(alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  letter-spacing: 2px;
+  opacity: 1;
+}
+
+.button-login:active {
+  box-shadow: none;
+  transform: translateY(7px);
+  transition: 35ms cubic-bezier(0.5, 0.7, 0.4, 1);
+}
+
+.button-login:hover:before {
+  transition: all 0s;
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.button-login i {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-style: normal;
+  transition: all 2s ease;
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+.button-login:hover i {
+  transition: all 0.2s ease;
+  transform: translateY(0px);
+  opacity: 1;
+}
+
+.button-login:hover i:nth-child(1) {
+  transition-delay: 0.045s;
+}
+
+.button-login:hover i:nth-child(2) {
+  transition-delay: calc(0.045s * 2);
+}
+
+.button-login:hover i:nth-child(3) {
+  transition-delay: calc(0.045s * 3);
+}
+
+.button-login:hover i:nth-child(4) {
+  transition-delay: calc(0.045s * 4);
+}
+
+.button-login:hover i:nth-child(6) {
+  transition-delay: calc(0.045s * 5);
+}
+
+.button-login:hover i:nth-child(7) {
+  transition-delay: calc(0.045s * 6);
+}
+
+/* button dashboard */
+/* From Uiverse.io by adamgiebl */
+.button-forget {
+  font-family: inherit;
+  font-size: 14px;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  padding: 0.7em 1em;
+  padding-left: 0.9em;
+  width: 12rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.button-forget span {
+  display: block;
+  margin-left: 0.3em;
+  transition: all 0.3s ease-in-out;
+}
+
+.button-forget svg {
+  display: block;
+  transform-origin: center center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.button-forget:hover .svg-wrapper {
+  animation: fly-1 0.6s ease-in-out infinite alternate;
+}
+
+.button-forget:hover svg {
+  transform: translateX(1.2em) rotate(45deg) scale(1.1);
+}
+
+.button-forget:hover span {
+  transform: translateX(10em);
+}
+
+.button-forget:active {
+  transform: scale(0.95);
+}
+
+@keyframes fly-1 {
+  from {
+    transform: translateY(0.1em);
+  }
+
+  to {
+    transform: translateY(-0.1em);
+  }
 }
