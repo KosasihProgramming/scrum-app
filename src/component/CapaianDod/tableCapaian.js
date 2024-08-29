@@ -58,6 +58,9 @@ function TableCapaian(props) {
   };
 
   const handleDeleteCapaian = async (data) => {
+    if (checkDate(props.dataSprint.TanggalBerakhir) == true) {
+      return [];
+    }
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
@@ -138,6 +141,20 @@ function TableCapaian(props) {
       }
     }
   };
+  function checkDate(date) {
+    const today = new Date(); // Mendapatkan tanggal hari ini
+    const targetDate = new Date(date); // Tanggal target
+
+    // Mengecek apakah tanggal hari ini lebih dari tanggal target
+    if (today > targetDate) {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: "Waktu Pengerjaan Sprint Telah Berakhir",
+      });
+      return true;
+    }
+  }
   console.log(props.dataCapaian, "hahahzahahahahaahahahaahahah");
   return (
     <div className="w-full px-6">

@@ -43,7 +43,9 @@ function TableDodSprint(props) {
 
   const { setIsLoad } = useLoading();
   const peran = sessionStorage.getItem("peran");
-
+  const [tanggal, setTanggal] = useState(
+    dayjs().locale("id").format("YYYY-MM-DD")
+  );
   const [idData, setIdData] = useState(0);
   const [isAddData, setIsAddData] = useState(false);
   const [isAddAnggota, setIsAddAnggota] = useState(false);
@@ -148,6 +150,9 @@ function TableDodSprint(props) {
         title: "Perhatian",
         text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
       });
+      return [];
+    }
+    if (checkDate(props.dataSprint.TanggalBerakhir) == true) {
       return [];
     }
     try {
@@ -288,12 +293,7 @@ function TableDodSprint(props) {
   };
 
   const editData = (data) => {
-    if (peran !== "Scrum Master") {
-      Swal.fire({
-        icon: "warning",
-        title: "Perhatian",
-        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
-      });
+    if (checkDate(props.dataSprint.TanggalBerakhir) == true) {
       return [];
     }
     setIsEditData(true);
@@ -303,6 +303,16 @@ function TableDodSprint(props) {
   };
 
   const handleEdit = async (target, dod) => {
+    if (peran !== "Scrum Master") {
+      if (parseInt(target) < parseInt(dataUpdate.Target)) {
+        Swal.fire({
+          icon: "warning",
+          title: "Perhatian",
+          text: `Target Tidak Boleh Kurang Dari Target Sebelumnya`,
+        });
+        return [];
+      }
+    }
     try {
       // Validate the data
       if (!dod.value || !target) {
@@ -393,10 +403,27 @@ function TableDodSprint(props) {
     setCapaianSelected(data);
   };
   const handleUpdateCapaian = (data) => {
+    if (checkDate(props.dataSprint.TanggalBerakhir) == true) {
+      return [];
+    }
     console.log(data);
     setCapaianSelected(data);
     setIsEditCapaian(true);
   };
+  function checkDate(date) {
+    const today = new Date(); // Mendapatkan tanggal hari ini
+    const targetDate = new Date(date); // Tanggal target
+
+    // Mengecek apakah tanggal hari ini lebih dari tanggal target
+    if (today > targetDate) {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: "Waktu Pengerjaan Sprint Telah Berakhir",
+      });
+      return true;
+    }
+  }
   console.log(dataSelected, "dod select");
   return (
     <div className="  w-full rounded-xl  mb-16 mt-5">
@@ -428,7 +455,10 @@ function TableDodSprint(props) {
               <button
                 className="button-insert w-[15rem]"
                 onClick={() => {
-                  setIsAddData(!isAddData);
+                  if (checkDate(props.dataSprint.TanggalBerakhir) == true) {
+                  } else {
+                    setIsAddData(!isAddData);
+                  }
                 }}
               >
                 Tambah Dod
@@ -452,6 +482,7 @@ function TableDodSprint(props) {
         data={dataSelected}
         getData={getDataCapaian}
         getDataUser={props.getDataUser}
+        dataSprint={props.dataSprint}
         optionUser={props.dataUser}
       />
       <ModalEditCapaian
@@ -564,6 +595,11 @@ function TableDodSprint(props) {
                       <button
                         className="cssbuttons-io-button w-[15rem]"
                         onClick={(e) => {
+                          if (
+                            checkDate(props.dataSprint.TanggalBerakhir) == true
+                          ) {
+                            return [];
+                          }
                           setIsAddCapaian(true);
                           setIsCek(false);
                           setIsdisplay(true);
@@ -738,6 +774,7 @@ function TableDodSprint(props) {
             setDataCapaian={(data) => {
               setDataCapaian(data);
             }}
+            dataSprint={props.dataSprint}
             setCek={() => setIsCek(true)}
             setTotalCapaian={(value) => {
               setTotalCapaian(value);
@@ -756,6 +793,7 @@ function TableDodSprint(props) {
             handleCekGambar={handleCekGambar}
             handleDelete={handleDelete}
             getData={getDataCapaian}
+            dataSprint={props.dataSprint}
             editData={editData}
             setCek={() => setIsCek(true)}
             setDisplay={() => setIsdisplay(false)}

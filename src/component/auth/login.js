@@ -122,7 +122,7 @@ function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-blue-700 relative">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg absolute z-[9999]">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg absolute z-[99]">
         <h2 className="text-3xl font-bold text-center text-blue-600">
           Scrum App
         </h2>

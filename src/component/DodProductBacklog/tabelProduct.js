@@ -209,14 +209,6 @@ function TableDodProduct(props) {
   };
 
   const editData = (data) => {
-    if (peran !== "Scrum Master") {
-      Swal.fire({
-        icon: "warning",
-        title: "Perhatian",
-        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
-      });
-      return [];
-    }
     setIsEditData(true);
     setIsAddData(false);
     setDataUpdate(data);
@@ -224,6 +216,16 @@ function TableDodProduct(props) {
   };
 
   const handleEdit = async (judul, target, satuan) => {
+    if (peran !== "Scrum Master") {
+      if (parseInt(target) < parseInt(dataUpdate.Target)) {
+        Swal.fire({
+          icon: "warning",
+          title: "Perhatian",
+          text: `Target Tidak Boleh Kurang Dari Target Sebelumnya`,
+        });
+        return [];
+      }
+    }
     try {
       if (!judul || !satuan.value || !target) {
         Swal.fire({

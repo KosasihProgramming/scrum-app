@@ -20,7 +20,7 @@ function DodSprint({ params }) {
   console.log(params, "paraaaaam");
   const [idSprint, setIdSprint] = useState(params.id);
   const [idPbi, setIdPbi] = useState(params.idPbi);
-  const [dataPbi, setDataPbi] = useState(params.dataPbi);
+  const [dataSprint, setDataSprint] = useState(params.dataSprint);
   const [idPbiProduct, setIdPbiProduct] = useState(params.idPbiProduct);
   const [isAddAnggota, setIsAddAnggota] = useState(params.openAnggota);
   const [isgetdata, setIsgetdata] = useState(false);
@@ -172,6 +172,7 @@ function DodSprint({ params }) {
                   openPelaksana(a);
                 }}
                 data={data}
+                dataSprint={dataSprint}
                 getData={fetchData}
                 getDataPBI={() => {
                   params.getDataPBI();

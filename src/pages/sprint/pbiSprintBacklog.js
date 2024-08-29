@@ -317,6 +317,15 @@ function PbiSprintBacklog({ params }) {
 
     return `${parseInt(hari)} ${namaBulan} ${tahun}`;
   }
+  function checkDate(date) {
+    const today = new Date(); // Mendapatkan tanggal hari ini
+    const targetDate = new Date(date); // Tanggal target
+  
+    // Mengecek apakah tanggal hari ini lebih dari tanggal target
+    if (today > targetDate) {
+      alert('Tanggal hari ini lebih dari 10 Desember 2020');
+    }
+  }
   const persentase = Math.floor(
     parseInt(dataSprint == null ? 0 : dataSprint.CapaianPBI)
   );

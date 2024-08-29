@@ -109,6 +109,9 @@ function TablePBISprint(props) {
     setSelectedData(null);
   };
   const handleDelete = async (id) => {
+    if (checkDate(props.dataSprint.TanggalBerakhir) == true) {
+      return [];
+    }
     if (peran !== "Scrum Master") {
       Swal.fire({
         icon: "warning",
@@ -264,6 +267,9 @@ function TablePBISprint(props) {
       });
       return [];
     }
+    if (checkDate(props.dataSprint.TanggalBerakhir) == true) {
+      return [];
+    }
     setIsEditData(true);
     setIsAddData(false);
     setDataUpdate(data);
@@ -352,6 +358,20 @@ function TablePBISprint(props) {
   const openAnggota = () => {
     setIsAddAnggota(true);
   };
+  function checkDate(date) {
+    const today = new Date(); // Mendapatkan tanggal hari ini
+    const targetDate = new Date(date); // Tanggal target
+
+    // Mengecek apakah tanggal hari ini lebih dari tanggal target
+    if (today > targetDate) {
+      Swal.fire({
+        icon: "warning",
+        title: "Perhatian",
+        text: "Waktu Pengerjaan Sprint Telah Berakhir",
+      });
+      return true;
+    }
+  }
   return (
     <motion.div
       initial={{ y: 1000, opacity: 0 }}
@@ -387,7 +407,11 @@ function TablePBISprint(props) {
                   <button
                     className="button-insert w-[15rem]"
                     onClick={() => {
-                      setIsAddData(!isAddData);
+                      if (checkDate(props.dataSprint.TanggalBerakhir) == true) {
+                        return [];
+                      } else {
+                        setIsAddData(!isAddData);
+                      }
                     }}
                   >
                     Tambah
@@ -650,7 +674,7 @@ function TablePBISprint(props) {
                   id: props.idSprint,
                   idPbi: selectedId,
                   idPbiProduct: selectedData.PBIProduct[0].id,
-                  dataPbi: selectedData,
+                  dataSprint: props.dataSprint,
                   getDataPBI: () => {
                     getSingleDataPBI();
                   },
