@@ -10,16 +10,21 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 import DropdownSearch from "../features/dropdown";
 import { GoArrowUpRight } from "react-icons/go";
-import ModalProduct from "./modalProduct";
-import FormAddProduct from "./formAddProduct";
+import { MdDeleteOutline } from "react-icons/md";
+import { MdContentCopy } from "react-icons/md";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { GoArrowRight } from "react-icons/go";
 import { LuArrowRight } from "react-icons/lu";
-import ModalEditProduct from "./modalEditProduct";
+import animationData from "../../styles/blue.json";
+import Lottie from "react-lottie";
+import { AnimatePresence, motion } from "framer-motion";
+import ModalAddSatuan from "./modalSatuan";
+import ModalEditSatuan from "./modalEditSatuan";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
-function TableProduct(props) {
+function TableSatuan(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage] = useState(5);
   const [tab, setTab] = useState("tab1");
@@ -40,24 +45,12 @@ function TableProduct(props) {
   const [isAddData, setIsAddData] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
 
-  const optionStatus = [
-    { text: "Berjalan", value: "Berjalan" },
-    { text: "Berlalu", value: "Berlalu" },
-    { text: "Rencana", value: "Rencana" },
-  ];
-
-  const allTabs = [
-    {
-      id: "home",
-      name: "Sprint Backlogs",
-    },
-    {
-      id: "blog",
-      name: "Goals",
-    },
-  ];
   const [filteredData, setFilteredData] = useState(props.data);
-
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+  };
   useEffect(() => {
     setFilteredData(props.data);
   }, [props.data]);
@@ -67,21 +60,6 @@ function TableProduct(props) {
   const currentData = props.data.slice(indexOfFirstData, indexOfLastData);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const handleTab = (key) => {
-    setTab(key);
-  };
-
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearch(value);
-
-    const results = props.data.filter((item) =>
-      item.Judul.toLowerCase().includes(value.toLowerCase())
-    );
-    setFilteredData(results);
-    setCurrentPage(1); // Reset halaman ke 1 setelah pencarian
-  };
 
   const handleDelete = async (id) => {
     try {
@@ -99,7 +77,7 @@ function TableProduct(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/597/" +
+            "http://202.157.189.177:8080/api/database/rows/table/706/" +
             id +
             "/",
           headers: {
@@ -143,69 +121,24 @@ function TableProduct(props) {
       }
     }
   };
-  const handleAdd = async (
-    judul,
-    target,
-    goal,
-    tim,
-    status,
-    bulan,
-    tanggalMulai,
-    tanggalBerakhir
-  ) => {
+  const handleAdd = async (name) => {
     try {
-      // Validate the data
-      if (!goal || !tim.value || !status.value || !bulan.value) {
-        console.error("Invalid data: All fields are required.");
-        return;
-      }
-  
-      // Validate and format date
-      const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        if (isNaN(date)) {
-          throw new Error("Invalid date");
-        }
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-      };
-  
-      try {
-        tanggalMulai = formatDate(tanggalMulai);
-        tanggalBerakhir = formatDate(tanggalBerakhir);
-      } catch (e) {
-        Swal.fire({
-          icon: "error",
-          title: "Invalid date format",
-          text: "Dates must be valid.",
-        });
-        return;
-      }
-  
       const data = {
-        Bulan: [bulan.value], // Ensure bulan.value is a string
-        ProductGoal: goal, // Ensure goal is a string
-        Status: [status.value], // Ensure status.value is a string
-        TanggalMulai: tanggalMulai, // Ensure tanggalMulai is a string in YYYY-MM-DD format
-        TanggalBerakhir: tanggalBerakhir, // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
-        TargetBobot: target, // Ensure target is a number
-        Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
+        Name: name,
       };
-  
+
       console.log(data, "Data being sent");
-  
+
       const response = await axios({
         method: "POST",
-        url: "http://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
+        url: "http://202.157.189.177:8080/api/database/rows/table/706/?user_field_names=true",
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           "Content-Type": "application/json",
         },
         data: data,
       });
-  
+
       props.getData();
       Swal.fire({
         icon: "success",
@@ -239,7 +172,7 @@ function TableProduct(props) {
       }
     }
   };
-  
+
   const editData = (data) => {
     setIsEditData(true);
     setIsAddData(false);
@@ -247,69 +180,24 @@ function TableProduct(props) {
     setIdData(data.id);
   };
 
-  const handleEdit = async (
-    judul,
-    target,
-    goal,
-    tim,
-    status,
-    bulan,
-    tanggalMulai,
-    tanggalBerakhir
-  ) => {
+  const handleEdit = async (nama) => {
     try {
-      // Validate the data
-      if (!goal || !tim.value || !status.value || !bulan.value) {
-        console.error("Invalid data: All fields are required.");
-        return;
-      }
-  
-      // Validate and format date
-      const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        if (isNaN(date)) {
-          throw new Error("Invalid date");
-        }
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-      };
-  
-      try {
-        tanggalMulai = formatDate(tanggalMulai);
-        tanggalBerakhir = formatDate(tanggalBerakhir);
-      } catch (e) {
-        Swal.fire({
-          icon: "error",
-          title: "Invalid date format",
-          text: "Dates must be valid.",
-        });
-        return;
-      }
-  
       const data = {
-        Bulan: [bulan.value], // Ensure bulan.value is a string
-        ProductGoal: goal, // Ensure goal is a string
-        Status: [status.value], // Ensure status.value is a string
-        TanggalMulai: tanggalMulai, // Ensure tanggalMulai is a string in YYYY-MM-DD format
-        TanggalBerakhir: tanggalBerakhir, // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
-        TargetBobot: target, // Ensure target is a number
-        Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
+        Name: nama,
       };
-  
+
       console.log(data, "Data being Update");
-  
+
       const response = await axios({
         method: "PATCH",
-        url: `http://202.157.189.177:8080/api/database/rows/table/597/${idData}/?user_field_names=true`,
+        url: `http://202.157.189.177:8080/api/database/rows/table/706/${idData}/?user_field_names=true`,
         headers: {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           "Content-Type": "application/json",
         },
         data: data,
       });
-  
+
       props.getData();
       Swal.fire({
         icon: "success",
@@ -343,7 +231,6 @@ function TableProduct(props) {
       }
     }
   };
-  
 
   return (
     <div
@@ -352,26 +239,6 @@ function TableProduct(props) {
       className="  w-full rounded-xl  mb-16 mt-10"
     >
       <div className="w-full flex justify-between items-center rounded-xl bg-white py-2 px-5 shadow-md gap-6">
-        <div className="flex justify-start items-center gap-10">
-          <div class="input-wrapper">
-            <input
-              type="text"
-              placeholder="Cari..."
-              name="text"
-              class="input"
-            />
-          </div>
-          <div className="w-auto flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
-            <div className="flex items-center justify-center z-[999] w-[12rem]">
-              <DropdownSearch
-                options={props.optionTim}
-                change={(item) => {}}
-                name={"Tim"}
-                isSearch={false}
-              />
-            </div>
-          </div>
-        </div>
         <button
           className="button-insert w-[15rem]"
           onClick={() => {
@@ -382,89 +249,143 @@ function TableProduct(props) {
         </button>
       </div>
 
-      <ModalProduct
+      <ModalAddSatuan
         open={isAddData}
         setOpen={() => setIsAddData(false)}
         addData={handleAdd}
-        optionTim={props.optionTim}
       />
-      <ModalEditProduct
+      <ModalEditSatuan
         open={isEditData}
         setOpen={() => setIsEditData(false)}
         editData={handleEdit}
         data={dataUpdate}
-        optionTim={props.optionTim}
       />
       <div
         data-aos="fade-up"
         data-aos-delay="550"
         className="w-full text-left text-sm font-normal mt-5"
       >
-        <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 grid grid-cols-[2fr_2fr_1fr_1fr_3fr] gap-4">
-          <div className="font-medium">Judul</div>
-          <div className="font-medium">Nama Tim</div>
-          <div className="font-medium">Bulan</div>
-          <div className="font-medium">Status</div>
-          <div className="font-medium">Aksi</div>
-        </div>
-        <div className="bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl p-2 mt-5">
-          {currentData.map((data) => (
-            <div
-              key={data.id}
-              className="hover:cursor-pointer py-4 px-4 grid grid-cols-[2fr_2fr_1fr_1fr_3fr] gap-4 w-full items-center border-b border-blue-blue-300"
-            >
-              <div>{data.Judul[0].value}</div>
-              <div>{data.Tim[0].value}</div>
-              <div>{data.Bulan[0].value}</div>
-              <div>{data.Status[0].value}</div>
-              <div className="flex gap-6 ">
-                <button
-                  className="button-table border border-teal-500 bg-teal-500 hover:border-teal-700"
-                  onClick={() => editData(data)}
-                >
-                  <span>Update</span>
-                </button>
-                <button
-                  className="button-table border border-red-500 bg-red-500 hover:border-red-700"
-                  onClick={() => handleDelete(data.id)}
-                >
-                  <span>Hapus</span>
-                </button>
-                <Link
-                  to={`/pbi-product/${data.id}`}
-                  className="cssbuttons-io-button w-[10rem]"
-                >
-                  Lihat Detail
-                  <div class="icon">
-                    <LuArrowRight className="text-xl text-blue-600" />
-                  </div>
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+       
+        <motion.div
+          initial={{ y: 1000, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ type: "spring", duration: 1.7 }}
+        >
+          <AnimatePresence>
+            <div className="w-full text-left text-sm font-normal mt-5">
+              <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 gap-4 flex justify-between items-center">
+                <div className="font-medium flex justify-center items-center w-[60%]">
+                  Nama
+                </div>
 
-      <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
-        {Array.from(
-          { length: Math.ceil(filteredData.length / dataPerPage) },
-          (_, i) => i + 1
-        ).map((page) => (
-          <button
-            key={page}
-            className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
-              currentPage === page
-                ? "bg-blue-600 text-white border-none"
-                : "bg-transparent border-blue-600  border"
-            }`}
-            onClick={() => paginate(page)}
-          >
-            {page}
-          </button>
-        ))}
+                <div className="font-medium flex justify-center items-center w-[40%]">
+                  Aksi
+                </div>
+              </div>
+              {currentData.length == 0 && (
+                <>
+                  <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
+                    <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
+                      <Lottie
+                        options={defaultOptions}
+                        height={250}
+                        width={250}
+                      />
+                      <h3 className="text-base text-blue-500 font-medium text-center">
+                        Belum Ada Data Cuyy..
+                      </h3>
+                    </div>
+                  </div>
+                </>
+              )}
+              {currentData.length > 0 && (
+                <>
+                  <div
+                    className={`bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl p-2 mt-5 duration-500 
+                  h-auto
+                  `}
+                  >
+                    {currentData.map((data) => (
+                      <div
+                        key={data.id}
+                        className={`hover:cursor-pointer py-4 px-4 gap-4 w-full text-sm border-b border-blue-blue-300 flex justify-between items-center 
+                  `}
+                      >
+                        <div className="font-normal flex justify-start items-center w-[60%] flex-wrap text-wrap">
+                          {data.Name}
+                        </div>
+
+                        <div className="font-normal flex justify-end items-center w-[40%] gap-4">
+                          <div class="group relative">
+                            <button
+                              onClick={() => {
+                                editData(data);
+                              }}
+                              className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
+                            >
+                              <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
+                            </button>
+                            <span
+                              class="absolute -top-10 left-[50%] -translate-x-[50%] 
+  z-20 origin-left scale-0 px-3 rounded-lg border 
+  border-gray-300 bg-teal-600 text-white py-2 text-xs font-semibold
+  shadow-md transition-all duration-300 ease-in-out 
+  group-hover:scale-100"
+                            >
+                              Update<span></span>
+                            </span>
+                          </div>
+
+                          <div class="group relative">
+                            <button
+                              onClick={() => {
+                                handleDelete(data.id);
+                              }}
+                              className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
+                            >
+                              <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
+                            </button>
+                            <span
+                              class="absolute -top-10 left-[50%] -translate-x-[50%] 
+  z-20 origin-left scale-0 px-3 rounded-lg border 
+  border-gray-300 bg-red-600 text-white py-2 text-xs font-semibold
+  shadow-md transition-all duration-300 ease-in-out 
+  group-hover:scale-100"
+                            >
+                              Hapus<span></span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
+              {Array.from(
+                { length: Math.ceil(filteredData.length / dataPerPage) },
+                (_, i) => i + 1
+              ).map((page) => (
+                <button
+                  key={page}
+                  className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
+                    currentPage === page
+                      ? "bg-blue-600 text-white border-none"
+                      : "bg-transparent border-blue-600  border"
+                  }`}
+                  onClick={() => paginate(page)}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+          </AnimatePresence>
+        </motion.div>
       </div>
     </div>
   );
 }
 
-export default TableProduct;
+export default TableSatuan;

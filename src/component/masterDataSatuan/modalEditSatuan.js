@@ -6,34 +6,16 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import FormAddProduct from "./formAddProduct";
-import FormEditProduct from "./formEditProduct.js";
 
-export default function ModalEditProduct(props) {
+import FormEditSatuan from "./formEditSatuan.js";
+
+export default function ModalEditSatuan(props) {
   const setOpen = () => {
     props.setOpen(false);
   };
 
-  const handleAdd = (
-    judul,
-    target,
-    goal,
-    tim,
-    status,
-    bulan,
-    tanggalMulai,
-    tanggalBerakhir
-  ) => {
-    props.editData(
-      judul,
-      target,
-      goal,
-      tim,
-      status,
-      bulan,
-      tanggalMulai,
-      tanggalBerakhir
-    );
+  const handleAdd = (judul) => {
+    props.editData(judul);
   };
   return (
     <Dialog open={props.open} onClose={setOpen} className="relative z-10">
@@ -56,14 +38,13 @@ export default function ModalEditProduct(props) {
                       as="h3"
                       className="text-xl font-semibold leading-6 text-white w-[95%]  py-3 mt-8 rounded-xl bg-blue-600 "
                     >
-                      Update Data Product
+                      Update Data Satuan
                     </DialogTitle>
                   </div>
                   <div className=" px-4">
-                    <FormEditProduct
+                    <FormEditSatuan
                       data={props.data}
                       addData={handleAdd}
-                      optionTim={props.optionTim}
                     />
                   </div>
                 </div>

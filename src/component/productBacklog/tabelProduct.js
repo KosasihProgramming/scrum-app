@@ -270,8 +270,8 @@ function TableProduct(props) {
           Bulan: [bulan.value], // Ensure bulan.value is a string
           ProductGoal: goal, // Ensure goal is a string
           Status: [status.value], // Ensure status.value is a string
-          TanggalMulai: formatDate(tanggalMulai), // Ensure tanggalMulai is a string in YYYY-MM-DD format
-          TanggalBerakhir: formatDate(tanggalBerakhir), // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
+          TanggalMulai: tanggalMulai, // Ensure tanggalMulai is a string in YYYY-MM-DD format
+          TanggalBerakhir: tanggalBerakhir, // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
           Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
         };
 

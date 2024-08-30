@@ -59,11 +59,28 @@ function FormEditProduct(props) {
     return array.find((obj) => obj.value === value);
   }
 
+  const formatDate = (date) => {
+    const dayjsDate = dayjs(date);
+    if (!dayjsDate.isValid()) {
+      return;
+    }
+    const formattedDate = dayjsDate.format("YYYY-MM-DD");
+
+    return formattedDate;
+  };
   const handleChangeDate = (name, date) => {
+    const dayjsDate = dayjs(date);
+    if (!dayjsDate.isValid()) {
+      return;
+    }
+    const formattedDate = dayjsDate.format("YYYY-MM-DD");
     if (name === "mulaiTanggal") {
-      setTanggalMulai(date);
+      console.log(formattedDate);
+      setTanggalMulai(formattedDate);
     } else {
-      setTanggalBerakhir(date);
+      console.log(formattedDate);
+
+      setTanggalBerakhir(formattedDate);
     }
   };
 
@@ -77,8 +94,8 @@ function FormEditProduct(props) {
       tim,
       status,
       bulan,
-      tanggalMulai.format("YYYY-MM-DD"),
-      tanggalBerakhir.format("YYYY-MM-DD")
+      formatDate(tanggalMulai),
+      formatDate(tanggalBerakhir)
     );
   };
 

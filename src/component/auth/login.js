@@ -5,6 +5,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import HeroArea from "../features/wave";
+import { AnimatePresence, motion } from "framer-motion";
+import Aos from "aos";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -122,7 +124,10 @@ function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-blue-700 relative">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg absolute z-[99]">
+      <div
+        data-aos="fade-up"
+        className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg absolute z-[99]"
+      >
         <h2 className="text-3xl font-bold text-center text-blue-600">
           Scrum App
         </h2>
@@ -244,6 +249,7 @@ function Login() {
           </div>
         </div>
       </div>
+
       <HeroArea />
     </div>
   );

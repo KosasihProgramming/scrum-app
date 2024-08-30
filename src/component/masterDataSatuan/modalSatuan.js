@@ -6,33 +6,16 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import FormAddProduct from "./formAddProduct";
 
-export default function ModalProduct(props) {
+import FormAddSatuan from "./formAddSatuan";
+
+export default function ModalAddSatuan(props) {
   const setOpen = () => {
     props.setOpen(false);
   };
 
-  const handleAdd = (
-    judul,
-    target,
-    goal,
-    tim,
-    status,
-    bulan,
-    tanggalMulai,
-    tanggalBerakhir
-  ) => {
-    props.addData(
-      judul,
-      target,
-      goal,
-      tim,
-      status,
-      bulan,
-      tanggalMulai,
-      tanggalBerakhir
-    );
+  const handleAdd = (judul) => {
+    props.addData(judul);
   };
   return (
     <Dialog open={props.open} onClose={setOpen} className="relative z-10">
@@ -55,14 +38,11 @@ export default function ModalProduct(props) {
                       as="h3"
                       className="text-xl font-semibold leading-6 text-white w-[95%]  py-3 mt-8 rounded-xl bg-blue-600 "
                     >
-                      Tambah Data Product
+                      Tambah Data Satuan
                     </DialogTitle>
                   </div>
                   <div className=" px-4">
-                    <FormAddProduct
-                      addData={handleAdd}
-                      optionTim={props.optionTim}
-                    />
+                    <FormAddSatuan addData={handleAdd} />
                   </div>
                 </div>
               </div>

@@ -411,11 +411,13 @@ function TableDodSprint(props) {
     setIsEditCapaian(true);
   };
   function checkDate(date) {
-    const today = new Date(); // Mendapatkan tanggal hari ini
+    const today = new Date(tanggal); // Mendapatkan tanggal hari ini
     const targetDate = new Date(date); // Tanggal target
 
     // Mengecek apakah tanggal hari ini lebih dari tanggal target
-    if (today > targetDate) {
+    if (today <= targetDate) {
+      return false;
+    } else {
       Swal.fire({
         icon: "warning",
         title: "Perhatian",

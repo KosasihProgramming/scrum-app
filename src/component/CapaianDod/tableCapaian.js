@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import Swal from "sweetalert2";
 import Filter from "../features/filter";
 import { AnimatePresence, motion } from "framer-motion";
@@ -13,9 +13,12 @@ import { MdDoubleArrow } from "react-icons/md";
 import animationData from "../../styles/blue.json";
 import Lottie from "react-lottie";
 import { useLoading } from "../features/context/loadContext";
+import dayjs from "dayjs";
 function TableCapaian(props) {
   const peran = sessionStorage.getItem("peran");
-
+  const [tanggal, setTanggal] = useState(
+    dayjs().locale("id").format("YYYY/MM/DD")
+  );
   const { setIsLoad } = useLoading();
   const defaultOptions = {
     loop: true,
@@ -142,11 +145,13 @@ function TableCapaian(props) {
     }
   };
   function checkDate(date) {
-    const today = new Date(); // Mendapatkan tanggal hari ini
+    const today = new Date(tanggal); // Mendapatkan tanggal hari ini
     const targetDate = new Date(date); // Tanggal target
 
     // Mengecek apakah tanggal hari ini lebih dari tanggal target
-    if (today > targetDate) {
+    if (today <= targetDate) {
+      return false;
+    } else {
       Swal.fire({
         icon: "warning",
         title: "Perhatian",

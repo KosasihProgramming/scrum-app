@@ -27,7 +27,7 @@ import "aos/dist/aos.css";
 import "dayjs/locale/id";
 import { HiUserGroup } from "react-icons/hi2";
 import { IoMdExit } from "react-icons/io";
-
+import { BiSolidLayer } from "react-icons/bi";
 import { BsPersonLinesFill } from "react-icons/bs";
 import ProductBacklog from "./pages/product/productBacklog";
 import SprintBacklog from "./pages/sprint/sprintBacklog";
@@ -40,6 +40,8 @@ import Send from "./pages/x";
 import DodPersonal from "./pages/sprint/dodPersonal";
 import MasterDataUser from "./pages/masterData/masterDataUser";
 import Login from "./component/auth/login";
+import MasterDataSatuan from "./pages/masterData/masterDataSatuan";
+import MonthlyIncome from "./pages/income/monthlyIncome";
 
 const App = () => {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -59,7 +61,7 @@ const App = () => {
     // { name: "Biaya", link: "biaya", icon: GrMoney, main: false },
     {
       name: "Penjualan",
-      link: "penjualan",
+      link: "month-income",
       icon: FaHandHoldingDollar,
       main: false,
     },
@@ -84,25 +86,19 @@ const App = () => {
     },
 
     {
-      name: "Master Data",
-      link: "master-data",
-      icon: ImDatabase,
-      main: true,
+      name: "Data Satuan",
+      link: "data-satuan",
+      icon: BiSolidLayer,
+      main: false,
     },
   ];
 
   const menusClient = [
     { name: "Dashboard", link: "", icon: AiOutlineDashboard, main: false },
-    // {
-    //   name: "Ruang Koordinasi",
-    //   link: "ruang-koordinasi",
-    //   icon: BiConversation,
-    //   main: false,
-    // },
-    // { name: "Biaya", link: "biaya", icon: GrMoney, main: false },
+
     {
       name: "Penjualan",
-      link: "penjualan",
+      link: "month-income",
       icon: FaHandHoldingDollar,
       main: false,
     },
@@ -116,6 +112,12 @@ const App = () => {
       name: "Sprint Backlog",
       link: "sprint-backlog",
       icon: GiSprint,
+      main: false,
+    },
+    {
+      name: "Data Satuan",
+      link: "data-satuan",
+      icon: BiSolidLayer,
       main: false,
     },
   ];
@@ -362,13 +364,18 @@ const App = () => {
                       path="/product-backlog"
                       element={<ProductBacklog />}
                     />
-                    <Route path="/data-user" element={<MasterDataUser />} />
-
+                    {peran == "Scrum Master" && (
+                      <>
+                        <Route path="/data-user" element={<MasterDataUser />} />
+                      </>
+                    )}
+                    <Route path="/data-satuan" element={<MasterDataSatuan />} />
                     <Route
                       path="/pbi-product/:id"
                       element={<PbiProductBacklog />}
                     />
                     <Route path="/send" element={<Send />} />
+                    <Route path="/month-income" element={<MonthlyIncome />} />
                     <Route
                       path="/dod-pribadi/:id/:idUser/:idProduct"
                       element={<DodPersonal />}

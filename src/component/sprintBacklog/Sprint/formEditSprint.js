@@ -39,8 +39,7 @@ function FormEditSprint(props) {
     getObjectByValue(props.optionTim, props.data.Teams[0].id) || {}
   );
   const [product, setProduct] = useState(
-    getObjectByValue(props.optionProduct, props.data.ProductBacklog[0].id) ||
-      {}
+    getObjectByValue(props.optionProduct, props.data.ProductBacklog[0].id) || {}
   );
   const [tanggalMulai, setTanggalMulai] = useState(
     dayjs(props.data.TanggalMulai, "YYYY-MM-DD")
@@ -53,19 +52,42 @@ function FormEditSprint(props) {
     return array.find((obj) => obj.value === value);
   }
 
+  const formatDate = (date) => {
+    const dayjsDate = dayjs(date);
+    if (!dayjsDate.isValid()) {
+      return;
+    }
+    const formattedDate = dayjsDate.format("YYYY-MM-DD");
+
+    return formattedDate;
+  };
   const handleChangeDate = (name, date) => {
+    const dayjsDate = dayjs(date);
+    if (!dayjsDate.isValid()) {
+      return;
+    }
+    const formattedDate = dayjsDate.format("YYYY-MM-DD");
     if (name === "mulaiTanggal") {
-      console.log(date)
-      setTanggalMulai(date);
+      console.log(formattedDate);
+      setTanggalMulai(formattedDate);
     } else {
-      setTanggalBerakhir(date);
+      console.log(formattedDate);
+
+      setTanggalBerakhir(formattedDate);
     }
   };
 
   const handleAdd = (e) => {
     e.preventDefault();
 
-    props.addData(tim, status, urutan, product, tanggalMulai, tanggalBerakhir);
+    props.addData(
+      tim,
+      status,
+      urutan,
+      product,
+      formatDate(tanggalMulai),
+      formatDate(tanggalBerakhir)
+    );
   };
 
   return (

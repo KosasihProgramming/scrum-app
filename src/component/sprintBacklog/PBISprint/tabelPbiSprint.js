@@ -46,6 +46,9 @@ function TablePBISprint(props) {
   const [isCopy, setIscopy] = useState(false);
   const [isEditData, setIsEditData] = useState(false);
   const { setIsLoad } = useLoading();
+  const [tanggal, setTanggal] = useState(
+    dayjs().locale("id").format("YYYY/MM/DD")
+  );
   const peran = sessionStorage.getItem("peran");
 
   const [searchTerm, setSearchTerm] = useState(""); // State u
@@ -359,11 +362,13 @@ function TablePBISprint(props) {
     setIsAddAnggota(true);
   };
   function checkDate(date) {
-    const today = new Date(); // Mendapatkan tanggal hari ini
+    const today = new Date(tanggal); // Mendapatkan tanggal hari ini
     const targetDate = new Date(date); // Tanggal target
 
     // Mengecek apakah tanggal hari ini lebih dari tanggal target
-    if (today > targetDate) {
+    if (today <= targetDate) {
+      return false;
+    } else {
       Swal.fire({
         icon: "warning",
         title: "Perhatian",
