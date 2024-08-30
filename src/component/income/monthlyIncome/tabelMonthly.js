@@ -10,6 +10,8 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 import DropdownSearch from "../../features/dropdown";
 import { GoArrowUpRight } from "react-icons/go";
+import { AnimatePresence, motion } from "framer-motion";
+import { IoSearch } from "react-icons/io5";
 
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -75,255 +77,6 @@ function TableMonthly(props) {
     autoplay: true,
     animationData: animationData,
   };
-  const handleDelete = async (id) => {
-    if (peran !== "Scrum Master") {
-      Swal.fire({
-        icon: "warning",
-        title: "Perhatian",
-        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
-      });
-      return [];
-    }
-    try {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      });
-
-      if (result.isConfirmed) {
-        setIsLoad(true);
-        const response = await axios({
-          method: "DELETE",
-          url:
-            "http://202.157.189.177:8080/api/database/rows/table/597/" +
-            id +
-            "/",
-          headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-          },
-        });
-
-        props.getData();
-        setIsLoad(false);
-        Swal.fire({
-          icon: "success",
-          title: "Success",
-          text: "Data successfully deleted.",
-        });
-      }
-    } catch (error) {
-      setIsLoad(false);
-
-      if (error.response) {
-        // The request was made, and the server responded with a status code
-        // that falls out of the range of 2xx
-        Swal.fire({
-          icon: "error",
-          title: "Server Error",
-          text: `Error: ${error.response.data.error}`,
-        });
-        console.error("Server responded with an error:", error.response.data);
-      } else if (error.request) {
-        // The request was made, but no response was received
-        Swal.fire({
-          icon: "error",
-          title: "Network Error",
-          text: "No response received from the server.",
-        });
-        console.error("No response received:", error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: `Error setting up request: ${error.message}`,
-        });
-        console.error("Error setting up request:", error.message);
-      }
-    }
-  };
-  const handleAdd = async (
-    judul,
-    target,
-    goal,
-    tim,
-    status,
-    bulan,
-    tanggalMulai,
-    tanggalBerakhir
-  ) => {
-    setIsLoad(true);
-    try {
-      // Validate the data
-      if (!goal || !tim.value || !status.value || !bulan.value) {
-        setIsLoad(false);
-
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Semua field wajib diisi!",
-        });
-        return;
-      } else {
-        const data = {
-          Bulan: [bulan.value], // Ensure bulan.value is a string
-          ProductGoal: goal, // Ensure goal is a string
-          Status: [status.value], // Ensure status.value is a string
-          TanggalMulai: formatDate(tanggalMulai), // Ensure tanggalMulai is a string in YYYY-MM-DD format
-          TanggalBerakhir: formatDate(tanggalBerakhir), // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
-          Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
-        };
-
-        console.log(data, "Data being sent");
-
-        const response = await axios({
-          method: "POST",
-          url: "http://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
-          headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-            "Content-Type": "application/json",
-          },
-          data: data,
-        });
-
-        props.getData();
-        Swal.fire({
-          icon: "success",
-          title: "Success",
-          text: "Data successfully saved.",
-        });
-        setIsLoad(false);
-
-        console.log("Data successfully saved", response);
-        setIsAddData(false);
-      }
-    } catch (error) {
-      setIsLoad(false);
-
-      if (error.response) {
-        Swal.fire({
-          icon: "error",
-          title: "Server Error",
-          text: `Error: ${error.response.data.error}`,
-        });
-        console.error("Server responded with an error:", error.response.data);
-      } else if (error.request) {
-        Swal.fire({
-          icon: "error",
-          title: "Network Error",
-          text: "No response received from the server.",
-        });
-        console.error("No response received:", error.request);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: `Error setting up request: ${error.message}`,
-        });
-        console.error("Error setting up request:", error.message);
-      }
-    }
-  };
-
-  const editData = (data) => {
-    if (peran !== "Scrum Master") {
-      Swal.fire({
-        icon: "warning",
-        title: "Perhatian",
-        text: `Anda Tidak Memiliki Akses Untuk Fitur Ini`,
-      });
-      return [];
-    }
-    setIsEditData(true);
-    setIsAddData(false);
-    setDataUpdate(data);
-    setIdData(data.id);
-  };
-
-  const handleEdit = async (
-    judul,
-    target,
-    goal,
-    tim,
-    status,
-    bulan,
-    tanggalMulai,
-    tanggalBerakhir
-  ) => {
-    try {
-      if (!goal || !tim.value || !status.value || !bulan.value) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Semua field wajib diisi!",
-        });
-        return;
-      } else {
-        setIsLoad(true);
-
-        const data = {
-          Bulan: [bulan.value], // Ensure bulan.value is a string
-          ProductGoal: goal, // Ensure goal is a string
-          Status: [status.value], // Ensure status.value is a string
-          TanggalMulai: formatDate(tanggalMulai), // Ensure tanggalMulai is a string in YYYY-MM-DD format
-          TanggalBerakhir: formatDate(tanggalBerakhir), // Ensure tanggalBerakhir is a string in YYYY-MM-DD format
-          Tim: [tim.value], // Ensure tim.value is an ID or array of IDs
-        };
-
-        console.log(data, "Data being Update");
-
-        const response = await axios({
-          method: "PATCH",
-          url: `http://202.157.189.177:8080/api/database/rows/table/597/${idData}/?user_field_names=true`,
-          headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-            "Content-Type": "application/json",
-          },
-          data: data,
-        });
-        setIsLoad(false);
-
-        props.getData();
-        Swal.fire({
-          icon: "success",
-          title: "Success",
-          text: "Data Berhasil Diupdate.",
-        });
-        console.log("Data successfully saved", response);
-        setIsEditData(false);
-      }
-    } catch (error) {
-      setIsLoad(false);
-
-      if (error.response) {
-        Swal.fire({
-          icon: "error",
-          title: "Server Error",
-          text: `Error: ${error.response.data.error}`,
-        });
-        console.error("Server responded with an error:", error.response.data);
-      } else if (error.request) {
-        Swal.fire({
-          icon: "error",
-          title: "Network Error",
-          text: "No response received from the server.",
-        });
-        console.error("No response received:", error.request);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: `Error setting up request: ${error.message}`,
-        });
-        console.error("Error setting up request:", error.message);
-      }
-    }
-  };
   function formatDate(dateString) {
     // Regex untuk memeriksa format DD/MM/YYYY
     const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
@@ -342,112 +95,172 @@ function TableMonthly(props) {
     // Jika tidak cocok dengan format DD/MM/YYYY, kembalikan string aslinya
     return dateString;
   }
+  function formatRupiah(angka) {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(angka);
+  }
 
   return (
     <div
       //   data-aos="fade-down"
       //   data-aos-delay="450"
-      className="  w-full rounded-xl  mb-16 mt-10 relative"
+      className="  w-full rounded-xl  mb-16 mt-5 relative"
     >
-      <div className="w-full flex justify-between items-center rounded-xl bg-white py-2 px-5 shadow-md gap-6">
-        <div className="flex justify-start items-center gap-10 w-[25rem]">
-          <div className="input-wrapper">
-            <input
-              type="text"
-              placeholder="Cari..."
-              name="text"
-              className="input border p-2 rounded-lg"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-          </div>
-          <div className="w-auto flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
-            <div className="flex items-center justify-center z-[999] w-[12rem]">
-              <DropdownSearch
-                options={props.optionTim}
-                change={handleTeamChange}
-                name={"Tim"}
-                isSearch={false}
-              />
-            </div>
-          </div>
-        </div>
-        <button
-          className="button-insert w-[15rem]"
-          onClick={() => {
-            setIsAddData(!isAddData);
-          }}
-        >
-          Tambah
-        </button>
-      </div>
-
-      <div
-        data-aos="fade-up"
-        data-aos-delay="550"
-        className="w-full text-left text-sm font-normal mt-5"
+      <motion.div
+        initial={{ y: 1000, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", duration: 1.7, delay:0.2 }}
       >
-        <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 grid grid-cols-[2fr_2fr_1fr_1fr_3fr] gap-4">
-          <div className="font-medium">Judul</div>
-          <div className="font-medium">Cabang</div>
-          <div className="font-medium">Target</div>
-          <div className="font-medium">Total Omset</div>
-          <div className="font-medium">Persentase</div>
-        </div>
-
-        {currentData.length == 0 && (
-          <>
-            <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
-              <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
-                <Lottie options={defaultOptions} height={250} width={250} />
-                <h3 className="text-base text-blue-500 font-medium text-center">
-                  Belum Ada Data Cuyy..
-                </h3>
+        <AnimatePresence>
+          <div className="w-full flex justify-between items-center rounded-xl bg-white py-2 px-5 shadow-md gap-6">
+            <div className="flex justify-start items-center gap-10 w-[45rem]">
+              <div className="w-auto flex z-[999] justify-start gap-3 items-center p-1 border border-blue-600 rounded-xl">
+                <div className="flex items-center justify-center z-[999] w-[18rem]">
+                  <DropdownSearch
+                    options={props.optionCabang}
+                    change={handleTeamChange}
+                    name={"Cabang"}
+                    isSearch={true}
+                  />
+                </div>
               </div>
             </div>
-          </>
-        )}
-        {currentData.length > 0 && (
-          <>
-            <div className="bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl p-2 mt-5">
-              {currentData.map((data) => (
-                <div
-                  key={data.id}
-                  className="hover:cursor-pointer py-4 px-4 grid grid-cols-[2fr_2fr_1fr_1fr_3fr] gap-4 w-full items-center border-b border-blue-blue-300"
-                >
-                  <div>{data.Judul}</div>
-                  <div>{data.NamaCabang[0].value}</div>
-                  <div>{data.Target}</div>
-                  <div></div>
-               
+          </div>
+        </AnimatePresence>
+      </motion.div>
+      <div className="w-full text-left text-sm font-normal mt-5">
+        <motion.div
+          initial={{ y: 1000, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ type: "spring", duration: 1.7 }}
+        >
+          <AnimatePresence>
+            <div className="w-full text-left text-sm font-normal mt-5">
+              <div className="bg-blue-600 text-white rounded-xl font-normal py-4 px-6 gap-4 flex justify-between items-center">
+                <div className="font-medium flex justify-center items-center w-[20%]">
+                  Judul
                 </div>
+                <div className="font-medium flex justify-center items-center w-[20%]">
+                  Cabang
+                </div>
+                <div className="font-medium flex justify-center items-center w-[15%]">
+                  Base
+                </div>
+                <div className="font-medium flex justify-center items-center w-[15%]">
+                  Target
+                </div>
+                <div className="font-medium flex justify-center items-center w-[15%]">
+                  Total Omset
+                </div>
+                <div className="font-medium flex justify-center items-center w-[10%]">
+                  Persentase
+                </div>
+              </div>
+              {currentData.length == 0 && (
+                <>
+                  <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
+                    <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
+                      <Lottie
+                        options={defaultOptions}
+                        height={250}
+                        width={250}
+                      />
+                      <h3 className="text-base text-blue-500 font-medium text-center">
+                        Belum Ada Data Cuyy..
+                      </h3>
+                    </div>
+                  </div>
+                </>
+              )}
+              {currentData.length > 0 && (
+                <>
+                  <div
+                    className={`bg-white shadow-md flex flex-col justify-start items-center w-full rounded-xl p-2 mt-5 duration-500 
+                  h-auto
+                  `}
+                  >
+                    {currentData.map((data) => (
+                      <div
+                        key={data.id}
+                        className={`${
+                          data.PersentaseCapaian >= 90
+                            ? "bg-teal-500 text-white rounded-md"
+                            : "bg-white"
+                        }hover:cursor-pointer py-4 px-4 gap-4 w-full text-sm border-b border-blue-blue-300 flex justify-between items-center 
+                  `}
+                      >
+                        <div
+                          className={`font-normal ${
+                            data.PersentaseCapaian >= 90 ? " text-white" : ""
+                          } flex justify-center items-center w-[20%] flex-wrap text-wrap`}
+                        >
+                          {data.Judul}
+                        </div>
+                        <div
+                          className={`font-normal ${
+                            data.PersentaseCapaian >= 90 ? " text-white" : ""
+                          } flex justify-center items-center w-[20%] flex-wrap text-wrap`}
+                        >
+                          {data.NamaCabang[0].value}
+                        </div>
+                        <div
+                          className={`font-normal ${
+                            data.PersentaseCapaian >= 90 ? " text-white" : ""
+                          } flex justify-center items-center w-[15%] flex-wrap text-wrap`}
+                        >
+                          {formatRupiah(data.Base)}
+                        </div>
+                        <div
+                          className={`font-normal ${
+                            data.PersentaseCapaian >= 90 ? " text-white" : ""
+                          } flex justify-center items-center w-[15%] flex-wrap text-wrap`}
+                        >
+                          {formatRupiah(data.TargetOmset)}
+                        </div>
+                        <div
+                          className={`font-normal ${
+                            data.PersentaseCapaian >= 90 ? " text-white" : ""
+                          } flex justify-center items-center w-[15%] flex-wrap text-wrap`}
+                        >
+                          {formatRupiah(data.TotalOmset)}
+                        </div>
+                        <div
+                          className={`font-normal ${
+                            data.PersentaseCapaian >= 90 ? " text-white" : ""
+                          } flex justify-center items-center w-[10%] flex-wrap text-wrap`}
+                        >
+                          {data.PersentaseCapaian}%
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
+              {Array.from(
+                { length: Math.ceil(filteredData.length / dataPerPage) },
+                (_, i) => i + 1
+              ).map((page) => (
+                <button
+                  key={page}
+                  className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
+                    currentPage === page
+                      ? "bg-blue-600 text-white border-none"
+                      : "bg-transparent border-blue-600  border"
+                  }`}
+                  onClick={() => paginate(page)}
+                >
+                  {page}
+                </button>
               ))}
             </div>
-          </>
-        )}
+          </AnimatePresence>
+        </motion.div>
       </div>
-      {currentData.length > 0 && (
-        <>
-          <div className="mt-10 flex justify-start w-full bg-white rounded-xl py-2 px-4 shadow-md">
-            {Array.from(
-              { length: Math.ceil(filteredData.length / dataPerPage) },
-              (_, i) => i + 1
-            ).map((page) => (
-              <button
-                key={page}
-                className={`mx-1 rounded-xl border h-12 w-12 py-2 px-2 ${
-                  currentPage === page
-                    ? "bg-blue-600 text-white border-none"
-                    : "bg-transparent border-blue-600  border"
-                }`}
-                onClick={() => paginate(page)}
-              >
-                {page}
-              </button>
-            ))}
-          </div>{" "}
-        </>
-      )}
     </div>
   );
 }

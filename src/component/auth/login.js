@@ -67,14 +67,56 @@ function Login() {
           window.location.reload();
         });
       } else {
-        Swal.fire({
-          icon: "warning",
-          title: "Gagal",
-          text: "Gagal Masuk, Periksa kembali Email dan Password Anda",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        const cekEmail = await CheckEmail();
+        if (cekEmail.length > 0) {
+          Swal.fire({
+            icon: "warning",
+            title: "Gagal",
+            text: "Gagal Masuk, Periksa kembali Password Anda",
+            showConfirmButton: true,
+          });
+        } else {
+          Swal.fire({
+            icon: "warning",
+            title: "Gagal",
+            text: "Gagal Masuk, Akun Dengan Email Ini Tidak Ditemukan, Harap Ajukan pembuatan Akun Ke Scrum Master",
+            showConfirmButton: true,
+          });
+        }
       }
+      return allData;
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Gagal Masuk, Terdapat Error Sistem " + error,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      alert(error.message);
+    }
+  };
+  const CheckEmail = async () => {
+    try {
+      const filters = [
+        {
+          type: "equal",
+          field: "Email",
+          value: `${email}`,
+        },
+      ];
+      const param = await Filter(filters);
+      const response = await axios({
+        method: "GET",
+        url:
+          "http://202.157.189.177:8080/api/database/rows/table/717/?" + param,
+        headers: {
+          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+        },
+      });
+      console.log(response.data.results, "all data Dod");
+      const allData = response.data.results;
+
       return allData;
     } catch (error) {
       Swal.fire({
