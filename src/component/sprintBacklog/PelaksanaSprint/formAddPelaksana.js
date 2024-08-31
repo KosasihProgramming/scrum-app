@@ -23,13 +23,20 @@ function FormAddPelaksana(props) {
   const [satuan, setSatuan] = useState(props.dataDod.Satuan[0]);
   const handleAdd = (e) => {
     e.preventDefault();
+    if (parseInt(props.dataDod.Target) < parseInt(target)) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `Target Dod Sprint Sebesar ${target} Tidak Boleh Melebihi Target Dod Sprint Sebesar ${props.dataDod.Target}`,
+      });
+    } else {
+      props.addData(user, target, waktu);
 
-    props.addData(user, target, waktu);
-
-    const data = {
-      target,
-      user,
-    };
+      const data = {
+        target,
+        user,
+      };
+    }
   };
 
   function convertDateFormat(dateString) {

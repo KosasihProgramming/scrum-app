@@ -73,7 +73,7 @@ function FormAddAnggota(props) {
                       <h4 className="font-semibold text-sm">{data.value}</h4>
                       <div className="flex justify-start items-center gap-6">
                         <p className="text-xs font-normal ">
-                          {data.userDetails.email}
+                          {data.userDetails.Email}
                         </p>
                       </div>
                     </div>

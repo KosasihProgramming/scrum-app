@@ -184,7 +184,7 @@ export default function ModalAddPelaksana(props) {
         });
         setIsLoad(false);
 
-        props.getData();
+        props.getData(props.id);
         Swal.fire({
           icon: "success",
           title: "Success",

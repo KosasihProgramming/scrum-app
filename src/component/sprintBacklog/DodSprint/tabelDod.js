@@ -53,6 +53,7 @@ function TableDodSprint(props) {
   const [isCapaian, setIsCapaian] = useState(false);
   const [isCekGambar, setIsCekGambar] = useState(false);
   const [isCek, setIsCek] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [isCekDisplay, setIsdisplay] = useState(true);
   const [isAddCapaian, setIsAddCapaian] = useState(false);
   const [isEditCapaian, setIsEditCapaian] = useState(false);
@@ -128,6 +129,7 @@ function TableDodSprint(props) {
       const totalCapaian = filterdata.reduce((total, item) => {
         return total + parseInt(item.Capaian || 0); // Asumsikan ada properti `capaian`
       }, 0);
+
       setTotalCapaian(totalCapaian);
       console.log("total", totalCapaian);
       await props.getDataPBI();
@@ -138,12 +140,13 @@ function TableDodSprint(props) {
         setDataCapaian(data);
         setDataCapaianUpdate(data);
       }
+      return data;
     } catch (error) {
       console.log(error, "error");
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (data) => {
     if (peran !== "Scrum Master") {
       Swal.fire({
         icon: "warning",
@@ -152,9 +155,15 @@ function TableDodSprint(props) {
       });
       return [];
     }
-    if (checkDate(props.dataSprint.TanggalBerakhir) == true) {
+
+    // Cek jika props.dataSprint.TanggalBerakhir ada nilainya
+    if (
+      !props.dataSprint?.TanggalBerakhir ||
+      checkDate(props.dataSprint.TanggalBerakhir)
+    ) {
       return [];
     }
+
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
@@ -168,19 +177,58 @@ function TableDodSprint(props) {
 
       if (result.isConfirmed) {
         setIsLoad(true);
-        const response = await axios({
+        setIsDelete(true);
+
+        const capaian = await getDataCapaian(data);
+        const pelaksana = await props.getDataPelaksana(data.id);
+
+        if (capaian.length > 0) {
+          for (const element of capaian) {
+            const response = await axios({
+              method: "DELETE",
+              url:
+                "http://202.157.189.177:8080/api/database/rows/table/714/" +
+                element.id +
+                "/",
+              headers: {
+                Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+              },
+            });
+            console.log(response, "capaian res");
+          }
+        }
+
+        if (pelaksana.length > 0) {
+          for (const element of pelaksana) {
+            const response = await axios({
+              method: "DELETE",
+              url:
+                "http://202.157.189.177:8080/api/database/rows/table/718/" +
+                element.id +
+                "/",
+              headers: {
+                Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+              },
+            });
+            console.log(response, "pelaksana res");
+          }
+        }
+
+        await axios({
           method: "DELETE",
           url:
             "http://202.157.189.177:8080/api/database/rows/table/578/" +
-            id +
+            data.id +
             "/",
           headers: {
             Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           },
         });
-        setIsLoad(false);
 
+        setIsLoad(false);
+        setIsDelete(false);
         props.getData();
+
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -191,8 +239,6 @@ function TableDodSprint(props) {
       setIsLoad(false);
 
       if (error.response) {
-        // The request was made, and the server responded with a status code
-        // that falls out of the range of 2xx
         Swal.fire({
           icon: "error",
           title: "Server Error",
@@ -200,7 +246,6 @@ function TableDodSprint(props) {
         });
         console.error("Server responded with an error:", error.response.data);
       } else if (error.request) {
-        // The request was made, but no response was received
         Swal.fire({
           icon: "error",
           title: "Network Error",
@@ -208,7 +253,6 @@ function TableDodSprint(props) {
         });
         console.error("No response received:", error.request);
       } else {
-        // Something happened in setting up the request that triggered an Error
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -218,6 +262,7 @@ function TableDodSprint(props) {
       }
     }
   };
+
   const handleAdd = async (target, dod) => {
     try {
       // Validate the data
@@ -692,7 +737,7 @@ function TableDodSprint(props) {
 
                             <div class="group relative">
                               <button
-                                onClick={() => handleDelete(data.id)}
+                                onClick={() => handleDelete(data)}
                                 className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
                               >
                                 <MdDeleteOutline class="text-lg  duration-200 text-red-700" />

@@ -29,6 +29,7 @@ import animationData from "../../../styles/blue.json";
 import Lottie from "react-lottie";
 import { useLoading } from "../../features/context/loadContext";
 import ModalCopyPbiSprint from "../../CopyPbiSprint/modalCopy";
+import { getDodSprintForPBIDelete } from "../../features/utils";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 function TablePBISprint(props) {
@@ -136,6 +137,7 @@ function TablePBISprint(props) {
 
       if (result.isConfirmed) {
         setIsLoad(true);
+        await getDodSprintForPBIDelete(parseInt(props.idSprint), id);
         const response = await axios({
           method: "DELETE",
           url:
@@ -146,6 +148,7 @@ function TablePBISprint(props) {
             Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
           },
         });
+
         setIsLoad(false);
 
         props.getData();

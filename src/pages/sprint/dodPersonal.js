@@ -84,26 +84,32 @@ function DodPersonal({ params }) {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
       });
-      console.log(response.data.results, "all data");
       const allData = response.data.results;
       setDataPelaksana(allData[0]);
+      const dataFilter = allData.filter((a) => a.DodSprint.length > 0);
+      console.log(dataFilter, "all data");
+
       // Memetakan AnggotaSprint untuk mendapatkan data user masing-masing
-      const dodDetailsPromises = allData.map((dat) =>
+      const dodDetailsPromises = dataFilter.map((dat) =>
         getSingleDataDod(dat.DodSprint[0].id)
       );
 
       // Menunggu semua promise selesai dan mengumpulkan hasilnya
       const dodDetails = await Promise.all(dodDetailsPromises);
-      const combinedData = allData.map((anggota, index) => ({
+      const combinedData = dataFilter.map((anggota, index) => ({
         ...anggota,
         dod: dodDetails[index],
       }));
-      const totalCapaian = combinedData.reduce((total, item) => {
+      console.log(combinedData, "hasil dod");
+
+      const finalData = combinedData.filter(
+        (a) => a.DodSprint.length > 0 && a.dod.PBISprint.length > 0
+      );
+      const totalCapaian = finalData.reduce((total, item) => {
         return total + parseInt(item.Persentase || 0); // Asumsikan ada properti `capaian`
       }, 0);
       setTotalCapaian(totalCapaian / combinedData.length);
-      setDataDod(combinedData);
-      console.log(combinedData, "hasil dod");
+      setDataDod(finalData);
     } catch (error) {
       console.log(error.message);
     }
@@ -178,25 +184,23 @@ function DodPersonal({ params }) {
           Sprint Backlog
         </Link>
         <IoIosArrowForward className="text-2xl text-slate-500" />
-        <button
-          onClick={() => {
-            setIsOpen(false);
-          }}
+        <Link
+          to={`/pbi-sprint/${id}/${idProduct}`}
           className={`p-2 flex justify-center items-center text-sm ${
             isOpen ? "text-slate-500 " : "text-blue-700 "
           } font-medium`}
         >
           PBI Sprint
-        </button>
+        </Link>
         <IoIosArrowForward
           className={`text-2xl ${
             isOpen ? "text-slate-500 " : "text-blue-700 "
           } `}
         />
-        {isOpen == true && (
+        {userSet == true && (
           <>
             <div className="p-2 flex justify-center items-center text-sm text-blue-700  font-medium">
-              Dod Sprint
+              Dod Personal {dataUser.Nama}
             </div>
             <IoIosArrowForward className="text-2xl text-blue-700" />
           </>

@@ -178,6 +178,7 @@ function DodSprint({ params }) {
                   params.getDataPBI();
                 }}
                 dataUser={dataPelaksana}
+                getDataPelaksana={getDataPelaksana}
                 getDataUser={getDataPelaksana}
                 optionDod={dataDodProduct}
               />
