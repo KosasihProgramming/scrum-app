@@ -403,7 +403,18 @@ function TablePBISprint(props) {
                     />
                   </div>
                 </div>
+
                 <div className="flex justify-end gap-6 items-center">
+                  {peran == "Scrum Master" && (
+                    <>
+                      <Link
+                        className="button-insert w-[18rem]"
+                        to={`/dod-uncheck/${props.idSprint}/${props.idProduct}`}
+                      >
+                        Dod Perlu Diperiksa
+                      </Link>
+                    </>
+                  )}
                   <button
                     className="button-insert w-[15rem]"
                     onClick={() => {

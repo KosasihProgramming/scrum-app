@@ -9,6 +9,7 @@ import { RiDeleteBack2Fill } from "react-icons/ri";
 import { IoIosArrowForward } from "react-icons/io";
 import ProgressBar from "../../component/features/progressBar";
 import TableTodo from "../../component/sprintBacklog/TodoList/tableTodo";
+import { VscRefresh } from "react-icons/vsc";
 function PbiSprintBacklog({ params }) {
   const [activeTabIndex, setActiveTabIndex] = useState("tab1");
   const [dataTim, setDataTim] = useState([]);
@@ -320,10 +321,10 @@ function PbiSprintBacklog({ params }) {
   function checkDate(date) {
     const today = new Date(); // Mendapatkan tanggal hari ini
     const targetDate = new Date(date); // Tanggal target
-  
+
     // Mengecek apakah tanggal hari ini lebih dari tanggal target
     if (today > targetDate) {
-      alert('Tanggal hari ini lebih dari 10 Desember 2020');
+      alert("Tanggal hari ini lebih dari 10 Desember 2020");
     }
   }
   const persentase = Math.floor(
@@ -407,6 +408,17 @@ function PbiSprintBacklog({ params }) {
                     Status:{" "}
                     {dataSprint == null ? "" : dataSprint.Status[0].value}
                   </div>
+                  <button
+                    onClick={() => {
+                      getSingleDataSprint(idSprint);
+                    }}
+                    className="cssbuttons-io-button w-[13rem]"
+                  >
+                    Refresh Progress
+                    <div className="icon">
+                      <VscRefresh className="text-xl text-blue-600" />
+                    </div>
+                  </button>
                 </div>
               </div>
               <div className="flex justify-center items-center">

@@ -42,6 +42,7 @@ import MasterDataUser from "./pages/masterData/masterDataUser";
 import Login from "./component/auth/login";
 import MasterDataSatuan from "./pages/masterData/masterDataSatuan";
 import MonthlyIncome from "./pages/income/monthlyIncome";
+import DodUncheck from "./pages/sprint/dodUncheck";
 
 const App = () => {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -384,6 +385,11 @@ const App = () => {
                     <Route
                       path="/pbi-sprint/:id/:idProduct"
                       element={<PbiSprintBacklog />}
+                    />
+
+                    <Route
+                      path="/dod-uncheck/:id/:idProduct"
+                      element={<DodUncheck />}
                     />
                     <Route
                       path="/dod-product/:id/:pbi"
