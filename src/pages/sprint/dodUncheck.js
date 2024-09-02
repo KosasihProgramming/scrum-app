@@ -22,6 +22,7 @@ function DodUncheck({ params }) {
   const [dataDod, setDataDod] = useState([]);
   const tableRef = useRef(null); // Mengambil params dari URL
   const { id, idProduct } = useParams();
+  const [isLoadData, setIsLoadData] = useState(true);
 
   console.log("params", { id, idProduct });
 
@@ -77,6 +78,7 @@ function DodUncheck({ params }) {
       const totalCapaian = finalData.reduce((total, item) => {
         return total + parseInt(item.Persentase || 0); // Asumsikan ada properti `capaian`
       }, 0);
+      setIsLoadData(false);
 
       setDataDod(finalData);
     } catch (error) {
@@ -249,6 +251,7 @@ function DodUncheck({ params }) {
                 width={50}
                 data={dataDod}
                 getData={fetchData}
+                isLoadData={isLoadData}
               />
             </div>
           </div>

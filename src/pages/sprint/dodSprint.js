@@ -17,7 +17,7 @@ function DodSprint({ params }) {
   const [dataPelaksana, setDataPelaksana] = useState([]);
   const tableRef = useRef(null);
   const { id, pbi, pbiProduct } = params;
-  console.log(params, "paraaaaam");
+  const [isLoadData, setIsLoadData] = useState(true);
   const [idSprint, setIdSprint] = useState(params.id);
   const [idPbi, setIdPbi] = useState(params.idPbi);
   const [dataSprint, setDataSprint] = useState(params.dataSprint);
@@ -97,6 +97,7 @@ function DodSprint({ params }) {
           satuan: item.Satuan[0],
         };
       });
+      setIsLoadData(false)
       setDataDodProduct(dataOption);
     } catch (error) {
       setError(error.message);
@@ -172,6 +173,7 @@ function DodSprint({ params }) {
                 idSprint={idSprint}
                 idPbi={idPbi}
                 width={50}
+                isLoadData={isLoadData}
                 setDod={(a) => {
                   openPelaksana(a);
                 }}

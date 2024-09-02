@@ -22,6 +22,7 @@ function DodPersonal({ params }) {
   const [dataSprint, setdataSprint] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [dataAnggota, setDataAnggota] = useState([]);
+  const [isLoadData, setIsLoadData] = useState(true);
   const { id, idUser, idProduct } = params;
   const [dataUser, setDataUser] = useState([]);
   const [dataPelaksana, setDataPelaksana] = useState([]);
@@ -110,6 +111,7 @@ function DodPersonal({ params }) {
       }, 0);
       setTotalCapaian(totalCapaian / combinedData.length);
       setDataDod(finalData);
+      setIsLoadData(false);
     } catch (error) {
       console.log(error.message);
     }
@@ -307,6 +309,7 @@ function DodPersonal({ params }) {
             idSprint={idSprint}
             width={50}
             data={dataDod}
+            isLoadData={isLoadData}
             dataUser={dataUser}
             dataPelaksana={dataPelaksana}
             getData={fetchData}

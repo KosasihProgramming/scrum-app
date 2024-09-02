@@ -31,6 +31,7 @@ import animationData from "../../../styles/blue.json";
 import Lottie from "react-lottie";
 import ModalAddAnggota from "../anggotaSprint/modalAnggota";
 import { useLoading } from "../../features/context/loadContext";
+import LoaderData from "../../features/loaderData";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 function TableDodSprint(props) {
@@ -40,6 +41,7 @@ function TableDodSprint(props) {
   const [search, setSearch] = useState("");
 
   const [dataUpdate, setDataUpdate] = useState({});
+  const [isLoadData, setIsLoadData] = useState(true);
 
   const { setIsLoad } = useLoading();
   const peran = sessionStorage.getItem("peran");
@@ -133,6 +135,7 @@ function TableDodSprint(props) {
       const totalCapaian = filterdata.reduce((total, item) => {
         return total + parseInt(item.Capaian || 0); // Asumsikan ada properti `capaian`
       }, 0);
+      setIsLoadData(false);
 
       setTotalCapaian(totalCapaian);
       console.log("total", totalCapaian);
@@ -672,114 +675,123 @@ function TableDodSprint(props) {
                 </>
               ) : (
                 <>
-                  {currentData.length == 0 && (
+                  {props.isLoadData == true && (
                     <>
-                      <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
-                        <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
-                          <Lottie
-                            options={defaultOptions}
-                            height={250}
-                            width={250}
-                          />
-                          <h3 className="text-base text-blue-500 font-medium text-center">
-                            Belum Ada Data Cuyy..
-                          </h3>
-                        </div>
-                      </div>
+                      <LoaderData />
                     </>
                   )}
-                  {currentData.length > 0 && (
+                  {props.isLoadData == false && (
                     <>
-                      {currentData.map((data) => (
-                        <div
-                          // data-aos="fade-up"
-                          key={data.id}
-                          className={`hover:cursor-pointer py-4 bg-white px-4 gap-4 w-[100%] text-sm border-b border-blue-blue-300 flex justify-between items-center `}
-                        >
-                          <div className="font-normal flex justify-start items-center w-[40%] overflow-wrap break-words word-break break-all">
-                            {data.Judul[0].value}
+                      {currentData.length == 0 && (
+                        <>
+                          <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
+                            <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
+                              <Lottie
+                                options={defaultOptions}
+                                height={250}
+                                width={250}
+                              />
+                              <h3 className="text-base text-blue-500 font-medium text-center">
+                                Belum Ada Data Cuyy..
+                              </h3>
+                            </div>
                           </div>
-                          <div className="font-normal flex justify-start items-center w-[10%]">
-                            {data.Target} {data.Satuan[0].value}
-                          </div>
-                          <div className="font-normal flex justify-start items-center w-[10%]">
-                            {data.Capaian} {data.Satuan[0].value}
-                          </div>
-                          <div className="font-normal flex justify-start items-center w-[30%] gap-6">
-                            <div class="group relative">
-                              <button
-                                onClick={() => props.setDod(data)}
-                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
-                              >
-                                <FaUserGroup class="text-lg  duration-200 text-blue-700" />
-                              </button>
-                              <span
-                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                        </>
+                      )}
+                      {currentData.length > 0 && (
+                        <>
+                          {currentData.map((data) => (
+                            <div
+                              // data-aos="fade-up"
+                              key={data.id}
+                              className={`hover:cursor-pointer py-4 bg-white px-4 gap-4 w-[100%] text-sm border-b border-blue-blue-300 flex justify-between items-center `}
+                            >
+                              <div className="font-normal flex justify-start items-center w-[40%] overflow-wrap break-words word-break break-all">
+                                {data.Judul[0].value}
+                              </div>
+                              <div className="font-normal flex justify-start items-center w-[10%]">
+                                {data.Target} {data.Satuan[0].value}
+                              </div>
+                              <div className="font-normal flex justify-start items-center w-[10%]">
+                                {data.Capaian} {data.Satuan[0].value}
+                              </div>
+                              <div className="font-normal flex justify-start items-center w-[30%] gap-6">
+                                <div class="group relative">
+                                  <button
+                                    onClick={() => props.setDod(data)}
+                                    className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
+                                  >
+                                    <FaUserGroup class="text-lg  duration-200 text-blue-700" />
+                                  </button>
+                                  <span
+                                    class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-blue-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                              >
-                                Pelaksana<span></span>
-                              </span>
-                            </div>
+                                  >
+                                    Pelaksana<span></span>
+                                  </span>
+                                </div>
 
-                            <div class="group relative">
-                              <button
-                                onClick={() => editData(data)}
-                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
-                              >
-                                <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
-                              </button>
-                              <span
-                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                                <div class="group relative">
+                                  <button
+                                    onClick={() => editData(data)}
+                                    className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-teal-600 hover:scale-125 bg-teal-100 "
+                                  >
+                                    <HiOutlinePencilSquare class="text-lg  duration-200 text-teal-700" />
+                                  </button>
+                                  <span
+                                    class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-teal-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                              >
-                                Update<span></span>
-                              </span>
-                            </div>
+                                  >
+                                    Update<span></span>
+                                  </span>
+                                </div>
 
-                            <div class="group relative">
-                              <button
-                                onClick={() => handleDelete(data)}
-                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
-                              >
-                                <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
-                              </button>
-                              <span
-                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                                <div class="group relative">
+                                  <button
+                                    onClick={() => handleDelete(data)}
+                                    className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-red-600 hover:scale-125 bg-red-100 "
+                                  >
+                                    <MdDeleteOutline class="text-lg  duration-200 text-red-700" />
+                                  </button>
+                                  <span
+                                    class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-red-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                              >
-                                Hapus<span></span>
-                              </span>
-                            </div>
+                                  >
+                                    Hapus<span></span>
+                                  </span>
+                                </div>
 
-                            <div class="group relative">
-                              <button
-                                onClick={() => handleCapaian(data)}
-                                className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
-                              >
-                                <FaArrowUpRightDots class="text-lg  duration-200 text-blue-700" />
-                              </button>
-                              <span
-                                class="absolute -top-10 left-[50%] -translate-x-[50%] 
+                                <div class="group relative">
+                                  <button
+                                    onClick={() => handleCapaian(data)}
+                                    className="w-[2.5rem] h-[2.5rem] duration-300 transition-all flex justify-center items-center rounded-full border hover:border-blue-600 hover:scale-125 bg-blue-100 "
+                                  >
+                                    <FaArrowUpRightDots class="text-lg  duration-200 text-blue-700" />
+                                  </button>
+                                  <span
+                                    class="absolute -top-10 left-[50%] -translate-x-[50%] 
   z-20 origin-left scale-0 px-3 rounded-lg border 
   border-gray-300 bg-blue-600 text-white py-2 text-xs font-semibold
   shadow-md transition-all duration-300 ease-in-out 
   group-hover:scale-100"
-                              >
-                                Capaian<span></span>
-                              </span>
+                                  >
+                                    Capaian<span></span>
+                                  </span>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                      ))}
+                          ))}
+                        </>
+                      )}
                     </>
                   )}
                 </>
@@ -847,6 +859,7 @@ function TableDodSprint(props) {
             handleCekGambar={handleCekGambar}
             handleDelete={handleDelete}
             getData={getDataCapaian}
+            isLoadData={isLoadData}
             dataSprint={props.dataSprint}
             editData={editData}
             setCek={() => setIsCek(true)}

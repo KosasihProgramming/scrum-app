@@ -30,6 +30,7 @@ import { FaUserGroup } from "react-icons/fa6";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { useLoading } from "../../features/context/loadContext";
+import LoaderData from "../../features/loaderData";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 function TableDodUncheck(props) {
@@ -38,6 +39,8 @@ function TableDodUncheck(props) {
 
   const { setIsLoad } = useLoading();
   const peran = sessionStorage.getItem("peran");
+
+  const [isLoadData, setIsLoadData] = useState(true);
 
   const [isCapaian, setIsCapaian] = useState(false);
   const [isCekGambar, setIsCekGambar] = useState(false);
@@ -117,6 +120,7 @@ function TableDodUncheck(props) {
       setTotalCapaian(totalCapaian);
       console.log("total", totalCapaian);
       await props.getData();
+      setIsLoadData(false);
 
       setDataCapaian(data);
     } catch (error) {
@@ -247,53 +251,62 @@ function TableDodUncheck(props) {
                 </>
               ) : (
                 <>
-                  {currentData.length == 0 && (
+                  {props.isLoadData == true && (
                     <>
-                      <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
-                        <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
-                          <Lottie
-                            options={defaultOptions}
-                            height={250}
-                            width={250}
-                          />
-                          <h3 className="text-base text-blue-500 font-medium text-center">
-                            Belum Ada Data Cuyy..
-                          </h3>
-                        </div>
-                      </div>
+                      <LoaderData />
                     </>
                   )}
-
-                  {currentData.length > 0 && (
+                  {props.isLoadData == false && (
                     <>
-                      {currentData.map((data) => (
-                        <div
-                          // data-aos="fade-up"
-                          key={data.id}
-                          className={`hover:cursor-pointer py-4 bg-white px-4 gap-4 w-[100%] text-sm border-b border-blue-blue-300 flex justify-between items-center `}
-                        >
-                          <div className="font-normal flex justify-start items-center w-[40%] overflow-wrap break-words word-break break-all">
-                            {data.Judul[0].value}
+                      {currentData.length == 0 && (
+                        <>
+                          <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
+                            <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
+                              <Lottie
+                                options={defaultOptions}
+                                height={250}
+                                width={250}
+                              />
+                              <h3 className="text-base text-blue-500 font-medium text-center">
+                                Belum Ada Data Cuyy..
+                              </h3>
+                            </div>
                           </div>
-                          <div className="font-normal flex justify-start items-center w-[10%]">
-                            {data.Target} {data.Satuan[0].value}
-                          </div>
-                          <div className="font-normal flex justify-start items-center w-[10%]">
-                            {data.Capaian} {data.Satuan[0].value}
-                          </div>
-                          <div className="font-normal flex justify-start items-center w-[10%]">
-                            {data.Persentase}%
-                          </div>
-                          <div className="font-normal flex justify-center items-center w-[30%] gap-6">
-                            <button
-                              onClick={() => handleCapaian(data)}
-                              class="w-[150px] border font-medium border-blue-600 bg-blue-100 h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer relative overflow-hidden transition-all duration-500 ease-in-out shadow-md hover:scale-105 hover:shadow-lg before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-600 before:to-blue-400 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-xl hover:before:left-0 text-blue-700  hover:text-[#fff]"
+                        </>
+                      )}
+
+                      {currentData.length > 0 && (
+                        <>
+                          {currentData.map((data) => (
+                            <div
+                              // data-aos="fade-up"
+                              key={data.id}
+                              className={`hover:cursor-pointer py-4 bg-white px-4 gap-4 w-[100%] text-sm border-b border-blue-blue-300 flex justify-between items-center `}
                             >
-                              Lihat Capaian
-                            </button>
-                          </div>
-                        </div>
-                      ))}
+                              <div className="font-normal flex justify-start items-center w-[40%] overflow-wrap break-words word-break break-all">
+                                {data.Judul[0].value}
+                              </div>
+                              <div className="font-normal flex justify-start items-center w-[10%]">
+                                {data.Target} {data.Satuan[0].value}
+                              </div>
+                              <div className="font-normal flex justify-start items-center w-[10%]">
+                                {data.Capaian} {data.Satuan[0].value}
+                              </div>
+                              <div className="font-normal flex justify-start items-center w-[10%]">
+                                {data.Persentase}%
+                              </div>
+                              <div className="font-normal flex justify-center items-center w-[30%] gap-6">
+                                <button
+                                  onClick={() => handleCapaian(data)}
+                                  class="w-[150px] border font-medium border-blue-600 bg-blue-100 h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer relative overflow-hidden transition-all duration-500 ease-in-out shadow-md hover:scale-105 hover:shadow-lg before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-600 before:to-blue-400 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-xl hover:before:left-0 text-blue-700  hover:text-[#fff]"
+                                >
+                                  Lihat Capaian
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </>
+                      )}
                     </>
                   )}
                 </>
@@ -336,6 +349,7 @@ function TableDodUncheck(props) {
             dataSelected={dataSelected}
             handleCekGambar={handleCekGambar}
             getData={getDataCapaian}
+            isLoadData={isLoadData}
             dataUpdate={(data) => {
               setDataCapaianUpdate(data);
             }}

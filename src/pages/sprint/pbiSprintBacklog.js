@@ -19,6 +19,7 @@ function PbiSprintBacklog({ params }) {
   const [dataProduct, setDataProduct] = useState([]);
   const [dataSprint, setdataSprint] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoadData, setIsLoadData] = useState(true);
   const [dataAnggota, setDataAnggota] = useState([]);
   const { id, idProduct } = params;
   const [dataUser, setDataUser] = useState([]);
@@ -100,6 +101,7 @@ function PbiSprintBacklog({ params }) {
       setTotalPbi(allData.length);
       setDataPbiPlan(dataPlan);
       setDataPbiUnPlan(dataUnplan);
+      setIsLoadData(false);
     } catch (error) {
       console.log(error.message);
     }
@@ -456,6 +458,7 @@ function PbiSprintBacklog({ params }) {
             <TablePBISprint
               idSprint={idSprint}
               width={50}
+              isLoadData={isLoadData}
               data={dataPbiPlan}
               setOpen={(value) => setIsOpen(value)}
               isOpen={isOpen}
@@ -482,6 +485,7 @@ function PbiSprintBacklog({ params }) {
               dataAnggota={dataAnggota}
               dataSprint={dataSprint}
               getDataAnggota={getDataAnggota}
+              isLoadData={isLoadData}
               isOpen={isOpen}
               data={dataPbiUnPlan}
               getData={fetchData}
