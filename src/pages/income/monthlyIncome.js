@@ -348,7 +348,7 @@ function MonthlyIncome() {
                     transition={{ type: "spring", duration: 1.7, delay: 0.5 }}
                   >
                     <AnimatePresence>
-                      <div className="p-2 bg-white shadow-md flex justify-center items-center rounded-md text-xs border-blue-500 border">
+                      <div className="p-2 hover:scale-150 cursor-pointer duration-300 bg-white shadow-md flex justify-center items-center rounded-md text-xs border-blue-500 border">
                         {data.name}. {data.text}
                       </div>
                     </AnimatePresence>
