@@ -3,6 +3,10 @@ import Filter from "./filter";
 import Swal from "sweetalert2";
 
 const getDodSprintForPBIDelete = async (id, idPbi) => {
+  if (!id || !idPbi) {
+    alert("gagal, Data PBI Tidak Ada");
+    return [];
+  }
   try {
     const filters = [
       {
@@ -38,6 +42,10 @@ const getDodSprintForPBIDelete = async (id, idPbi) => {
 };
 const getDataCapaian = async (item) => {
   console.log(item);
+  if (!item) {
+    alert("gagal, Data Dod Tidak Ada");
+    return [];
+  }
   try {
     const filters = [
       {
@@ -68,6 +76,10 @@ const getDataCapaian = async (item) => {
   }
 };
 const getDataPelaksana = async (id) => {
+  if (!id) {
+    alert("gagal, Data Dod Tidak Ada");
+    return [];
+  }
   try {
     const filters = [
       {
@@ -94,9 +106,13 @@ const getDataPelaksana = async (id) => {
 };
 
 const handleDelete = async (data) => {
+  if (!data) {
+    alert("gagal, Data Dod Tidak Ada");
+    return [];
+  }
   try {
-    const capaian = await getDataCapaian(data);
-    const pelaksana = await getDataPelaksana(data.id);
+    const capaian = await getDataCapaian();
+    const pelaksana = await getDataPelaksana();
 
     if (capaian.length > 0) {
       for (const element of capaian) {
@@ -112,6 +128,7 @@ const handleDelete = async (data) => {
           },
         });
       }
+      alert(capaian.length + " Capaian");
     }
 
     if (pelaksana.length > 0) {
@@ -128,17 +145,18 @@ const handleDelete = async (data) => {
           },
         });
       }
+      alert(pelaksana.length + " Pelaksana");
     }
-    await axios({
-      method: "DELETE",
-      url:
-        "http://202.157.189.177:8080/api/database/rows/table/578/" +
-        data.id +
-        "/",
-      headers: {
-        Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
-      },
-    });
+    // await axios({
+    //   method: "DELETE",
+    //   url:
+    //     "http://202.157.189.177:8080/api/database/rows/table/578/" +
+    //     data.id +
+    //     "/",
+    //   headers: {
+    //     Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+    //   },
+    // });
   } catch (error) {
     if (error.response) {
       Swal.fire({

@@ -105,6 +105,10 @@ function TableDodSprint(props) {
   };
   const getDataCapaian = async (item) => {
     console.log(item);
+    if (!item) {
+      alert("gagal, Data Dod Tidak Ada");
+      return [];
+    }
     try {
       const filters = [
         {
@@ -179,9 +183,10 @@ function TableDodSprint(props) {
         setIsLoad(true);
         setIsDelete(true);
 
-        const capaian = await getDataCapaian(data);
-        const pelaksana = await props.getDataPelaksana(data.id);
-
+        const capaian = await getDataCapaian();
+        const pelaksana = await props.getDataPelaksana();
+        console.log(capaian, "Capaian");
+        console.log(pelaksana, "Pelaksana");
         if (capaian.length > 0) {
           for (const element of capaian) {
             const response = await axios({
@@ -196,6 +201,7 @@ function TableDodSprint(props) {
             });
             console.log(response, "capaian res");
           }
+          alert(capaian.length + " capaian");
         }
 
         if (pelaksana.length > 0) {
@@ -212,6 +218,7 @@ function TableDodSprint(props) {
             });
             console.log(response, "pelaksana res");
           }
+          alert(pelaksana.length + " Pelaksana");
         }
 
         await axios({

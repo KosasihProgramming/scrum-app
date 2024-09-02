@@ -104,6 +104,10 @@ function DodSprint({ params }) {
   };
 
   const getDataPelaksana = async (id) => {
+    if (!id) {
+      alert("gagal, Data Dod Tidak Ada");
+      return [];
+    }
     try {
       const filters = [
         {
@@ -129,13 +133,13 @@ function DodSprint({ params }) {
       console.log(error);
     }
   };
-
   const openPelaksana = (data) => {
     console.log("data Dod Pelaksana", data);
     setIsAddPelaksana(true);
     setSelectedDod(data);
     getDataPelaksana(data.id);
   };
+
   return (
     <motion.div
       initial={{ y: 1000, opacity: 0 }}
