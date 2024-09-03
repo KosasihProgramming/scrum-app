@@ -42,7 +42,6 @@ function TableTodo(props) {
   const [selectedDate, setSelectedDate] = useState(
     dayjs().locale("id").format("YYYY-MM-DD")
   ); // State untuk menyimpan tanggal yang dipilih
-
   const [searchTerm, setSearchTerm] = useState(""); // State u
   useEffect(() => {
     Aos.init({ duration: 700 });
@@ -58,19 +57,19 @@ function TableTodo(props) {
 
   const filteredData = props.data.filter((data) => {
     const matchTeam =
-      selectedUser === "" || data.Pelaksana[0].value === selectedUser;
-    const matchSearch =
-      data.Task.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.Jam.toString().includes(searchTerm) ||
-      data.Pelaksana[0].value.toString().includes(searchTerm);
+      selectedUser === "" ||
+      (data.Pelaksana.length > 0 && data.Pelaksana[0].value === selectedUser);
+    const matchSearch = data.Task.toLowerCase().includes(
+      searchTerm.toLowerCase()
+    );
 
     // Format tanggal ke "YYYY-MM-DD" untuk filter
-    const dataTanggal = new Date(data.Tanggal).toISOString().split("T")[0];
-    const matchDate = selectedDate === "" || dataTanggal === selectedDate;
+
+    const matchDate = data.Tanggal == selectedDate;
 
     return matchTeam && matchSearch && matchDate;
   });
-
+  console.log(selectedDate);
   const indexOfLastData = currentPage * dataPerPage;
   const indexOfFirstData = indexOfLastData - dataPerPage;
   const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
@@ -80,6 +79,7 @@ function TableTodo(props) {
     animationData: animationData,
   };
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  console.log("Data Todo", filteredData);
 
   const handleTeamChange = (item) => {
     setSelectedUser(item.text); // Simpan id tim yang dipilih
@@ -408,6 +408,20 @@ function TableTodo(props) {
 
     return `${parseInt(hari)} ${namaBulan} ${tahun}`;
   }
+
+  function convertDate(dateInput) {
+    const date = new Date(dateInput);
+
+    if (isNaN(date)) {
+      throw new Error("Invalid date");
+    }
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Menambahkan 1 karena getMonth() mengembalikan nilai 0-11
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
   const sendmessage = async () => {
     console.log("datasend", currentData);
     const result = filteredData
@@ -608,7 +622,7 @@ function TableTodo(props) {
                 Aksi
               </div>
             </div>
-            {currentData.length == 0 && (
+            {props.data.length == 0 && (
               <>
                 <div className="w-full flex justify-center items-center mt-5 rounded-xl bg-white">
                   <div className="w-[100%]  h-[20rem] pb-5 bg-transparent px-2 flex rounded-xl justify-center flex-col items-center">
@@ -620,7 +634,7 @@ function TableTodo(props) {
                 </div>
               </>
             )}
-            {currentData.length > 0 && (
+            {props.data.length > 0 && (
               <>
                 <motion.div
                   initial={{ y: 1000, opacity: 0 }}

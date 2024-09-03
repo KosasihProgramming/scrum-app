@@ -65,7 +65,6 @@ function PbiSprintBacklog({ params }) {
         },
       });
 
-      console.log(response.data, "data Sprint");
       const data = response.data;
 
       setdataSprint(data);
@@ -152,7 +151,6 @@ function PbiSprintBacklog({ params }) {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
       });
-      console.log(response.data.results, "user Anggota");
       const data = response.data.results;
 
       const dataOption = data.map((item) => {
@@ -185,7 +183,6 @@ function PbiSprintBacklog({ params }) {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
       });
-      console.log(response.data.results, "Timmmmm");
       const data = response.data.results;
 
       return data[0];
@@ -203,7 +200,6 @@ function PbiSprintBacklog({ params }) {
         },
       });
 
-      console.log(response.data, "all data Angota");
       const allData = response.data;
 
       // Mengambil array AnggotaSprint
@@ -223,7 +219,6 @@ function PbiSprintBacklog({ params }) {
         userDetails: anggotaDetails[index],
       }));
 
-      console.log(combinedData, "combined data AnggotaSprint dengan details");
       setDataAnggota(combinedData);
       return combinedData;
     } catch (error) {
@@ -241,7 +236,6 @@ function PbiSprintBacklog({ params }) {
         },
       });
 
-      console.log(response.data, "data Anggota Sprint");
       const userData = response.data;
 
       return userData;
@@ -258,7 +252,6 @@ function PbiSprintBacklog({ params }) {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
       });
-      console.log(response.data.results, "all data sprint");
       const allData = response.data.results;
       const dataOption = allData.map((item) => {
         return { value: item.id, text: item.Judul[0].value };

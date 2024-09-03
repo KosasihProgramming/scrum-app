@@ -372,14 +372,24 @@ function TableProduct(props) {
             </div>
           </div>
         </div>
-        <button
-          className="button-insert w-[15rem]"
-          onClick={() => {
-            setIsAddData(!isAddData);
-          }}
-        >
-          Tambah
-        </button>
+        <div className="flex justify-end gap-6 items-center">
+          <button
+            className="button-insert w-[15rem]"
+            onClick={() => {
+              props.setIsSearch();
+            }}
+          >
+            Cari Data
+          </button>
+          <button
+            className="button-insert w-[15rem]"
+            onClick={() => {
+              setIsAddData(!isAddData);
+            }}
+          >
+            Tambah
+          </button>
+        </div>
       </div>
 
       <ModalProduct
