@@ -96,10 +96,12 @@ function PbiSprintBacklog({ params }) {
       const allData = response.data.results;
       const dataPlan = allData.filter((a) => a.Unplan === false);
       const dataUnplan = allData.filter((a) => a.Unplan === true);
+      const planSorted = dataPlan.sort((a, b) => b.Bobot - a.Bobot);
+      const unplanSorted = dataUnplan.sort((a, b) => b.Bobot - a.Bobot);
       await getSingleDataSprint(idSprint);
       setTotalPbi(allData.length);
-      setDataPbiPlan(dataPlan);
-      setDataPbiUnPlan(dataUnplan);
+      setDataPbiPlan(planSorted);
+      setDataPbiUnPlan(unplanSorted);
       setIsLoadData(false);
     } catch (error) {
       console.log(error.message);

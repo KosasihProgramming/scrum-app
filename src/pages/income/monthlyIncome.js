@@ -141,14 +141,23 @@ function MonthlyIncome() {
           totalTarget: parseInt(item.TargetOmset),
         };
       });
+      const klinikSorted = dataKlinik.sort(
+        (a, b) => a.PersentaseCapaian - b.PersentaseCapaian
+      );
+      const LabSorted = dataLab.sort(
+        (a, b) => a.PersentaseCapaian - b.PersentaseCapaian
+      );
+      const gigiSorted = dataGigi.sort(
+        (a, b) => a.PersentaseCapaian - b.PersentaseCapaian
+      );
       setDataChart(dataChart);
       setTotalKlinik(totalKlinik);
       setTotalLab(totalLab);
       setTotalGigi(totalGigi);
-      setDataRencana(dataLab);
+      setDataRencana(LabSorted);
       setIsStart(true);
-      setDataBerlalu(dataGigi);
-      setDataBerjalan(dataKlinik);
+      setDataBerlalu(gigiSorted);
+      setDataBerjalan(klinikSorted);
     } catch (error) {
       setError(error.message);
     }
