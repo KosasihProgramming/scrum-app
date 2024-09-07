@@ -56,6 +56,46 @@ function TableSprint(props) {
     { text: "November", value: 3317 },
     { text: "Desember", value: 3318 },
   ];
+  const getBulan = () => {
+    const bulanIndonesia = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
+
+    const now = new Date();
+    const currentMonthIndex = now.getMonth(); // Mengambil indeks bulan ini
+    const currentYear = now.getFullYear();
+
+    const namaBulanIni = bulanIndonesia[currentMonthIndex];
+    console.log(`Bulan ini: ${namaBulanIni} ${currentYear}`);
+
+    let nextMonthIndex = currentMonthIndex + 1;
+    let nextYear = currentYear;
+
+    if (nextMonthIndex > 11) {
+      nextMonthIndex = 0; // Jika bulan depan adalah Januari (indeks 0)
+      nextYear += 1; // Tambahkan tahun
+    }
+
+    const namaBulanDepan = bulanIndonesia[nextMonthIndex];
+    return { awal: namaBulanIni, akhir: namaBulanDepan };
+  };
+  const inMonth = getBulan();
+
+  const filterMonth = optionBulan.find((a) => a.text === inMonth.awal);
+  const filterMonth2 = optionBulan.find((a) => a.text === inMonth.akhir);
+  const combinedArray = [filterMonth, filterMonth2];
+
   const filteredData = props.data.filter((data) => {
     const matchTeam =
       selectedTeam === "" || data.NamaTim[0].id === selectedTeam;
@@ -118,8 +158,8 @@ function TableSprint(props) {
           },
         });
         setIsLoad(false);
+        props.getData(combinedArray);
 
-        props.getData();
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -200,7 +240,7 @@ function TableSprint(props) {
         });
         setIsLoad(false);
 
-        props.getData();
+        props.getData(combinedArray);
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -294,7 +334,8 @@ function TableSprint(props) {
         });
         setIsLoad(false);
 
-        props.getData();
+        props.getData(combinedArray);
+
         Swal.fire({
           icon: "success",
           title: "Success",

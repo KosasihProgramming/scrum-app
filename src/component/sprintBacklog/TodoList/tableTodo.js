@@ -40,7 +40,7 @@ function TableTodo(props) {
   const { setIsLoad } = useLoading();
   const [selectedUser, setSelectedUser] = useState(""); // State untuk filter tim
   const [selectedDate, setSelectedDate] = useState(
-    dayjs().locale("id").format("YYYY-MM-DD")
+    dayjs().locale("id").format("DD/MM/YYYY")
   ); // State untuk menyimpan tanggal yang dipilih
   const [searchTerm, setSearchTerm] = useState(""); // State u
   useEffect(() => {
@@ -64,10 +64,11 @@ function TableTodo(props) {
     );
 
     // Format tanggal ke "YYYY-MM-DD" untuk filter
-
+    console.log("tagggal todo", data.Tanggal);
+    console.log("tanggal sistem", selectedDate);
     const matchDate = data.Tanggal == selectedDate;
 
-    return matchTeam && matchSearch && matchDate;
+    return matchTeam && matchSearch;
   });
   console.log(selectedDate);
   const indexOfLastData = currentPage * dataPerPage;
@@ -79,7 +80,7 @@ function TableTodo(props) {
     animationData: animationData,
   };
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  console.log("Data Todo", filteredData);
+  console.log("Data Todo");
 
   const handleTeamChange = (item) => {
     setSelectedUser(item.text); // Simpan id tim yang dipilih
@@ -500,9 +501,10 @@ function TableTodo(props) {
     if (!dayjsDate.isValid()) {
       return;
     }
-    const formattedDate = dayjsDate.format("YYYY-MM-DD");
+    const formattedDate = dayjsDate.format("DD/MM/YYYY");
     setCurrentPage(1);
     setSelectedDate(formattedDate);
+    props.getData(formattedDate)
   };
   console.log("anggota todo", props.dataAnggota);
   return (

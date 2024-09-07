@@ -182,6 +182,7 @@ function FormAddCapaian(props) {
               </div>
             ))}
           </div>
+       
         </div>
 
         <button className="button-insert ml-5" onClick={handleAdd}>

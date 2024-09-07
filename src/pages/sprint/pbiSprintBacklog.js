@@ -10,6 +10,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import ProgressBar from "../../component/features/progressBar";
 import TableTodo from "../../component/sprintBacklog/TodoList/tableTodo";
 import { VscRefresh } from "react-icons/vsc";
+import dayjs from "dayjs";
 function PbiSprintBacklog({ params }) {
   const [activeTabIndex, setActiveTabIndex] = useState("tab1");
   const [dataTim, setDataTim] = useState([]);
@@ -27,6 +28,9 @@ function PbiSprintBacklog({ params }) {
   const [dataTodo, setDataTodo] = useState([]);
   const [idSprint, setIdSprint] = useState(id);
   const [totalPbi, setTotalPbi] = useState(0);
+  const [selectedDate, setSelectedDate] = useState(
+    dayjs().locale("id").format("DD/MM/YYYY")
+  );
   const [idProductBacklog, setIdProduct] = useState(idProduct);
   const allTabs = [
     {
@@ -107,7 +111,13 @@ function PbiSprintBacklog({ params }) {
       console.log(error.message);
     }
   };
-  const getTodo = async () => {
+  const getTodo = async (date) => {
+    let tanggal = "";
+    if (date) {
+      tanggal = date;
+    } else {
+      tanggal = selectedDate;
+    }
     try {
       const filters = [
         {
@@ -115,10 +125,10 @@ function PbiSprintBacklog({ params }) {
           field: "Sprint",
           value: `${idSprint}`,
         },
+        { type: "contains", field: "Tanggal", value: tanggal },
       ];
 
       const param = await Filter(filters);
-
       const response = await axios({
         method: "GET",
         url:
