@@ -186,7 +186,7 @@ function TableDodSprint(props) {
         setIsLoad(true);
         setIsDelete(true);
 
-        const capaian = await getDataCapaian();
+        const capaian = await getDataCapaian(data);
         const pelaksana = await props.getDataPelaksana();
         console.log(capaian, "Capaian");
         console.log(pelaksana, "Pelaksana");
