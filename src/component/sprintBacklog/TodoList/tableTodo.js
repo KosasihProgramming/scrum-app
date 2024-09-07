@@ -402,14 +402,24 @@ function TableTodo(props) {
       "November",
       "Desember",
     ];
-
-    const [tahun, bulan, hari] = tanggal.split("-");
-
+  
+    let tahun, bulan, hari;
+  
+    // Deteksi format berdasarkan keberadaan "-" atau "/"
+    if (tanggal.includes("-")) {
+      // Format YYYY-MM-DD
+      [tahun, bulan, hari] = tanggal.split("-");
+    } else if (tanggal.includes("/")) {
+      // Format DD/MM/YYYY
+      [hari, bulan, tahun] = tanggal.split("/");
+    } else {
+      return "Format tanggal tidak valid";
+    }
+  
     const namaBulan = bulanIndo[parseInt(bulan) - 1];
-
+  
     return `${parseInt(hari)} ${namaBulan} ${tahun}`;
   }
-
   function convertDate(dateInput) {
     const date = new Date(dateInput);
 
