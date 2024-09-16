@@ -26,13 +26,30 @@ export default function ModalPeriksaGambar(props) {
   const getDataCapaian = async (item) => {
     console.log("id Item", item);
     try {
-      const filters = [
-        {
-          type: "link_row_has",
-          field: "DodSprint",
-          value: `${item.DodSprint[0].id}`,
-        },
-      ];
+      let filters = [];
+      if (!props.isPersonal) {
+        filters = [
+          {
+            type: "link_row_has",
+            field: "DodSprint",
+            value: `${item.DodSprint[0].id}`,
+          },
+        ];
+      } else {
+        filters = [
+          {
+            type: "link_row_has",
+            field: "DodSprint",
+            value: `${item.DodSprint[0].id}`,
+          },
+          {
+            type: "link_row_has",
+            field: "Pelaksana",
+            value: `${item.Pelaksana[0].id}`,
+          },
+        ];
+      }
+      console.log("filters", filters);
       const param = await Filter(filters);
       const response = await axios({
         method: "GET",
@@ -42,7 +59,7 @@ export default function ModalPeriksaGambar(props) {
           Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
         },
       });
-      console.log(response.data.results, "dod");
+      console.log(response.data.results, "dod atau )Personal");
       const data = response.data.results;
       // Hitung total capaian
       const filterdata = data.filter((a) => a.isCheck == true);
@@ -104,6 +121,7 @@ export default function ModalPeriksaGambar(props) {
       }).then((result) => {
         if (result.isConfirmed) {
           props.setCek();
+          props.setIsDisplay();
           props.dataUpdate(updatedData);
         }
       });
@@ -141,7 +159,6 @@ export default function ModalPeriksaGambar(props) {
       }
     }
   };
-
 
   return (
     <Dialog

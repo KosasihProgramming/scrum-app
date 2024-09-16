@@ -121,8 +121,9 @@ function TableDodUncheck(props) {
       console.log("total", totalCapaian);
       await props.getData();
       setIsLoadData(false);
+      const dataUncheck = data.filter((a) => a.isCheck == false);
 
-      setDataCapaian(data);
+      setDataCapaian(dataUncheck);
     } catch (error) {
       console.log(error, "error");
     }

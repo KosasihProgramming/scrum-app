@@ -453,8 +453,8 @@ function TableDodSprint(props) {
   const handleCekGambar = (data) => {
     console.log(data);
     setIsCekGambar(true);
-    setIsCek(!isCek);
-    setIsdisplay(!isCekDisplay);
+    setIsCek(false);
+    setIsdisplay(true);
     setCapaianSelected(data);
   };
   const handleUpdateCapaian = (data) => {
@@ -481,7 +481,7 @@ function TableDodSprint(props) {
       return true;
     }
   }
-  console.log(dataSelected, "dod select");
+  console.log(dataCapaian, "capaian data");
   return (
     <div className="  w-full rounded-xl  mb-16 mt-5">
       {isCapaian == false && (

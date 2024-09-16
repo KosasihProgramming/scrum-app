@@ -313,6 +313,7 @@ function DodPersonal({ params }) {
             dataUser={dataUser}
             dataPelaksana={dataPelaksana}
             getData={fetchData}
+            dataSprint={dataSprint}
           />
         </div>
       </div>

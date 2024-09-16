@@ -93,13 +93,18 @@ function TableDodPersonal(props) {
     }
   };
   const getDataCapaian = async (item) => {
-    console.log(item);
+    console.log("dod", item);
     try {
       const filters = [
         {
           type: "link_row_has",
           field: "DodSprint",
           value: `${item.dod.id}`,
+        },
+        {
+          type: "link_row_has",
+          field: "Pelaksana",
+          value: `${item.id}`,
         },
       ];
       const param = await Filter(filters);
@@ -159,6 +164,7 @@ function TableDodPersonal(props) {
         getData={getDataCapaian}
         optionUser={props.dataUser}
         dataPelaksana={props.dataPelaksana}
+        dataSprint={props.dataSprint}
         select={true}
       />
       <ModalEditCapaian
@@ -384,6 +390,7 @@ function TableDodPersonal(props) {
             dataCapaian={dataCapaian}
             dataSelected={dataSelected}
             isLoadData={isLoadData}
+            dataSprint={props.dataSprint}
             handleCekGambar={handleCekGambar}
             getData={getDataCapaian}
             dataUpdate={(data) => {

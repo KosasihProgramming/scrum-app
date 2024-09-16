@@ -43,6 +43,7 @@ import Login from "./component/auth/login";
 import MasterDataSatuan from "./pages/masterData/masterDataSatuan";
 import MonthlyIncome from "./pages/income/monthlyIncome";
 import DodUncheck from "./pages/sprint/dodUncheck";
+import Dashboard from "./pages/dashboad";
 
 const App = () => {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -371,6 +372,7 @@ const App = () => {
                       </>
                     )}
                     <Route path="/data-satuan" element={<MasterDataSatuan />} />
+                    <Route path="/" element={<Dashboard />} />
                     <Route
                       path="/pbi-product/:id"
                       element={<PbiProductBacklog />}

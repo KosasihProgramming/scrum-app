@@ -29,13 +29,30 @@ function TableCapaian(props) {
   const getDataCapaian = async (item) => {
     console.log(item);
     try {
-      const filters = [
-        {
-          type: "link_row_has",
-          field: "DodSprint",
-          value: `${item.id}`,
-        },
-      ];
+      let filters = [];
+      if (!props.isPersonal) {
+        filters = [
+          {
+            type: "link_row_has",
+            field: "DodSprint",
+            value: `${item.DodSprint[0].id}`,
+          },
+        ];
+      } else {
+        filters = [
+          {
+            type: "link_row_has",
+            field: "DodSprint",
+            value: `${item.DodSprint[0].id}`,
+          },
+          {
+            type: "link_row_has",
+            field: "Pelaksana",
+            value: `${item.Pelaksana[0].id}`,
+          },
+        ];
+      }
+
       const param = await Filter(filters);
       const response = await axios({
         method: "GET",
