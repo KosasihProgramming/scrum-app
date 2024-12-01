@@ -61,11 +61,11 @@ export default function ModalEditCapaian(props) {
             }
 
             const fileUploadResponse = await axios.post(
-              "http://202.157.189.177:8080/api/user-files/upload-file/",
+              "http://103.181.182.230:6060/api/user-files/upload-file/",
               formData,
               {
                 headers: {
-                  Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+                  Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
                   "Content-Type": "multipart/form-data",
                 },
               }
@@ -117,9 +117,9 @@ export default function ModalEditCapaian(props) {
           } else {
             const response = await axios({
               method: "PATCH",
-              url: `http://202.157.189.177:8080/api/database/rows/table/714/${props.data.id}/?user_field_names=true`,
+              url: `http://103.181.182.230:6060/api/database/rows/table/647/${props.data.id}/?user_field_names=true`,
               headers: {
-                Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+                Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
                 "Content-Type": "application/json",
               },
               data: data,
@@ -196,9 +196,9 @@ export default function ModalEditCapaian(props) {
 
   //     const response = await axios({
   //       method: "PATCH",
-  //       url: `http://202.157.189.177:8080/api/database/rows/table/718/${user.value}/?user_field_names=true`,
+  //       url: `http://103.181.182.230:6060/api/database/rows/table/648/${user.value}/?user_field_names=true`,
   //       headers: {
-  //         Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+  //         Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
   //         "Content-Type": "application/json",
   //       },
   //       data: data,

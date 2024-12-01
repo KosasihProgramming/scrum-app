@@ -30,9 +30,9 @@ export default function ModalAddPelaksana(props) {
     try {
       const response = await axios({
         method: "GET",
-        url: `http://202.157.189.177:8080/api/database/rows/table/575/${props.idSprint}/?user_field_names=true`,
+        url: `http://103.181.182.230:6060/api/database/rows/table/634/${props.idSprint}/?user_field_names=true`,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
 
@@ -71,9 +71,9 @@ export default function ModalAddPelaksana(props) {
     try {
       const response = await axios({
         method: "GET",
-        url: `http://202.157.189.177:8080/api/database/rows/table/717/${id}/?user_field_names=true`,
+        url: `http://103.181.182.230:6060/api/database/rows/table/633/${id}/?user_field_names=true`,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
 
@@ -109,9 +109,9 @@ export default function ModalAddPelaksana(props) {
 
         const response = await axios({
           method: "POST",
-          url: "http://202.157.189.177:8080/api/database/rows/table/718/?user_field_names=true",
+          url: "http://103.181.182.230:6060/api/database/rows/table/648/?user_field_names=true",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
             "Content-Type": "application/json",
           },
           data: data,
@@ -175,11 +175,11 @@ export default function ModalAddPelaksana(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/718/" +
+            "http://103.181.182.230:6060/api/database/rows/table/648/" +
             id +
             "/",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           },
         });
         setIsLoad(false);

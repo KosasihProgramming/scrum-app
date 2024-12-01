@@ -109,11 +109,11 @@ function TableTodo(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/726/" +
+            "http://103.181.182.230:6060/api/database/rows/table/649/" +
             id +
             "/",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           },
         });
         setIsLoad(false);
@@ -196,9 +196,9 @@ function TableTodo(props) {
 
         const response = await axios({
           method: "POST",
-          url: "http://202.157.189.177:8080/api/database/rows/table/726/?user_field_names=true",
+          url: "http://103.181.182.230:6060/api/database/rows/table/649/?user_field_names=true",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
             "Content-Type": "application/json",
           },
           data: data,
@@ -257,9 +257,9 @@ function TableTodo(props) {
 
       const response = await axios({
         method: "PATCH",
-        url: `http://202.157.189.177:8080/api/database/rows/table/726/${item.id}/?user_field_names=true`,
+        url: `http://103.181.182.230:6060/api/database/rows/table/649/${item.id}/?user_field_names=true`,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           "Content-Type": "application/json",
         },
         data: data,
@@ -337,9 +337,9 @@ function TableTodo(props) {
 
         const response = await axios({
           method: "PATCH",
-          url: `http://202.157.189.177:8080/api/database/rows/table/577/${idData}/?user_field_names=true`,
+          url: `http://103.181.182.230:6060/api/database/rows/table/639/${idData}/?user_field_names=true`,
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
             "Content-Type": "application/json",
           },
           data: data,
@@ -402,9 +402,9 @@ function TableTodo(props) {
       "November",
       "Desember",
     ];
-  
+
     let tahun, bulan, hari;
-  
+
     // Deteksi format berdasarkan keberadaan "-" atau "/"
     if (tanggal.includes("-")) {
       // Format YYYY-MM-DD
@@ -415,9 +415,9 @@ function TableTodo(props) {
     } else {
       return "Format tanggal tidak valid";
     }
-  
+
     const namaBulan = bulanIndo[parseInt(bulan) - 1];
-  
+
     return `${parseInt(hari)} ${namaBulan} ${tahun}`;
   }
   function convertDate(dateInput) {
@@ -514,7 +514,7 @@ function TableTodo(props) {
     const formattedDate = dayjsDate.format("DD/MM/YYYY");
     setCurrentPage(1);
     setSelectedDate(formattedDate);
-    props.getData(formattedDate)
+    props.getData(formattedDate);
   };
   console.log("anggota todo", props.dataAnggota);
   return (

@@ -92,9 +92,9 @@ function TableDodSprint(props) {
     try {
       const response = await axios({
         method: "GET",
-        url: `http://202.157.189.177:8080/api/database/rows/table/578/${dataSelected.id}/?user_field_names=true`,
+        url: `http://103.181.182.230:6060/api/database/rows/table/640/${dataSelected.id}/?user_field_names=true`,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
 
@@ -123,9 +123,9 @@ function TableDodSprint(props) {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/714/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/647/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       console.log(response.data.results, "dod");
@@ -195,11 +195,11 @@ function TableDodSprint(props) {
             const response = await axios({
               method: "DELETE",
               url:
-                "http://202.157.189.177:8080/api/database/rows/table/714/" +
+                "http://103.181.182.230:6060/api/database/rows/table/647/" +
                 element.id +
                 "/",
               headers: {
-                Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+                Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
               },
             });
             console.log(response, "capaian res");
@@ -212,11 +212,11 @@ function TableDodSprint(props) {
             const response = await axios({
               method: "DELETE",
               url:
-                "http://202.157.189.177:8080/api/database/rows/table/718/" +
+                "http://103.181.182.230:6060/api/database/rows/table/648/" +
                 element.id +
                 "/",
               headers: {
-                Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+                Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
               },
             });
             console.log(response, "pelaksana res");
@@ -227,11 +227,11 @@ function TableDodSprint(props) {
         await axios({
           method: "DELETE",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/578/" +
+            "http://103.181.182.230:6060/api/database/rows/table/640/" +
             data.id +
             "/",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           },
         });
 
@@ -297,9 +297,9 @@ function TableDodSprint(props) {
 
         const response = await axios({
           method: "POST",
-          url: "http://202.157.189.177:8080/api/database/rows/table/578/?user_field_names=true",
+          url: "http://103.181.182.230:6060/api/database/rows/table/640/?user_field_names=true",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
             "Content-Type": "application/json",
           },
           data: data,
@@ -391,9 +391,9 @@ function TableDodSprint(props) {
 
         const response = await axios({
           method: "PATCH",
-          url: `http://202.157.189.177:8080/api/database/rows/table/578/${idData}/?user_field_names=true`,
+          url: `http://103.181.182.230:6060/api/database/rows/table/640/${idData}/?user_field_names=true`,
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
             "Content-Type": "application/json",
           },
           data: data,

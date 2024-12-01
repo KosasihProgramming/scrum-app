@@ -45,9 +45,9 @@ function Login() {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/717/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/633/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       console.log(response.data.results, "all data Dod");
@@ -109,9 +109,9 @@ function Login() {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/717/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/633/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       console.log(response.data.results, "all data Dod");

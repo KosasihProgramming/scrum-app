@@ -155,11 +155,11 @@ function TableProduct(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/597/" +
+            "http://103.181.182.230:6060/api/database/rows/table/635/" +
             id +
             "/",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           },
         });
 
@@ -239,9 +239,9 @@ function TableProduct(props) {
 
         const response = await axios({
           method: "POST",
-          url: "http://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
+          url: "http://103.181.182.230:6060/api/database/rows/table/635/?user_field_names=true",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
             "Content-Type": "application/json",
           },
           data: data,
@@ -335,9 +335,9 @@ function TableProduct(props) {
 
         const response = await axios({
           method: "PATCH",
-          url: `http://202.157.189.177:8080/api/database/rows/table/597/${idData}/?user_field_names=true`,
+          url: `http://103.181.182.230:6060/api/database/rows/table/635/${idData}/?user_field_names=true`,
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
             "Content-Type": "application/json",
           },
           data: data,

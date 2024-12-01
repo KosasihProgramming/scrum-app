@@ -77,11 +77,11 @@ function TableSatuan(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/706/" +
+            "http://103.181.182.230:6060/api/database/rows/table/638/" +
             id +
             "/",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           },
         });
 
@@ -131,9 +131,9 @@ function TableSatuan(props) {
 
       const response = await axios({
         method: "POST",
-        url: "http://202.157.189.177:8080/api/database/rows/table/706/?user_field_names=true",
+        url: "http://103.181.182.230:6060/api/database/rows/table/638/?user_field_names=true",
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           "Content-Type": "application/json",
         },
         data: data,
@@ -190,9 +190,9 @@ function TableSatuan(props) {
 
       const response = await axios({
         method: "PATCH",
-        url: `http://202.157.189.177:8080/api/database/rows/table/706/${idData}/?user_field_names=true`,
+        url: `http://103.181.182.230:6060/api/database/rows/table/638/${idData}/?user_field_names=true`,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           "Content-Type": "application/json",
         },
         data: data,
@@ -265,7 +265,6 @@ function TableSatuan(props) {
         data-aos-delay="550"
         className="w-full text-left text-sm font-normal mt-5"
       >
-       
         <motion.div
           initial={{ y: 1000, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}

@@ -23,9 +23,9 @@ const getDodSprintForPBIDelete = async (id, idPbi) => {
     const param = await Filter(filters);
     const response = await axios({
       method: "GET",
-      url: "http://202.157.189.177:8080/api/database/rows/table/578/?" + param,
+      url: "http://103.181.182.230:6060/api/database/rows/table/640/?" + param,
       headers: {
-        Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+        Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
       },
     });
     console.log(response.data.results, "ditemukan data Dod");
@@ -57,9 +57,9 @@ const getDataCapaian = async (item) => {
     const param = await Filter(filters);
     const response = await axios({
       method: "GET",
-      url: "http://202.157.189.177:8080/api/database/rows/table/714/?" + param,
+      url: "http://103.181.182.230:6060/api/database/rows/table/647/?" + param,
       headers: {
-        Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+        Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
       },
     });
     console.log(response.data.results, "dod");
@@ -91,9 +91,9 @@ const getDataPelaksana = async (id) => {
     const param = await Filter(filters);
     const response = await axios({
       method: "GET",
-      url: "http://202.157.189.177:8080/api/database/rows/table/718/?" + param,
+      url: "http://103.181.182.230:6060/api/database/rows/table/648/?" + param,
       headers: {
-        Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+        Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
       },
     });
     console.log(response.data.results, "all data Pelaksana");
@@ -120,11 +120,11 @@ const handleDelete = async (data) => {
         await axios({
           method: "DELETE",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/714/" +
+            "http://103.181.182.230:6060/api/database/rows/table/647/" +
             element.id +
             "/",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           },
         });
       }
@@ -137,11 +137,11 @@ const handleDelete = async (data) => {
         await axios({
           method: "DELETE",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/718/" +
+            "http://103.181.182.230:6060/api/database/rows/table/648/" +
             element.id +
             "/",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           },
         });
       }
@@ -150,11 +150,11 @@ const handleDelete = async (data) => {
     // await axios({
     //   method: "DELETE",
     //   url:
-    //     "http://202.157.189.177:8080/api/database/rows/table/578/" +
+    //     "http://103.181.182.230:6060/api/database/rows/table/640/" +
     //     data.id +
     //     "/",
     //   headers: {
-    //     Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+    //     Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
     //   },
     // });
   } catch (error) {

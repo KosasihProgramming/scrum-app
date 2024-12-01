@@ -90,11 +90,11 @@ function TableUsers(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/717/" +
+            "http://103.181.182.230:6060/api/database/rows/table/633/" +
             id +
             "/",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           },
         });
         setIsLoad(false);
@@ -159,11 +159,11 @@ function TableUsers(props) {
         }
 
         const fileUploadResponse = await axios.post(
-          "http://202.157.189.177:8080/api/user-files/upload-file/",
+          "http://103.181.182.230:6060/api/user-files/upload-file/",
           formData,
           {
             headers: {
-              Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+              Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
               "Content-Type": "multipart/form-data",
             },
           }
@@ -195,9 +195,9 @@ function TableUsers(props) {
 
         const response = await axios({
           method: "POST",
-          url: "http://202.157.189.177:8080/api/database/rows/table/717/?user_field_names=true",
+          url: "http://103.181.182.230:6060/api/database/rows/table/633/?user_field_names=true",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
             "Content-Type": "application/json",
           },
           data: data,
@@ -270,11 +270,11 @@ function TableUsers(props) {
           }
 
           const fileUploadResponse = await axios.post(
-            "http://202.157.189.177:8080/api/user-files/upload-file/",
+            "http://103.181.182.230:6060/api/user-files/upload-file/",
             formData,
             {
               headers: {
-                Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+                Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
                 "Content-Type": "multipart/form-data",
               },
             }
@@ -311,9 +311,9 @@ function TableUsers(props) {
         console.log(data, "data send");
         const response = await axios({
           method: "PATCH",
-          url: `http://202.157.189.177:8080/api/database/rows/table/717/${dataUpdate.id}/?user_field_names=true`,
+          url: `http://103.181.182.230:6060/api/database/rows/table/633/${dataUpdate.id}/?user_field_names=true`,
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
             "Content-Type": "application/json",
           },
           data: data,

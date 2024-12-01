@@ -52,9 +52,9 @@ function DodSprint({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/578/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/640/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       console.log(response.data.results, "all data Dod");
@@ -81,9 +81,9 @@ function DodSprint({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/651/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/637/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       console.log(response.data.results, "dod");
@@ -97,7 +97,7 @@ function DodSprint({ params }) {
           satuan: item.Satuan[0],
         };
       });
-      setIsLoadData(false)
+      setIsLoadData(false);
       setDataDodProduct(dataOption);
     } catch (error) {
       setError(error.message);
@@ -121,9 +121,9 @@ function DodSprint({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/718/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/648/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       console.log(response.data.results, "all data Pelaksana");

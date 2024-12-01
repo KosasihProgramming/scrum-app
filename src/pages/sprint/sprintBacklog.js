@@ -75,18 +75,18 @@ function SprintBacklog() {
   const [dataBerlalu, setDataBerlalu] = useState([]);
   const [error, setError] = useState(null);
   const optionBulan = [
-    { text: "Januari", value: 3307 },
-    { text: "Februari", value: 3308 },
-    { text: "Maret", value: 3309 },
-    { text: "April", value: 3310 },
-    { text: "Mei", value: 3311 },
-    { text: "Juni", value: 3312 },
-    { text: "Juli", value: 3313 },
-    { text: "Agustus", value: 3314 },
-    { text: "September", value: 3315 },
-    { text: "Oktober", value: 3316 },
-    { text: "November", value: 3317 },
-    { text: "Desember", value: 3318 },
+    { text: "Januari", value: 2813 },
+    { text: "Februari", value: 2814 },
+    { text: "Maret", value: 2815 },
+    { text: "April", value: 2816 },
+    { text: "Mei", value: 2817 },
+    { text: "Juni", value: 2818 },
+    { text: "Juli", value: 2819 },
+    { text: "Agustus", value: 2820 },
+    { text: "September", value: 2821 },
+    { text: "Oktober", value: 2822 },
+    { text: "November", value: 2823 },
+    { text: "Desember", value: 2824 },
   ];
   const getBulan = () => {
     const bulanIndonesia = [
@@ -183,9 +183,9 @@ function SprintBacklog() {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/575/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/634/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       console.log(response.data.results, "all data");
@@ -210,9 +210,9 @@ function SprintBacklog() {
         const response = await axios({
           method: "GET",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/597/?" + param,
+            "http://103.181.182.230:6060/api/database/rows/table/635/?" + param,
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           },
         });
 
@@ -256,9 +256,9 @@ function SprintBacklog() {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://202.157.189.177:8080/api/database/rows/table/273/?user_field_names=true",
+        url: "http://103.181.182.230:6060/api/database/rows/table/632/?user_field_names=true",
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       const data = response.data.results;
@@ -275,9 +275,9 @@ function SprintBacklog() {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://202.157.189.177:8080/api/database/rows/table/597/?user_field_names=true",
+        url: "http://103.181.182.230:6060/api/database/rows/table/635/?user_field_names=true",
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       const data = response.data.results;

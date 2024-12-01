@@ -1,1 +1,1 @@
-export const URLApi = "http://202.157.189.177:8080/api/database/rows/table";
+export const URLApi = "http://103.181.182.230:6060/api/database/rows/table";

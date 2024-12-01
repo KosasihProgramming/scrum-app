@@ -63,9 +63,9 @@ function PbiSprintBacklog({ params }) {
     try {
       const response = await axios({
         method: "GET",
-        url: `http://202.157.189.177:8080/api/database/rows/table/575/${id}/?user_field_names=true`,
+        url: `http://103.181.182.230:6060/api/database/rows/table/634/${id}/?user_field_names=true`,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
 
@@ -92,9 +92,9 @@ function PbiSprintBacklog({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/577/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/639/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       const allData = response.data.results;
@@ -132,9 +132,9 @@ function PbiSprintBacklog({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/726/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/649/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       console.log("all data Todo", response.data.results);
@@ -158,9 +158,9 @@ function PbiSprintBacklog({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/717/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/633/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       const data = response.data.results;
@@ -190,9 +190,9 @@ function PbiSprintBacklog({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/273/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/632/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       const data = response.data.results;
@@ -206,9 +206,9 @@ function PbiSprintBacklog({ params }) {
     try {
       const response = await axios({
         method: "GET",
-        url: `http://202.157.189.177:8080/api/database/rows/table/575/${idSprint}/?user_field_names=true`,
+        url: `http://103.181.182.230:6060/api/database/rows/table/634/${idSprint}/?user_field_names=true`,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
 
@@ -242,9 +242,9 @@ function PbiSprintBacklog({ params }) {
     try {
       const response = await axios({
         method: "GET",
-        url: `http://202.157.189.177:8080/api/database/rows/table/717/${id}/?user_field_names=true`,
+        url: `http://103.181.182.230:6060/api/database/rows/table/633/${id}/?user_field_names=true`,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
 
@@ -259,9 +259,9 @@ function PbiSprintBacklog({ params }) {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://202.157.189.177:8080/api/database/rows/table/575/?user_field_names=true",
+        url: "http://103.181.182.230:6060/api/database/rows/table/634/?user_field_names=true",
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       const allData = response.data.results;
@@ -287,9 +287,9 @@ function PbiSprintBacklog({ params }) {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/632/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/636/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       const data = response.data.results;

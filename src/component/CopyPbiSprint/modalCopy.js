@@ -56,9 +56,9 @@ export default function ModalCopyPbiSprint(props) {
 
           const response = await axios({
             method: "POST",
-            url: "http://202.157.189.177:8080/api/database/rows/table/577/?user_field_names=true",
+            url: "http://103.181.182.230:6060/api/database/rows/table/639/?user_field_names=true",
             headers: {
-              Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+              Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
               "Content-Type": "application/json",
             },
             data: data,
@@ -124,9 +124,9 @@ export default function ModalCopyPbiSprint(props) {
 
       const response = await axios({
         method: "POST",
-        url: "http://202.157.189.177:8080/api/database/rows/table/578/?user_field_names=true",
+        url: "http://103.181.182.230:6060/api/database/rows/table/640/?user_field_names=true",
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           "Content-Type": "application/json",
         },
         data: data,
@@ -174,15 +174,14 @@ export default function ModalCopyPbiSprint(props) {
           field: "PBISprint",
           value: `${props.data.id}`,
         },
-        { type: "lower_than", field: "Persentase", value: "100" },
       ];
       const param = await Filter(filters);
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/578/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/640/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       console.log(response.data.results, "all data");

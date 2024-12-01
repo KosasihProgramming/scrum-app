@@ -57,9 +57,9 @@ function TableCapaian(props) {
       const response = await axios({
         method: "GET",
         url:
-          "http://202.157.189.177:8080/api/database/rows/table/714/?" + param,
+          "http://103.181.182.230:6060/api/database/rows/table/647/?" + param,
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       console.log(response.data.results, "dod");
@@ -98,11 +98,11 @@ function TableCapaian(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/714/" +
+            "http://103.181.182.230:6060/api/database/rows/table/647/" +
             data.id +
             "/",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           },
         });
         console.log(props.dataCapaian);

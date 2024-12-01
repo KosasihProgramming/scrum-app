@@ -14,15 +14,15 @@ import DropdownSearch from "../features/dropdown";
 
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 const optionPerspektif = [
-  { text: "Customer", value: 3319 },
-  { text: "Proses", value: 3320 },
-  { text: "Learn & Growth", value: 3321 },
-  { text: "Financial", value: 3488 },
+  { text: "Customer", value: 3499 },
+  { text: "Proses", value: 3500 },
+  { text: "Learn & Growth", value: 3501 },
+  { text: "Financial", value: 3502 },
 ];
 
 const optionJenis = [
-  { text: "Standard", value: 3302 },
-  { text: "Innovation", value: 3303 },
+  { text: "Standard", value: 3503 },
+  { text: "Innovation", value: 3504 },
 ];
 function FormEditPBIProduct(props) {
   const [open, setOpen] = useState(true);

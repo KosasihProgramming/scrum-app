@@ -150,11 +150,11 @@ function TableSprint(props) {
         const response = await axios({
           method: "DELETE",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/575/" +
+            "http://103.181.182.230:6060/api/database/rows/table/634/" +
             id +
             "/",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           },
         });
         setIsLoad(false);
@@ -231,9 +231,9 @@ function TableSprint(props) {
 
         const response = await axios({
           method: "POST",
-          url: "http://202.157.189.177:8080/api/database/rows/table/575/?user_field_names=true",
+          url: "http://103.181.182.230:6060/api/database/rows/table/634/?user_field_names=true",
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
             "Content-Type": "application/json",
           },
           data: data,
@@ -325,9 +325,9 @@ function TableSprint(props) {
 
         const response = await axios({
           method: "PATCH",
-          url: `http://202.157.189.177:8080/api/database/rows/table/575/${idData}/?user_field_names=true`,
+          url: `http://103.181.182.230:6060/api/database/rows/table/634/${idData}/?user_field_names=true`,
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
             "Content-Type": "application/json",
           },
           data: data,

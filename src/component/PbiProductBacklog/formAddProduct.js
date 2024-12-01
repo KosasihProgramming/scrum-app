@@ -22,15 +22,15 @@ function FormAddPBIProduct(props) {
   const [perspektif, setPerspektif] = useState({});
 
   const optionPerspektif = [
-    { text: "Customer", value: 3319 },
-    { text: "Proses", value: 3320 },
-    { text: "Learn & Growth", value: 3321 },
-    { text: "Financial", value: 3488 },
+    { text: "Customer", value: 3499 },
+  { text: "Proses", value: 3500 },
+  { text: "Learn & Growth", value: 3501 },
+  { text: "Financial", value: 3502 },
   ];
 
   const optionJenis = [
-    { text: "Standard", value: 3302 },
-    { text: "Innovation", value: 3303 },
+    { text: "Standard", value: 3503 },
+    { text: "Innovation", value: 3504 },
   ];
 
   const handleAdd = (e) => {

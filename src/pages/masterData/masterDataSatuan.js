@@ -33,9 +33,9 @@ function MasterDataSatuan() {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://202.157.189.177:8080/api/database/rows/table/706/?user_field_names=true",
+        url: "http://103.181.182.230:6060/api/database/rows/table/638/?user_field_names=true",
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       console.log(response.data.results, "all data");

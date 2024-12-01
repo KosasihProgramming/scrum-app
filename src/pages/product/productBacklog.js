@@ -71,18 +71,18 @@ function ProductBacklog() {
   const [dataBerlalu, setDataBerlalu] = useState([]);
   const [error, setError] = useState(null);
   const optionBulan = [
-    { text: "Januari", value: 3307 },
-    { text: "Februari", value: 3308 },
-    { text: "Maret", value: 3309 },
-    { text: "April", value: 3310 },
-    { text: "Mei", value: 3311 },
-    { text: "Juni", value: 3312 },
-    { text: "Juli", value: 3313 },
-    { text: "Agustus", value: 3314 },
-    { text: "September", value: 3315 },
-    { text: "Oktober", value: 3316 },
-    { text: "November", value: 3317 },
-    { text: "Desember", value: 3318 },
+    { text: "Januari", value: 2813 },
+    { text: "Februari", value: 2814 },
+    { text: "Maret", value: 2815 },
+    { text: "April", value: 2816 },
+    { text: "Mei", value: 2817 },
+    { text: "Juni", value: 2818 },
+    { text: "Juli", value: 2819 },
+    { text: "Agustus", value: 2820 },
+    { text: "September", value: 2821 },
+    { text: "Oktober", value: 2822 },
+    { text: "November", value: 2823 },
+    { text: "Desember", value: 2824 },
   ];
   const getBulan = () => {
     const bulanIndonesia = [
@@ -120,18 +120,18 @@ function ProductBacklog() {
   };
   const getValueMonth = (bulanAwal, bulanAkhir) => {
     const optionBulan = [
-      { text: "Januari", value: 3307 },
-      { text: "Februari", value: 3308 },
-      { text: "Maret", value: 3309 },
-      { text: "April", value: 3310 },
-      { text: "Mei", value: 3311 },
-      { text: "Juni", value: 3312 },
-      { text: "Juli", value: 3313 },
-      { text: "Agustus", value: 3314 },
-      { text: "September", value: 3315 },
-      { text: "Oktober", value: 3316 },
-      { text: "November", value: 3317 },
-      { text: "Desember", value: 3318 },
+      { text: "Januari", value: 2813 },
+      { text: "Februari", value: 2814 },
+      { text: "Maret", value: 2815 },
+      { text: "April", value: 2816 },
+      { text: "Mei", value: 2817 },
+      { text: "Juni", value: 2818 },
+      { text: "Juli", value: 2819 },
+      { text: "Agustus", value: 2820 },
+      { text: "September", value: 2821 },
+      { text: "Oktober", value: 2822 },
+      { text: "November", value: 2823 },
+      { text: "Desember", value: 2824 },
     ];
 
     let result = [];
@@ -168,23 +168,21 @@ function ProductBacklog() {
     return result;
   };
   const fetchData = async (month) => {
-    const bulan = month.map((a) => a.value);
+    const bulan = month.map((a) => a.text);
     let allData = []; // Array untuk menampung semua data hasil fetch
-    console.log(bulan);
+    console.log(bulan, "ini");
     try {
       for (const b of bulan) {
-        const filters = [
-          { type: "multiple_select_has", field: "Bulan", value: b },
-        ];
+        const filters = [{ type: "contains", field: "Bulan", value: b }];
 
         const param = await Filter(filters);
 
         const response = await axios({
           method: "GET",
           url:
-            "http://202.157.189.177:8080/api/database/rows/table/597/?" + param,
+            "http://103.181.182.230:6060/api/database/rows/table/635/?" + param,
           headers: {
-            Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+            Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
           },
         });
 
@@ -219,9 +217,9 @@ function ProductBacklog() {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://202.157.189.177:8080/api/database/rows/table/273/?user_field_names=true",
+        url: "http://103.181.182.230:6060/api/database/rows/table/632/?user_field_names=true",
         headers: {
-          Authorization: "Token wFcCXiNy1euYho73dBGwkPhjjTdODzv6",
+          Authorization: "Token R5XKLhkMz3enZ7nfVvRBJhs4IjbApdVw",
         },
       });
       console.log(response.data.results);
@@ -235,7 +233,7 @@ function ProductBacklog() {
       setError(error.message);
     }
   };
-  
+
   return (
     <div className="w-full h-full flex flex-col justify-start items-center pb-25 relative">
       <div className="w-full  h-[3rem] rounded-md flex justify-start items-center bg-white px-6">
@@ -326,7 +324,6 @@ function ProductBacklog() {
               }}
               data={dataBerjalan}
               getData={fetchData}
-              
               optionTim={dataTim}
               isLoadData={isLoadData}
               setIsSearch={() => {

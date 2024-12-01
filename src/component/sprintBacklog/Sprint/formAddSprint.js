@@ -30,9 +30,9 @@ function FormAddSprint(props) {
   );
 
   const optionStatus = [
-    { text: "Berjalan", value: 3394 },
-    { text: "Berlalu", value: 3392 },
-    { text: "Rencana", value: 3393 },
+    { text: "Rencana", value: 2811 },
+    { text: "Berlalu", value: 2810 },
+    { text: "Berjalan", value: 2812 },
   ];
 
   const optionUrutan = [

@@ -15,24 +15,24 @@ import DropdownSearch from "../features/dropdown";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 const optionStatus = [
-  { text: "Berjalan", value: 3306 },
-  { text: "Berlalu", value: 3305 },
-  { text: "Rencana", value: 3304 },
+  { text: "Rencana", value: 2825 },
+  { text: "Berlalu", value: 2826 },
+  { text: "Berjalan", value: 2827 },
 ];
 
 const optionBulan = [
-  { text: "Januari", value: 3307 },
-  { text: "Februari", value: 3308 },
-  { text: "Maret", value: 3309 },
-  { text: "April", value: 3310 },
-  { text: "Mei", value: 3311 },
-  { text: "Juni", value: 3312 },
-  { text: "Juli", value: 3313 },
-  { text: "Agustus", value: 3314 },
-  { text: "September", value: 3315 },
-  { text: "Oktober", value: 3316 },
-  { text: "November", value: 3317 },
-  { text: "Desember", value: 3318 },
+  { text: "Januari", value: 2813 },
+  { text: "Februari", value: 2814 },
+  { text: "Maret", value: 2815 },
+  { text: "April", value: 2816 },
+  { text: "Mei", value: 2817 },
+  { text: "Juni", value: 2818 },
+  { text: "Juli", value: 2819 },
+  { text: "Agustus", value: 2820 },
+  { text: "September", value: 2821 },
+  { text: "Oktober", value: 2822 },
+  { text: "November", value: 2823 },
+  { text: "Desember", value: 2824 },
 ];
 function FormEditProduct(props) {
   const [open, setOpen] = useState(true);
