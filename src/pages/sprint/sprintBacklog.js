@@ -282,13 +282,22 @@ function SprintBacklog() {
       });
       const data = response.data.results;
 
-      const dataOption = data.map((item) => {
-        return {
-          value: item.id,
-          text: item.Judul[0].value,
-          tim: item.Tim[0].id,
-        };
-      });
+  const dataOption = data.map((item) => {
+  // Pastikan item ada dan merupakan object
+  if (!item || typeof item !== 'object') {
+    return {
+      value: '',
+      text: 'Invalid Item',
+      tim: ''
+    };
+  }
+
+  return {
+    value: item.id || '',
+    text: (item.Judul && Array.isArray(item.Judul) && item.Judul[0]?.value) || 'No Title',
+    tim: (item.Tim && Array.isArray(item.Tim) && item.Tim[0]?.id) || ''
+  };
+});
 
       setDataProduct(dataOption);
     } catch (error) {
