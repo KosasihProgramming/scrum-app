@@ -74,9 +74,16 @@ function PbiProductBacklog({ params }) {
       });
       console.log(response.data.results, "all data backlog");
       const allData = response.data.results;
-      const dataOption = allData.map((item) => {
-        return { value: item.id, text: item.Judul[0].value };
-      });
+    const dataOption = allData.map((item) => {
+  // Pastikan item ada
+  if (!item) return null;
+  
+  // Ambil nilai dengan fallback
+  const id = item.id || '';
+  const title = (item.Judul && item.Judul[0] && item.Judul[0].value) || 'Untitled';
+  
+  return { value: id, text: title };
+}).filter(Boolean); // Hapus null/undefined dari array
       setOptionProduct(dataOption);
     } catch (error) {
       setError(error.message);
